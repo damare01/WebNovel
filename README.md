@@ -5,7 +5,11 @@ it lets users create new parallel chapters wherever they want in a book, creatin
 
 ## Development
 
-To run this project you must have Node.js and angular-cli installed.
+To run this project you must have Node.js, npm and angular-cli installed.
+
+To install all dependencies run:
+
+`npm install`
 
 There are two main components in this project. The server, written in node, which provide the APIs, as well as the initial html page.
 The front-end is written in Angular, which means that it is a single-page application. This means you must first build the angular application:
