@@ -26,9 +26,11 @@ app.get('/swagger-ui-standalone-preset.js', (req,res)=>{
   res.sendFile(__dirname + '/api-docs/swagger-ui-standalone-preset.js');
 });
 
+const port = process.env.PORT || 8080;
+app.set('port', port);
 
-var server = app.listen(process.env.PORT || 8080, function(){
+var server = app.listen(port, function(){
     var port = server.address().port;
-    console.log('App is running on port ', port);
+    console.log('App is running on port', port);
 });
 
