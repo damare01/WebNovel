@@ -14,6 +14,27 @@ db.once('open', ()=>{
     router.use('/books', books);
 });
 
+var swaggerJSDoc = require('swagger-jsdoc');
+var swaggerDefinition = {
+  info: {
+    title: 'WebNovel API',
+    version: '0.0.1',
+    description: 'APIs available for WebNovel'
+  },
+  host: 'localhost:8080',
+  basePath: '/api/'
+};
+
+var options = {
+  swaggerDefinition: swaggerDefinition,
+  apis: ['./server/routes/api/*.js']
+};
+
+var swaggerSpec = swaggerJSDoc(options);
+router.get('/swagger.json', function(req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
 
 router.get('/', (req, res)=>{
    res.send('Error: No parameters')
