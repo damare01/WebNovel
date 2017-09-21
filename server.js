@@ -43,6 +43,11 @@ app.get('/swagger-ui-standalone-preset.js', (req,res)=>{
 
 router(app);
 
+// Catch all other routes and return the index file
+app.get('*', (req, res) => {
+  res.sendFile(__dirname + '/dist/application.html');
+});
+
 var server = app.listen(port, function(){
     var port = server.address().port;
     console.log('App is running on port', port);
