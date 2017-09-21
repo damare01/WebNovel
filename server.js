@@ -1,13 +1,28 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var api = require('./server/routes/api/api');
+var logger = require('morgan');
+const router = require('./server/routes/router');
+
 
 var app = express();
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
+app.use(logger('dev'));
+
+//Enable CORS
+app.use((req, res, next)=>{
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials");
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
 var distDir = __dirname + '/dist/';
 app.use(express.static(distDir));
-app.use("/api", api);
+
+const port = process.env.PORT || 8080;
+app.set('port', port);
 
 /** Hack for getting swagger ui to work properly without having to add dist folder to git */
 app.get('/api-docs', (req,res)=>{
@@ -26,8 +41,7 @@ app.get('/swagger-ui-standalone-preset.js', (req,res)=>{
   res.sendFile(__dirname + '/api-docs/swagger-ui-standalone-preset.js');
 });
 
-const port = process.env.PORT || 8080;
-app.set('port', port);
+router(app);
 
 var server = app.listen(port, function(){
     var port = server.address().port;

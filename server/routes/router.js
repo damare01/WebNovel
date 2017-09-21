@@ -28,11 +28,4 @@ module.exports = function(app) {
   // Set url for API group routes
   app.use('/api', requireAuth, api);
 
-  app.get('*', requireAuth, (req,res)=>{
-    if(req.user){
-      res.sendFile("application.html");
-    } else{
-      res.send("You need to login boii");
-    }
-  })
 };
