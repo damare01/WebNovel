@@ -30,7 +30,7 @@ var Chapter = require('../../models/chapter');
  *       - application/json
  *     responses:
  *       200:
- *         description: An array of hapters
+ *         description: An array of chapters
  *         schema:
  *           $ref: '#/definitions/Chapter'
  */
