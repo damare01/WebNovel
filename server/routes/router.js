@@ -4,8 +4,8 @@ const AuthenticationController = require('./api/controllers/authentication'),
   passport = require('passport');
 
 // Middleware to require login/auth
-const requireAuth = passport.authenticate('jwt', { session: false });
-const requireLogin = passport.authenticate('local', { session: false });
+const requireAuth = passport.authenticate('jwt', { session: false});
+const requireLogin = passport.authenticate('local', { session: false});
 
 module.exports = function(app) {
   // Initializing route groups
@@ -15,6 +15,14 @@ module.exports = function(app) {
   //=========================
   // Auth Routes
   //=========================
+
+
+  app.get('/test', requireAuth, (req, res)=>{
+    //This should be the main entry point
+    //Application should check if the user is logged in. If it is, show logged in shit. If not, show not logged in shit.
+    console.log(req.user);
+    res.sendStatus(200);
+  });
 
   // Registration route
   authRoutes.post('/register', AuthenticationController.register);
@@ -27,4 +35,12 @@ module.exports = function(app) {
 
   // Set url for API group routes
   app.use('/api', requireAuth, api);
+
+  app.get('*', requireAuth, (req,res)=>{
+    if(req.user){
+      res.sendFile("application.html");
+    } else{
+      res.send("You need to login boii");
+    }
+  })
 };
