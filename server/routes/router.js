@@ -16,14 +16,6 @@ module.exports = function(app) {
   // Auth Routes
   //=========================
 
-
-  app.get('/test', requireAuth, (req, res)=>{
-    //This should be the main entry point
-    //Application should check if the user is logged in. If it is, show logged in shit. If not, show not logged in shit.
-    console.log(req.user);
-    res.sendStatus(200);
-  });
-
   // Registration route
   authRoutes.post('/register', AuthenticationController.register);
 
