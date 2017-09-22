@@ -1,8 +1,9 @@
 export class Book {
-  creator: String; //author id
-  title: String;
-  startChapter: String; //chapter id
-  coverImage: String; //img url
-  chapters: [String]; //chapter ids
-  language: String; //language code
+  _id: string;
+  creator: string; //author id
+  title: string;
+  startChapter: string; //chapter id
+  coverImage: string; //img url
+  chapters: [string]; //chapter ids
+  language: string //language code
 }

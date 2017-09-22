@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {AuthenticationService} from "./authentication.service";
 import {Http} from "@angular/http";
 import {WnHttp} from "./wnhttp.service";
+import {ChapterService} from "./chapter.service";
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ import {WnHttp} from "./wnhttp.service";
 export class AppComponent {
   title = 'app';
 
-  constructor(private authenticationService: AuthenticationService, private http: WnHttp){}
+  constructor(private authenticationService: AuthenticationService, private chapterService: ChapterService){}
 
   login(){
     this.authenticationService.login("ole@ole.no", "123321").subscribe((user)=>{
@@ -24,7 +25,7 @@ export class AppComponent {
   }
 
   testApi(){
-    this.http.get("/chapters").subscribe(chapters =>{
+    this.chapterService.getChapters().subscribe(chapters =>{
       console.log(chapters);
     });
   }
