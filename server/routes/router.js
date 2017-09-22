@@ -26,6 +26,6 @@ module.exports = function(app) {
   app.use('/auth', authRoutes);
 
   // Set url for API group routes
-  app.use('/api', requireAuth, api);
+  app.use('/api', api);
 
 };

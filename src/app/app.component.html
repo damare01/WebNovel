@@ -1,10 +1,15 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
-  <md-toolbar color="primary">WebNovel</md-toolbar>
+  <md-toolbar color="primary">
+    <span [routerLink]="'home'" style="cursor: pointer">WebNovel</span>
+    <span class="fill-remaining-space"></span>
+    <span>
+      <button color="accent" md-raised-button (click)="login()">Login</button>
+      <button color="accent" md-raised-button (click)="logout()">Logout</button>
+      <button color="accent" md-raised-button button (click)="testApi()">Test API</button>
+    </span>
+  </md-toolbar>
 </div>
-<button (click)="login()">Login</button>
-<button (click)="logout()">Logout</button>
-<button (click)="testApi()"></button>
-<wn-book-grid></wn-book-grid>
+
 
 <router-outlet></router-outlet>

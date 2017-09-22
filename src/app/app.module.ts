@@ -4,15 +4,26 @@ import {HttpModule} from "@angular/http";
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { MdToolbarModule } from "@angular/material";
+import {MdButtonModule, MdFormFieldModule, MdInputModule, MdSnackBarModule, MdToolbarModule} from "@angular/material";
 import { BookGridComponent } from './book-grid/book-grid.component';
 import {AuthenticationService} from "./authentication.service";
 import { wnHttpProvider} from "./wnhttp.service";
 import {RouterModule, Routes} from '@angular/router';
 import { LoginComponent } from './login/login.component';
+import {FormsModule} from "@angular/forms";
+import { HomeComponent } from './home/home.component';
+import { RegisterComponent } from './register/register.component';
+import {ChapterService} from "./chapter.service";
+import {BookService} from "./book.service";
 
 const appRoutes: Routes = [
+  { path: 'home', component: HomeComponent},
   { path: 'login', component: LoginComponent},
+  { path: '',
+    redirectTo: '/home',
+    pathMatch: 'full'
+  },
+  {path: '**', redirectTo: '/login'}
 ];
 
 
@@ -20,18 +31,27 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     BookGridComponent,
-    LoginComponent
+    LoginComponent,
+    HomeComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MdToolbarModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    MdButtonModule,
+    MdFormFieldModule,
+    MdInputModule,
+    FormsModule,
+    MdSnackBarModule
   ],
   providers: [
     AuthenticationService,
-    wnHttpProvider
+    wnHttpProvider,
+    ChapterService,
+    BookService
   ],
   bootstrap: [AppComponent]
 })

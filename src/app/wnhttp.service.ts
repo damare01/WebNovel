@@ -12,11 +12,11 @@ export class WnHttp extends Http {
     super(backend, defaulOptions);
   }
 
-  get(url: string, options?: RequestOptionsArgs): Observable<Response> {
-    return super.get(this.apiUrl + url, this.addJwt(options)).catch(this.handleError);
+  get(url: string, options?: RequestOptionsArgs): Observable<any> {
+    return super.get(this.apiUrl + url, this.addJwt(options)).map(response=>response.json()).catch(this.handleError);
   }
 
-  post(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
+  post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
     return super.post(this.apiUrl + url, body, this.addJwt(options)).catch(this.handleError);
   }
 

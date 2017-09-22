@@ -5,7 +5,7 @@ let bookSchema = mongoose.Schema({
   title: String,
   startChapter: String, //chapter id
   coverImage: String, //img url
-  chapters: [String], //chapter ids
+  chapters: [String], //chapter ids. TODO: Is this needed, or should you just iterate the tree
   language: String //language code
 });
 

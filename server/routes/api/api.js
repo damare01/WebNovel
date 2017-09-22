@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+var passport = require('passport');
 
 var chapters = require('./chapters');
 var books = require('./books');
@@ -8,10 +9,12 @@ var books = require('./books');
 mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true, promiseLibrary: global.Promise});
 var db = mongoose.connection;
 
+const requireAuth = passport.authenticate('jwt', { session: false});
+
 db.once('open', ()=>{
     console.log('Connected to db');
-    router.use('/chapters', chapters);
-    router.use('/books', books);
+    router.use('/chapters', requireAuth, chapters);
+    router.use('/books', requireAuth, books);
 });
 
 var swaggerJSDoc = require('swagger-jsdoc');
