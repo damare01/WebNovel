@@ -15,10 +15,12 @@ import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import {ChapterService} from "./chapter.service";
 import {BookService} from "./book.service";
+import { NavigationGraphComponent } from './navigation-graph/navigation-graph.component';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'login', component: LoginComponent},
+  { path: 'graph', component: NavigationGraphComponent},
   { path: '',
     redirectTo: '/home',
     pathMatch: 'full'
@@ -33,7 +35,8 @@ const appRoutes: Routes = [
     BookGridComponent,
     LoginComponent,
     HomeComponent,
-    RegisterComponent
+    RegisterComponent,
+    NavigationGraphComponent
   ],
   imports: [
     BrowserModule,

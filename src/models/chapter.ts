@@ -4,5 +4,7 @@ export class Chapter{
   title: string;
   body: string;
   parent: string;
-  children: string[];
+  children: any[];
+  _children: any[];
+  childrenIds:string[];
 }
