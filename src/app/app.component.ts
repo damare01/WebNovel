@@ -23,12 +23,6 @@ export class AppComponent {
     this.authenticationService.logout();
   }
 
-  testApi(){
-    this.chapterService.getChapters().subscribe(chapters =>{
-      console.log(chapters);
-    });
-  }
-
   isLoggedIn():boolean{
     return this.authenticationService.isLoggedIn();
   }
