@@ -15,3 +15,7 @@
   strok-width: 4px;
   cursor: pointer;
 }
+
+/deep/.title-text{
+  cursor: pointer;
+}

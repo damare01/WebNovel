@@ -1,11 +1,15 @@
 .reading-container{
-  width: 40%;
+  width: 70%;
   height:100%;
   display:flex;
+  flex-wrap: wrap;
+  flex-flow: flex-start;
+  margin: 10px;
 }
 
 .graph-container{
-  width: 60%;
+  width: 30%;
+  border-left: 1px solid black;
 }
 
 .page-container{
@@ -15,6 +19,12 @@
 }
 
 .text{
-  margin-left: 20%;
-  margin-right: 20%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.header{
+  width: 100%;
+  flex-basis: auto;
+  margin: auto;
 }

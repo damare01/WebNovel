@@ -2,6 +2,7 @@ import {Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angul
 import * as d3 from 'd3';
 import {ChapterService} from "../chapter.service";
 import {Chapter} from "../../models/chapter";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'wn-navigation-graph',
@@ -22,7 +23,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
   rootChapter: Chapter;
   root: any;
 
-  constructor(private chapterService: ChapterService) {
+  constructor(private chapterService: ChapterService, private router: Router) {
   }
 
   ngOnInit() {
@@ -87,12 +88,9 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .attr('width', element.offsetWidth)
       .attr('height', element.offsetHeight);
 
-    this.graph = svg.append('g')
-      .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
-
     svg.append("rect")
-      .attr("width", this.width)
-      .attr("height", this.height)
+      .attr("width", this.width + this.margin.left + this.margin.right)
+      .attr("height", this.height + this.margin.bottom + this.margin.top)
       .style("fill", "none")
       .style("pointer-events", "all")
       .call(d3.zoom()
@@ -100,6 +98,9 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
         .on("zoom", function () {
           d3.select('g').attr("transform", d3.event.transform);
         }));
+
+    this.graph = svg.append('g')
+      .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
     this.tree = d3.tree().size([this.height, this.width]);
     this.tooltip = d3.select('svg').append('div')
       .attr('class', 'tooltip')
@@ -154,7 +155,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .attr('class', 'node')
       .attr('r', 1e-6)
       .style("fill", function (d) {
-        return d._children ? "lightsteelblue" : "#fff";
+        return d.data.childrenIds.length && !d.children ? "teal" : "#fff";
       });
     // Add labels for the nodes
     nodeEnter.append('text')
@@ -165,8 +166,12 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .attr("text-anchor", function (d) {
         return d.children || d._children ? "end" : "start";
       })
+      .attr('class', 'title-text')
       .text(function (d) {
         return d.data.title;
+      })
+      .on('click',(d)=>{
+        this.router.navigate(['read', d.data._id]);
       });
 
     // UPDATE
@@ -181,7 +186,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     nodeUpdate.select('circle.node')
       .attr('r', 10)
       .style("fill", function (d) {
-        return d._children ? "lightsteelblue" : "#fff";
+        return d.data.childrenIds.length && !d.children ? "teal" : "#fff";
       })
       .attr('cursor', 'pointer');
     // Remove any exiting nodes
