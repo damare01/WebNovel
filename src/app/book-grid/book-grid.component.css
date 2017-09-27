@@ -1,0 +1,23 @@
+.book-card{
+  width: 20%;
+  padding: 10px;
+  margin: auto;
+  cursor: pointer;
+}
+
+.container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.fillerImage{
+  background-color: #ffd740;
+}
+
+.add-button{
+  position: absolute;
+  left: 92%;
+  top: 85%;
+  font-size: large;
+  color:white;
+}

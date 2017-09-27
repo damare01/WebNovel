@@ -4,7 +4,10 @@ import {HttpModule} from "@angular/http";
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import {MdButtonModule, MdFormFieldModule, MdInputModule, MdSnackBarModule, MdToolbarModule} from "@angular/material";
+import {
+  MdButtonModule, MdCardModule, MdFormFieldModule, MdIconModule, MdInputModule, MdSnackBarModule,
+  MdToolbarModule
+} from "@angular/material";
 import { BookGridComponent } from './book-grid/book-grid.component';
 import {AuthenticationService} from "./authentication.service";
 import { wnHttpProvider} from "./wnhttp.service";
@@ -16,16 +19,22 @@ import { RegisterComponent } from './register/register.component';
 import {ChapterService} from "./chapter.service";
 import {BookService} from "./book.service";
 import { NavigationGraphComponent } from './navigation-graph/navigation-graph.component';
+import { BrowseComponent } from './browse/browse.component';
+import { ReadComponent } from './read/read.component';
+import {NotFoundComponent} from "./notfound/notfound.component";
+
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'login', component: LoginComponent},
   { path: 'graph', component: NavigationGraphComponent},
+  { path: 'browse', component: BrowseComponent},
+  { path: 'read/:chapterId', component: ReadComponent},
   { path: '',
     redirectTo: '/home',
     pathMatch: 'full'
   },
-  {path: '**', redirectTo: '/login'}
+  {path: '**', component: NotFoundComponent}
 ];
 
 
@@ -36,7 +45,10 @@ const appRoutes: Routes = [
     LoginComponent,
     HomeComponent,
     RegisterComponent,
-    NavigationGraphComponent
+    NavigationGraphComponent,
+    BrowseComponent,
+    ReadComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +60,9 @@ const appRoutes: Routes = [
     MdFormFieldModule,
     MdInputModule,
     FormsModule,
-    MdSnackBarModule
+    MdSnackBarModule,
+    MdCardModule,
+    MdIconModule
   ],
   providers: [
     AuthenticationService,

@@ -1,0 +1,8 @@
+<div class="page-container">
+  <div class="reading-container">
+    <div *ngIf="chapter" [innerHtml]="chapter.body" class="text"></div>
+  </div>
+  <div class="graph-container">
+    <wn-navigation-graph *ngIf="chapter" [rootChapterId]="chapter._id"></wn-navigation-graph>
+  </div>
+</div>

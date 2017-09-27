@@ -11,6 +11,7 @@ export class BookGridComponent implements OnInit {
   @Input('books') books: Book[];
   constructor() { }
 
+
   ngOnInit() {
   }
 

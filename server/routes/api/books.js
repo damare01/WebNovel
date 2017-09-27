@@ -38,7 +38,7 @@ var Book = require('../../models/book');
  *         schema:
  *           $ref: '#/definitions/Book'
  */
-router.get('/all', (req, res) => {
+router.get('/', (req, res) => {
   Book.find((err, books) => {
     if (err) {
       res.sendStatus(500);

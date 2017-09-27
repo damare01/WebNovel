@@ -11,16 +11,15 @@ import {Chapter} from "../../models/chapter";
 export class NavigationGraphComponent implements OnInit, OnChanges {
 
   @ViewChild('navgraph') graphContainer: ElementRef;
-  @Input() private data: any;
-  private margin: any = {top: 20, bottom: 20, left: 200, right: 100};
+  @Input() rootChapterId: string;
+  private margin: any = {top: 20, bottom: 20, left: 20, right: 100};
   private graph: any;
   private width: number;
   private height: number;
-  private xScale: any;
-  private yScale: any;
-  private colors: any;
+
+  private tooltip: any;
   private tree: any;
-  rootChapter:Chapter;
+  rootChapter: Chapter;
   root: any;
 
   constructor(private chapterService: ChapterService) {
@@ -28,11 +27,11 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.createGraph();
-    this.getTestData();
+    this.getData();
   }
 
-  getTestData() {
-    this.chapterService.getChapter('58db0128765dfa8cb164ad50').subscribe(chapter => {
+  getData() {
+    this.chapterService.getChapter(this.rootChapterId).subscribe(chapter => {
 
       this.rootChapter = chapter;
       this.getChildren(chapter, 0, 20);
@@ -91,12 +90,26 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     this.graph = svg.append('g')
       .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
 
+    svg.append("rect")
+      .attr("width", this.width)
+      .attr("height", this.height)
+      .style("fill", "none")
+      .style("pointer-events", "all")
+      .call(d3.zoom()
+        .scaleExtent([1 / 2, 4])
+        .on("zoom", function () {
+          d3.select('g').attr("transform", d3.event.transform);
+        }));
     this.tree = d3.tree().size([this.height, this.width]);
+    this.tooltip = d3.select('svg').append('div')
+      .attr('class', 'tooltip')
+      .style('opacity', 0);
 
   }
 
   private update(source) {
-    // Assigns the x and y position for the nodes
+    console.log('updating');
+
     let duration = 1000;
     this.root = d3.hierarchy(this.rootChapter);
     this.root.x0 = this.height / 2;
@@ -113,14 +126,29 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     // ****************** Nodes section ***************************
     // Update the nodes...
     var node = this.graph.selectAll('g.node')
-      .data(nodes);
+      .data(nodes, function (d) {
+        return d.data._id;
+      });
     // Enter any new modes at the parent's previous position.
     var nodeEnter = node.enter().append('g')
       .attr('class', 'node')
       .attr("transform", function (d) {
         return "translate(" + source.y0 + "," + source.x0 + ")";
       })
-      .on('click', click);
+      .on('click', click)
+      .on('mouseover', (d) => {
+        this.tooltip.transition()
+          .duration(200)
+          .style('opacity', .9);
+        this.tooltip.html(d.data.body)
+          .style('left', d.x + 'px')
+          .style('top', d.y + 'px');
+      })
+      .on('mouseout', (d) => {
+        this.tooltip.transition()
+          .duration(500)
+          .style('opacity', 0);
+      });
     // Add Circle for the nodes
     nodeEnter.append('circle')
       .attr('class', 'node')
@@ -172,7 +200,6 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
 
     // ****************** links section ***************************
     // Update the links...
-    console.log(links);
     var link = this.graph.selectAll('path.link')
       .data(links, function (d) {
         return d.data._id;
@@ -253,119 +280,4 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     }
   }
 
-  private updateGraph() {
-    //Compute the new tree layout
-    this.root = d3.hierarchy(this.data);
-    this.root.x0 = this.height / 2;
-    this.root.y0 = 0;
-    let treeData = this.tree(this.root);
-    let nodes = treeData.descendants();
-    let link = treeData.descendants().slice(1);
-    let duration = 750;
-    console.log(this.data);
-    console.log(this.root);
-
-    let node = this.graph.selectAll('.node')
-      .data(nodes);
-
-    let nodeEnter = node.enter().append('g')
-      .attr('class', function (d) {
-        return "node" + (d.children ? ' node-internal' : ' node-leaf');
-      })
-      .attr('transform', function (d) {
-        return 'translate(' + (d.parent ? d.parent.y : d.y) + ',' + (d.parent ? d.parent.x : d.x) + ')';
-      })
-      .on('click', (d) => {
-        if (d.children) {
-          d._children = d.children;
-          d.children = null;
-        } else {
-          d.children = d._children;
-          d._children = null;
-        }
-        console.log('d');
-        console.log(d);
-        this.updateGraph();
-      });
-
-    let links = this.graph.selectAll('.link')
-      .data(link);
-
-    let linksEnter = links
-      .enter().append('path')
-      .attr('class', 'link')
-      .attr('d', function (d) {
-        return "M" + d.parent.y + "," + d.parent.x
-          + "C" + d.parent.y + "," + d.parent.x
-          + " " + d.parent.y + "," + d.parent.x
-          + " " + d.parent.y + "," + d.parent.x;
-      });
-
-    linksEnter.transition()
-      .duration(duration)
-      .attr('d', function (d) {
-        return "M" + d.y + "," + d.x
-          + "C" + (d.y + d.parent.y) / 2 + "," + d.x
-          + " " + (d.y + d.parent.y) / 2 + "," + d.parent.x
-          + " " + d.parent.y + "," + d.parent.x;
-      });
-
-
-    nodeEnter
-      .transition()
-      .duration(duration)
-      .attr('transform', function (d) {
-        return 'translate(' + (d.y) + ',' + (d.x) + ')';
-      });
-
-
-    nodeEnter.append('circle')
-      .attr('r', 10)
-      .style("fill", function (d) {
-        return d._children ? "lightsteelblue" : "#fff";
-      });
-
-
-    nodeEnter.append('text')
-      .attr('dy', '1.5em')
-      .attr('x', function (d) {
-        return d.children ? 13 : -13;
-      })
-      .style('fill-opacity', 1e-6)
-      .style('.text-anchor', function (d) {
-        return d.children ? 'end' : 'start';
-      })
-      .text(function (d) {
-        return d.data.title;
-      });
-
-    nodeEnter.select('text')
-      .transition()
-      .duration(duration)
-      .style('fill-opacity', 1);
-
-    links.exit()
-      .transition()
-      .duration(duration)
-      .attr('d', function (d) {
-        return "M" + d.parent.y + "," + d.parent.x
-          + "C" + d.parent.y + "," + d.parent.x
-          + " " + d.parent.y + "," + d.parent.x
-          + " " + d.parent.y + "," + d.parent.x;
-      })
-      .style('stroke-opacity', 1e-6)
-      .remove();
-
-    let nodeExit = node.exit()
-      .transition()
-      .duration(duration)
-      .attr('transform', (d) => {
-        return `translate(${d.parent.y},${d.parent.x})`;
-      })
-      .attr('fill-opacity', 1e-6)
-      .remove();
-
-    nodeExit.select('text')
-      .style('fill-opacity', 1e-6);
-  }
 }

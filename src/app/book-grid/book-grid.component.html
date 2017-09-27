@@ -1,3 +1,9 @@
-<p>
-  book-grid works!
-</p>
+<div class="container">
+  <div *ngFor="let book of books" class="book-card">
+    <md-card [routerLink]="['/read', book.startChapter]">
+      <md-card-title>{{book.title}}</md-card-title>
+    </md-card>
+  </div>
+</div>
+
+<button md-fab class="add-button"><i class="fa fa-plus"></i></button>
