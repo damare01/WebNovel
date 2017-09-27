@@ -27,6 +27,7 @@ import {NotFoundComponent} from "./notfound/notfound.component";
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'login', component: LoginComponent},
+  { path: 'register', component: RegisterComponent},
   { path: 'graph', component: NavigationGraphComponent},
   { path: 'browse', component: BrowseComponent},
   { path: 'read/:chapterId', component: ReadComponent},

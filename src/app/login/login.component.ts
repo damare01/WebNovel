@@ -21,8 +21,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.authService.login(this.email, this.password).subscribe(user => {
-        console.log(user);
-        this.router.navigate(['home']);
+        this.router.navigate(['/home']);
       },
       err => {
         this.openSnackBar("Login failed", "OK");

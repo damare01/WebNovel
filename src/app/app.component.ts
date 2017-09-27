@@ -10,7 +10,6 @@ import {ChapterService} from "./chapter.service";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
 
   constructor(private authenticationService: AuthenticationService, private chapterService: ChapterService){}
 
@@ -28,5 +27,9 @@ export class AppComponent {
     this.chapterService.getChapters().subscribe(chapters =>{
       console.log(chapters);
     });
+  }
+
+  isLoggedIn():boolean{
+    return this.authenticationService.isLoggedIn();
   }
 }

@@ -1,3 +1,16 @@
-<p>
-  register works!
-</p>
+<div class="flex-center">
+  <form name="login" class="register-form">
+    <md-form-field class="full-width">
+      <input name="fullName" type="text" mdInput placeholder="Full Name" [(ngModel)]="fullName">
+    </md-form-field>
+    <md-form-field class="full-width">
+      <input name="email" type="email" mdInput placeholder="Email" [(ngModel)]="email">
+    </md-form-field>
+    <br>
+    <md-form-field class="full-width">
+      <input name="password" type="password" mdInput placeholder="Password" [(ngModel)]="password">
+    </md-form-field>
+    <br>
+    <button color="accent" md-raised-button (click)="register()">REGISTER</button>
+  </form>
+</div>

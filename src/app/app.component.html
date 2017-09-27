@@ -4,8 +4,9 @@
     <span [routerLink]="'home'" style="cursor: pointer">WebNovel</span>
     <span class="fill-remaining-space"></span>
     <span>
-      <button color="accent" md-raised-button (click)="login()">LOGIN</button>
-      <button color="accent" md-raised-button (click)="logout()">LOGOUT</button>
+      <button *ngIf="!isLoggedIn()" color="accent" md-raised-button [routerLink]="['/login']">LOGIN</button>
+      <button *ngIf="!isLoggedIn()" color="accent" md-raised-button [routerLink]="['/register']">REGISTER</button>
+      <button *ngIf="isLoggedIn()" color="accent" md-raised-button (click)="logout()">LOGOUT</button>
       <button color="accent" md-raised-button button (click)="testApi()">TEST API</button>
     </span>
   </md-toolbar>
