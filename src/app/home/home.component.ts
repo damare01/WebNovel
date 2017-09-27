@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MdSnackBar} from "@angular/material";
 
 @Component({
   selector: 'wn-home',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private snackBar: MdSnackBar) { }
 
   ngOnInit() {
   }
 
+  showError() {
+    this.snackBar.open("This doesn't work yet", ":(", {
+      duration: 2000
+    });
+  }
 }

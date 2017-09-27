@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
 import {AuthenticationService} from "./authentication.service";
-import {Http} from "@angular/http";
-import {WnHttp} from "./wnhttp.service";
-import {ChapterService} from "./chapter.service";
 
 @Component({
   selector: 'app-root',
@@ -11,13 +8,7 @@ import {ChapterService} from "./chapter.service";
 })
 export class AppComponent {
 
-  constructor(private authenticationService: AuthenticationService, private chapterService: ChapterService){}
-
-  login(){
-    this.authenticationService.login("ole@ole.no", "123321").subscribe((user)=>{
-      console.log(user);
-    });
-  }
+  constructor(private authenticationService: AuthenticationService){}
 
   logout(){
     this.authenticationService.logout();
@@ -26,4 +17,5 @@ export class AppComponent {
   isLoggedIn():boolean{
     return this.authenticationService.isLoggedIn();
   }
+
 }
