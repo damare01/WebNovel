@@ -8,10 +8,6 @@ function generateToken(user) {
   });
 }
 
-function generateRefreshToken(user){
-  return jwt.
-}
-
 function setUserInfo(request) {
   return {
     _id: request._id,
