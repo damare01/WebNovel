@@ -37,6 +37,7 @@ export class AuthenticationService {
   }
 
   isLoggedIn():boolean{
+    //TODO Actually check if the token is expired instead, then refresh it
     let user = localStorage.getItem('currentUser');
     return !isNullOrUndefined(user);
   }
