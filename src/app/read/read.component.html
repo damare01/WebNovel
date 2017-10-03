@@ -5,7 +5,7 @@
       <div *ngIf="chapter" [innerHtml]="chapter.body"></div>
     </div>
     <div flex class="graph-container">
-      <wn-navigation-graph *ngIf="chapter" [rootChapterId]="chapter._id" (addChapterToNode)="writeChapter($event)"></wn-navigation-graph>
+      <wn-navigation-graph *ngIf="chapter" [chapterId]="chapter._id" (addChapterToNode)="writeChapter($event)"></wn-navigation-graph>
     </div>
   </div>
 </div>

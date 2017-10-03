@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import {ChapterService} from "../chapter.service";
 import {Chapter} from "../../models/chapter";
 import {Router} from "@angular/router";
+import {BookService} from "../book.service";
 
 @Component({
   selector: 'wn-navigation-graph',
@@ -12,7 +13,8 @@ import {Router} from "@angular/router";
 export class NavigationGraphComponent implements OnInit, OnChanges {
 
   @ViewChild('navgraph') graphContainer: ElementRef;
-  @Input() rootChapterId: string;
+  rootChapterId: string;
+  @Input() chapterId: string;
   @Output() addChapterToNode: EventEmitter<string>;
   private margin: any = {top: 20, bottom: 20, left: 20, right: 100};
   private graph: any;
@@ -25,14 +27,29 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
 
   chapterTrail: string[] = [];
 
-  constructor(private chapterService: ChapterService, private router: Router) {
+  constructor(private chapterService: ChapterService, private bookService: BookService, private router: Router) {
     this.addChapterToNode = new EventEmitter();
   }
 
   ngOnInit() {
-    this.chapterTrail.push(this.rootChapterId)
-    this.createGraph();
-    this.getData();
+
+    this.chapterService.getChapter(this.chapterId).subscribe(chapter => {
+      if (!chapter.book) {
+        this.rootChapterId = this.chapterId;
+        this.chapterTrail.push(this.rootChapterId);
+        this.createGraph();
+        this.getData();
+      } else {
+        this.bookService.getBook(chapter.book).subscribe(book => {
+          this.rootChapterId = book.startChapter;
+          this.chapterTrail.push(this.rootChapterId);
+          this.createGraph();
+          this.getData();
+        });
+      }
+    });
+
+
   }
 
   getData() {
