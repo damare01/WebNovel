@@ -1,10 +1,15 @@
-<h2>Write</h2>
-<form name="chapter">
-  <md-form-field class="full-width">
-    <input name="title" mdInput placeholder="Title" [(ngModel)]="newChapter.title">
-  </md-form-field>
+<div class="writing-container">
+  <div class="flex-container">
+    <form name="chapter" style="margin:auto">
+      <md-form-field class="full-width">
+        <input name="title" mdInput placeholder="Title" [(ngModel)]="newChapter.title">
+      </md-form-field>
+      <br>
+    </form>
+  </div>
+  <div class="flex-container">
+    <div [froalaEditor]="{height: 300}" [(froalaModel)]="newChapter.body" style="width:75%; margin: auto"></div>
+  </div>
   <br>
-</form>
-<textarea [(ngModel)]="newChapter.body"></textarea>
-<br>
-<button md-raised-button color="accent" (click)="saveChapter()" [disabled]="!loaded">Save</button>
+  <button md-raised-button color="accent" (click)="saveChapter()" [disabled]="!loaded" style="margin-left: 80%">Save</button>
+</div>
