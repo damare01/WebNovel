@@ -23,10 +23,13 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
   rootChapter: Chapter;
   root: any;
 
+  chapterTrail: string[] = [];
+
   constructor(private chapterService: ChapterService, private router: Router) {
   }
 
   ngOnInit() {
+    this.chapterTrail.push(this.rootChapterId)
     this.createGraph();
     this.getData();
   }
@@ -96,21 +99,18 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .call(d3.zoom()
         .scaleExtent([1 / 2, 4])
         .on("zoom", function () {
-          d3.select('g').attr("transform", d3.event.transform);
+          d3.select('g.graph').attr("transform", d3.event.transform);
         }));
 
     this.graph = svg.append('g')
+      .attr('class', 'graph')
       .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
     this.tree = d3.tree().size([this.height, this.width]);
-    this.tooltip = d3.select('svg').append('div')
-      .attr('class', 'tooltip')
-      .style('opacity', 0);
 
   }
 
   private update(source) {
-    console.log('updating');
-
+    console.log('updatin');
     let duration = 1000;
     this.root = d3.hierarchy(this.rootChapter);
     this.root.x0 = this.height / 2;
@@ -136,20 +136,10 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .attr("transform", function (d) {
         return "translate(" + source.y0 + "," + source.x0 + ")";
       })
-      .on('click', click)
-      .on('mouseover', (d) => {
-        this.tooltip.transition()
-          .duration(200)
-          .style('opacity', .9);
-        this.tooltip.html(d.data.body)
-          .style('left', d.x + 'px')
-          .style('top', d.y + 'px');
-      })
-      .on('mouseout', (d) => {
-        this.tooltip.transition()
-          .duration(500)
-          .style('opacity', 0);
+      .on('click', function (d) {
+        console.log('clicked graph');
       });
+
     // Add Circle for the nodes
     nodeEnter.append('circle')
       .attr('class', 'node')
@@ -157,11 +147,105 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .style("fill", function (d) {
         return d.data.childrenIds.length && !d.children ? "teal" : "#fff";
       });
+    //Add buttons
+    var addChapterButton = nodeEnter.append('g')
+      .attr('class', 'button add-chapter')
+      .on('click', function (d) {
+        console.log('adding chapter');
+      });
+    addChapterButton
+      .append('circle')
+      .attr('r', 10)
+      .attr('transform', function (d) {
+        return `translate(25, -25)`;
+      })
+      .style('fill', 'green');
+
+    addChapterButton
+      .append('text')
+      .style('fill', 'white')
+      .attr('font-family', 'FontAwesome')
+      .attr('font-size', function (d) {
+        return '0.8em'
+      })
+      .attr('transform', function (d) {
+        return `translate(25, -25)`;
+      })
+      .attr('text-anchor', 'middle')
+      .attr('dy', '0.4em')
+      .text('\uf067');
+
+    var expandButton = nodeEnter
+      .append('g')
+      .attr('class', 'button expand')
+      .on('click', click);
+    expandButton
+      .append('circle')
+      .attr('r', 10)
+      .attr('transform', function (d) {
+        return `translate(35, 0)`;
+      })
+      .style('fill', 'teal');
+    expandButton
+      .append('text')
+      .style('fill', 'white')
+      .attr('font-family', 'FontAwesome')
+      .attr('font-size', function (d) {
+        return '0.8em'
+      })
+      .attr('transform', function (d) {
+        return `translate(35, 0)`;
+      })
+      .attr('text-anchor', 'middle')
+      .attr('dy', '0.4em')
+      .text('\uf061');
+
+    var viewButton = nodeEnter
+      .append('g')
+      .attr('class', 'button view')
+      .on('click', (d) => {
+        if (d.parent) {
+          let parent = d.parent;
+          let trailAppend: string[] = [];
+          while (this.chapterTrail.indexOf(parent.data._id) === -1 || !parent) {
+            trailAppend.push(parent.data._id);
+            parent = parent.parent;
+          }
+          trailAppend.reverse();
+          let deleteIndex = this.chapterTrail.indexOf(parent.data._id);
+          this.chapterTrail.splice(deleteIndex + 1, this.chapterTrail.length);
+          this.chapterTrail = this.chapterTrail.concat(trailAppend);
+          this.chapterTrail.push(d.data._id);
+        }
+        this.router.navigate(['read', d.data._id]);
+        this.update(d);
+      });
+    viewButton
+      .append('circle')
+      .attr('r', 10)
+      .attr('transform', function (d) {
+        return `translate(25, 25)`;
+      })
+      .style('fill', 'rgb(255, 202, 0)');
+    viewButton
+      .append('text')
+      .style('fill', 'white')
+      .attr('font-family', 'FontAwesome')
+      .attr('font-size', function (d) {
+        return '0.8em'
+      })
+      .attr('transform', function (d) {
+        return `translate(25, 25)`;
+      })
+      .attr('text-anchor', 'middle')
+      .attr('dy', '0.4em')
+      .text('\uf06e');
+
     // Add labels for the nodes
     nodeEnter.append('text')
-      .attr("dy", "1.5em")
+      .attr("dy", "3.5em")
       .attr("x", function (d) {
-        return d.children || d._children ? -13 : 13;
+        return d.children || d._children ? -13 : -10;
       })
       .attr("text-anchor", function (d) {
         return d.children || d._children ? "end" : "start";
@@ -169,9 +253,6 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .attr('class', 'title-text')
       .text(function (d) {
         return d.data.title;
-      })
-      .on('click',(d)=>{
-        this.router.navigate(['read', d.data._id]);
       });
 
     // UPDATE
@@ -184,7 +265,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       });
     // Update the node attributes and style
     nodeUpdate.select('circle.node')
-      .attr('r', 10)
+      .attr('r', 20)
       .style("fill", function (d) {
         return d.data.childrenIds.length && !d.children ? "teal" : "#fff";
       })
@@ -208,6 +289,16 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     var link = this.graph.selectAll('path.link')
       .data(links, function (d) {
         return d.data._id;
+      })
+      .style('stroke', (d) => {
+        if (this.chapterTrail.indexOf(d.data._id) > -1) {
+          return 'green';
+        }
+      })
+      .style('stroke-width', (d) => {
+        if (this.chapterTrail.indexOf(d.data._id) > -1) {
+          return '6px';
+        }
       });
     // Enter any new links at the parent's previous position.
     var linkEnter = link.enter().insert('path', "g")
@@ -215,7 +306,8 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .attr('d', function (d) {
         var o = {x: source.x0, y: source.y0}
         return diagonal(o, o)
-      });
+      })
+
     // UPDATE
     var linkUpdate = linkEnter.merge(link);
     // Transition back to the parent element position
@@ -252,7 +344,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     let self = this;
 
     function click(d) {
-      if (d.data.childrenIds && !d.children && !d._children) {
+      if (d.data.childrenIds && !d.children) {
         console.log('first triggered');
         //console.log(d);
         let counter = 0;
@@ -270,16 +362,11 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
             }
           })
         })
-      } else if (d.children) {
+      } else {
         console.log('second triggered');
         d._children = d.children;
         d.data.children = null
         d.children = null;
-        self.update(d);
-      } else {
-        console.log('third triggered');
-        d.children = d._children;
-        d._children = null;
         self.update(d);
       }
     }

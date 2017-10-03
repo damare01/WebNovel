@@ -2,13 +2,13 @@ const jwt = require('jsonwebtoken'),
   crypto = require('crypto'),
   User = require('../../../models/user');
 
-function generateToken(user) {
+var generateToken = function(user) {
   return jwt.sign(user, process.env.SECRET, {
-    expiresIn: 10080 // in seconds
+    expiresIn: 604800 // a week in seconds
   });
 }
 
-function setUserInfo(request) {
+var setUserInfo = function(request) {
   return {
     _id: request._id,
     fullName: request.fullName,

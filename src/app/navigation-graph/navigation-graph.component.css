@@ -10,12 +10,14 @@
   stroke-width: 2px;
 }
 /deep/circle{
-  fill:none;
+  fill: #fff;
   stroke: #000;
-  strok-width: 4px;
+  stroke-width: 1px;
   cursor: pointer;
+}
+/deep/.button{
+  cursor: pointer;
+
 }
 
-/deep/.title-text{
-  cursor: pointer;
-}
+

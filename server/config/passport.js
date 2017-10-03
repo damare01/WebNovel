@@ -3,6 +3,7 @@ const passport = require('passport'),
   JwtStrategy = require('passport-jwt').Strategy,
   ExtractJwt = require('passport-jwt').ExtractJwt,
   LocalStrategy = require('passport-local');
+  auth = require('../routes/api/controllers/authentication');
 
 const localOptions = { usernameField: 'email'};
 
@@ -39,6 +40,12 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
       done(null, false);
     }
   });*/
+  /*console.log(payload);
+  let secSinceSigned = ((new Date().getTime()/1000) - payload.iat);
+  if(secSinceSigned > 2){
+    let user = auth.setUserInfo(payload);
+    auth.generateToken(user);
+  }*/
   if(payload._id){
     done(null, payload);
   } else {

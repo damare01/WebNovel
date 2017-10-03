@@ -1,5 +1,5 @@
 .reading-container{
-  width: 70%;
+  width: 50%;
   height:100%;
   display:flex;
   flex-wrap: wrap;
@@ -7,7 +7,7 @@
 }
 
 .graph-container{
-  width: 30%;
+  width: 50%;
   border-left: 1px solid black;
 }
 
