@@ -32,10 +32,12 @@ export class WriteComponent implements OnInit {
   }
 
   saveChapter(){
+    this.loaded = false;
     this.newChapter.author='59c3995ddd8415653e5ebc87';//TODO Create userservice to get current user
     this._chapterService.saveChapter(this.newChapter).subscribe((chapterId)=>{
       this.parentChapter.childrenIds.push(chapterId);
       this._chapterService.updateChapter(this.parentChapter).subscribe((response)=>{
+        this.loaded = true;
         this.router.navigate(['read', chapterId]);
       });
     })
