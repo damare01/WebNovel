@@ -22,6 +22,7 @@ import { NavigationGraphComponent } from './navigation-graph/navigation-graph.co
 import { BrowseComponent } from './browse/browse.component';
 import { ReadComponent } from './read/read.component';
 import {NotFoundComponent} from "./notfound/notfound.component";
+import { WriteComponent } from './write/write.component';
 
 
 const appRoutes: Routes = [
@@ -31,6 +32,7 @@ const appRoutes: Routes = [
   { path: 'graph', component: NavigationGraphComponent},
   { path: 'browse', component: BrowseComponent},
   { path: 'read/:chapterId', component: ReadComponent},
+  { path: 'write/:parentChapter', component: WriteComponent},
   { path: '',
     redirectTo: '/home',
     pathMatch: 'full'
@@ -49,7 +51,8 @@ const appRoutes: Routes = [
     NavigationGraphComponent,
     BrowseComponent,
     ReadComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    WriteComponent
   ],
   imports: [
     BrowserModule,

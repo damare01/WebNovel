@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ChapterService} from "../chapter.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Chapter} from "../../models/chapter";
 
 @Component({
@@ -13,7 +13,7 @@ export class ReadComponent implements OnInit {
   chapterId:string;
   chapter: Chapter;
 
-  constructor(private _chapterService: ChapterService, private route: ActivatedRoute) { }
+  constructor(private _chapterService: ChapterService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.route.params.subscribe(params =>{
@@ -23,6 +23,10 @@ export class ReadComponent implements OnInit {
       });
       console.log(this.chapterId);
     })
+  }
+
+  writeChapter(parentChapter: string){
+    this.router.navigate(['write', parentChapter]);
   }
 
 }

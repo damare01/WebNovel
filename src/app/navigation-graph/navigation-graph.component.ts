@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import * as d3 from 'd3';
 import {ChapterService} from "../chapter.service";
 import {Chapter} from "../../models/chapter";
@@ -13,12 +13,12 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
 
   @ViewChild('navgraph') graphContainer: ElementRef;
   @Input() rootChapterId: string;
+  @Output() addChapterToNode: EventEmitter<string>;
   private margin: any = {top: 20, bottom: 20, left: 20, right: 100};
   private graph: any;
   private width: number;
   private height: number;
 
-  private tooltip: any;
   private tree: any;
   rootChapter: Chapter;
   root: any;
@@ -26,6 +26,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
   chapterTrail: string[] = [];
 
   constructor(private chapterService: ChapterService, private router: Router) {
+    this.addChapterToNode = new EventEmitter();
   }
 
   ngOnInit() {
@@ -110,7 +111,6 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
   }
 
   private update(source) {
-    console.log('updatin');
     let duration = 1000;
     this.root = d3.hierarchy(this.rootChapter);
     this.root.x0 = this.height / 2;
@@ -135,9 +135,6 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .attr('class', 'node')
       .attr("transform", function (d) {
         return "translate(" + source.y0 + "," + source.x0 + ")";
-      })
-      .on('click', function (d) {
-        console.log('clicked graph');
       });
 
     // Add Circle for the nodes
@@ -150,8 +147,8 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     //Add buttons
     var addChapterButton = nodeEnter.append('g')
       .attr('class', 'button add-chapter')
-      .on('click', function (d) {
-        console.log('adding chapter');
+      .on('click', (d) => {
+        this.addChapterToNode.emit(d.data._id);
       });
     addChapterButton
       .append('circle')
@@ -217,8 +214,8 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
           this.chapterTrail = this.chapterTrail.concat(trailAppend);
           this.chapterTrail.push(d.data._id);
         }
-        this.router.navigate(['read', d.data._id]);
         this.update(d);
+        this.router.navigate(['read', d.data._id]);
       });
     viewButton
       .append('circle')

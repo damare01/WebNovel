@@ -18,8 +18,12 @@ export class ChapterService {
     return this.wnhttp.get("/chapters/id/" +id);
   }
 
-  saveChapter(chapter: Chapter): Observable<Response>{
+  saveChapter(chapter: Chapter): Observable<any>{
     return this.wnhttp.post('/chapters', chapter);
+  }
+
+  updateChapter(chapter: Chapter): Observable<any>{
+    return this.wnhttp.put('/chapters', chapter);
   }
 
 }

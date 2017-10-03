@@ -17,10 +17,10 @@ export class WnHttp extends Http {
   }
 
   post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
-    return super.post(this.apiUrl + url, body, this.addJwt(options)).catch(this.handleError);
+    return super.post(this.apiUrl + url, body, this.addJwt(options)).map(response=>response.json()).catch(this.handleError);
   }
 
-  put(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
+  put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
     return super.put(this.apiUrl + url, body, this.addJwt(options)).catch(this.handleError);
   }
 

@@ -1,0 +1,10 @@
+<h2>Write</h2>
+<form name="chapter">
+  <md-form-field class="full-width">
+    <input name="title" mdInput placeholder="Title" [(ngModel)]="newChapter.title">
+  </md-form-field>
+  <br>
+</form>
+<textarea [(ngModel)]="newChapter.body"></textarea>
+<br>
+<button md-raised-button color="accent" (click)="saveChapter()" [disabled]="!loaded">Save</button>

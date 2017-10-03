@@ -7,4 +7,5 @@ export class Chapter{
   children: any[];
   _children: any[];
   childrenIds:string[];
+  book:string;
 }

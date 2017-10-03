@@ -94,12 +94,25 @@ router.get('/id/:id', (req, res) => {
  *        description: "500 when there was an error"
  */
 router.post('/', (req, res) => {
-  let chapter = req.body;
-  Chapter.save(chapter, (err) => {
+  let chapter = new Chapter(req.body);
+  chapter.save((err) => {
     if (err) {
       res.sendStatus(500);
     } else {
-      res.sendStatus(201);
+      res.status(201).send(chapter._id);
+    }
+  })
+});
+
+router.put('/', (req, res) =>{
+  let chapter = new Chapter(req.body);
+  console.log(chapter);
+  let id = chapter._id;
+  Chapter.findOneAndUpdate({_id: id}, chapter, (err, doc)=>{
+    if(err){
+      res.sendStatus(500);
+    }else{
+      res.sendStatus(200);
     }
   })
 });

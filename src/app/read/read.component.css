@@ -8,7 +8,8 @@
 
 .graph-container{
   width: 50%;
-  border-left: 1px solid black;
+  height:750px;
+  border-left: 1px solid darkgray;
 }
 
 .page-container{

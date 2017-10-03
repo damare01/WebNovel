@@ -5,7 +5,8 @@ let chapterSchema = mongoose.Schema({
     title: String,
     body: String,
     parent: String, //chapter id
-    childrenIds: [String] //chapter ids
+    childrenIds: [String], //chapter ids
+    book: String
 })
 
 module.exports = mongoose.model('Chapter', chapterSchema);

@@ -1,9 +1,12 @@
-<div class="page-container">
-  <div class="reading-container">
+<div flex layout="row">
+  <div flex class="page-container">
+    <div class="reading-container">
       <h2 class="header" *ngIf="chapter">{{chapter.title}}</h2>
       <div *ngIf="chapter" [innerHtml]="chapter.body"></div>
-  </div>
-  <div class="graph-container">
-    <wn-navigation-graph *ngIf="chapter" [rootChapterId]="chapter._id"></wn-navigation-graph>
+    </div>
+    <div flex class="graph-container">
+      <wn-navigation-graph *ngIf="chapter" [rootChapterId]="chapter._id" (addChapterToNode)="writeChapter($event)"></wn-navigation-graph>
+    </div>
   </div>
 </div>
+
