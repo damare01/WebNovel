@@ -5,16 +5,18 @@ var passport = require('passport');
 
 var chapters = require('./chapters');
 var books = require('./books');
+var users = require('./users');
 
 mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true, promiseLibrary: global.Promise});
 var db = mongoose.connection;
 
-const requireAuth = passport.authenticate('jwt', { session: false});
+const requireAuth = passport.authenticate('jwt', {session: false});
 
-db.once('open', ()=>{
-    console.log('Connected to db');
-    router.use('/chapters', requireAuth, chapters);
-    router.use('/books', requireAuth, books);
+db.once('open', () => {
+  console.log('Connected to db');
+  router.use('/chapters', requireAuth, chapters);
+  router.use('/books', requireAuth, books);
+  router.use('/users', requireAuth, users);
 });
 
 var swaggerJSDoc = require('swagger-jsdoc');
@@ -34,13 +36,13 @@ var options = {
 };
 
 var swaggerSpec = swaggerJSDoc(options);
-router.get('/swagger.json', function(req, res) {
+router.get('/swagger.json', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);
 });
 
-router.get('/', (req, res)=>{
-   res.send('Error: No parameters')
+router.get('/', (req, res) => {
+  res.send('Error: No parameters')
 });
 
 module.exports = router;

@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
+var CurrentlyReading = require('./currentlyReading').schema;
 
 var userSchema = new mongoose.Schema({
   fullName:{
@@ -23,7 +24,12 @@ var userSchema = new mongoose.Schema({
     default: Date.now
   },
   resetPasswordToken: {type: String},
-  resetPasswordExpires: {type: Date}
+  resetPasswordExpires: {type: Date},
+  currentlyReading: {
+    type: [CurrentlyReading],
+    required: true,
+    default: []
+  }
 });
 
 userSchema.pre('save', function(next){
