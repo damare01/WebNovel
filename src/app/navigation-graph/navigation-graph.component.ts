@@ -266,7 +266,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .attr('transform', function (d) {
         return `translate(25, 25)`;
       })
-      .style('fill', 'rgb(255, 202, 0)');
+      .style('fill', 'rgb(19, 70, 123)');
     viewButton
       .append('text')
       .style('fill', 'white')
