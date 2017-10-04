@@ -8,7 +8,6 @@ import {
   MdButtonModule, MdCardModule, MdFormFieldModule, MdIconModule, MdInputModule, MdSnackBarModule,
   MdToolbarModule
 } from "@angular/material";
-import {FroalaEditorModule, FroalaViewModule} from "angular-froala-wysiwyg";
 import { BookGridComponent } from './book-grid/book-grid.component';
 import {AuthenticationService} from "./authentication.service";
 import { wnHttpProvider} from "./wnhttp.service";
@@ -62,8 +61,6 @@ const appRoutes: Routes = [
     MdToolbarModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
-    FroalaEditorModule.forRoot(),
-    FroalaViewModule.forRoot(),
     MdButtonModule,
     MdFormFieldModule,
     MdInputModule,

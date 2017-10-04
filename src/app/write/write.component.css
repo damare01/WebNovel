@@ -1,3 +1,11 @@
 .flex-container{
   display: flex;
 }
+
+#editor{
+  outline: none;
+  height: 300px;
+  width: 75%;
+  resize: none;
+  margin: auto;
+}

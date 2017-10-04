@@ -78,13 +78,6 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
 
       this.rootChapter = chapter;
       this.getChildren(chapter, 0, 20);
-      //this.data = chapter;
-      /*this.root = d3.hierarchy(this.data, function (d) {
-        return d.children;
-      });
-      this.root.x0 = this.height / 2;
-      this.root.y0 = 0
-      this.update(this.root);*/
     });
   }
 
@@ -109,7 +102,9 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
             this.root.y0 = 0;
             this.update(this.root);
           }
-          // this.getChildren(childChapter, currentDepth + 1, maxDepth);
+          if(this.chapterTrail.indexOf(childChapter._id) > -1){
+            this.getChildren(childChapter, currentDepth + 1, maxDepth);
+          }
         })
       });
     }
