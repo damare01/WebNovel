@@ -15,7 +15,12 @@ export class ChapterService {
   }
 
   getChapter(id: string): Observable<Chapter>{
-    return this.wnhttp.get("/chapters/id/" +id);
+    return this.wnhttp.get("/chapters/id/" +id).map(chapter => {
+      if(!chapter.children) {
+        chapter.children = []
+      }
+      return chapter;
+    });
   }
 
   saveChapter(chapter: Chapter): Observable<any>{

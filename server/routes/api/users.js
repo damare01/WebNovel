@@ -39,7 +39,51 @@ var CurrentlyReading = require('../../models/currentlyReading');
  *        type: "Date"
  */
 
-
+/**
+ * @swagger
+ * /users/currentlyreading/{bookId}:
+ *   get:
+ *     tags:
+ *       - currentlyreading user
+ *     description:
+ *       - Returns the currently-reading object from the logged in user
+ *         with the specified bookid
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *      -
+ *        name: "bookId"
+ *        in: "path"
+ *        description: "Book Id"
+ *        required: true
+ *        type: "string"
+ *     responses:
+ *      200:
+ *        description: A currently-reading object
+ *        schema:
+ *          $ref: '#/definitions/CurrentlyReading'
+ *
+ */
+router.get('/currentlyreading/:bookId', (req, res)=>{
+  User.findOne(
+    {
+      _id: req.user._id, "currentlyReading.book": req.params.bookId
+    },
+    {
+      currentlyReading: {$elemMatch: {book: req.params.bookId}}
+    },
+    (err, user)=>{
+      if(err){
+        res.sendStatus(500);
+      }else{
+        if(user && user.currentlyReading.length){
+          res.send(user.currentlyReading[0]);
+        }else{
+          res.sendStatus(204);
+        }
+      }
+  })
+});
 /**
  * @swagger
  * /currentlyreading:
@@ -74,7 +118,6 @@ router.put('/currentlyreading', (req, res) => {
       upsert:true
     },
     (err, user) => {
-      console.log(user);
       if (err) {
 
         User.findOne({_id: req.user._id}, (err, user)=>{
@@ -86,6 +129,7 @@ router.put('/currentlyreading', (req, res) => {
             res.sendStatus(200);
           }
         });
+
       }else{
         res.sendStatus(200);
       }

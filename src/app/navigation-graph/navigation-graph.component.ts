@@ -4,6 +4,9 @@ import {ChapterService} from "../chapter.service";
 import {Chapter} from "../../models/chapter";
 import {Router} from "@angular/router";
 import {BookService} from "../book.service";
+import {UserService} from "../user.service";
+import {CurrentlyReading} from "../../models/currentlyreading";
+import {tryCatch} from "rxjs/util/tryCatch";
 
 @Component({
   selector: 'wn-navigation-graph',
@@ -21,13 +24,17 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
   private width: number;
   private height: number;
 
+  bookId: string;
   private tree: any;
   rootChapter: Chapter;
   root: any;
 
   chapterTrail: string[] = [];
 
-  constructor(private chapterService: ChapterService, private bookService: BookService, private router: Router) {
+  constructor(private chapterService: ChapterService,
+              private bookService: BookService,
+              private router: Router,
+              private userService: UserService) {
     this.addChapterToNode = new EventEmitter();
   }
 
@@ -42,14 +49,28 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       } else {
         this.bookService.getBook(chapter.book).subscribe(book => {
           this.rootChapterId = book.startChapter;
-          this.chapterTrail.push(this.rootChapterId);
-          this.createGraph();
-          this.getData();
+          this.bookId = book._id;
+          this.userService.getCurrentlyReading(book._id).subscribe(cr => {
+            if (cr) {
+              this.chapterTrail = cr.chapterTrail;
+            } else {
+              this.chapterTrail.push(this.rootChapterId);
+            }
+            this.createGraph();
+            this.getData();
+          });
         });
       }
     });
+  }
 
+  updateCurrentlyReading() {
+    let currentlyReading: CurrentlyReading = {
+      book: this.bookId,
+      chapterTrail: this.chapterTrail
+    };
 
+    this.userService.updateCurrentlyReading(currentlyReading).subscribe();
   }
 
   getData() {
@@ -129,18 +150,26 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
 
   private update(source) {
     let duration = 1000;
-    this.root = d3.hierarchy(this.rootChapter);
-    this.root.x0 = this.height / 2;
-    this.root.y0 = 0;
-    var treeData = this.tree(this.root);
-    // Compute the new tree layout.
-    var nodes = treeData.descendants(),
-      links = treeData.descendants().slice(1);
-    // Normalize for fixed-depth.
-    nodes.forEach(function (d) {
-      d.y = d.depth * 180
-    });
+    try {
+      this.root = d3.hierarchy(this.rootChapter, (d) => {
+        return d.children;
+      });
 
+      this.root.x0 = this.height / 2;
+      this.root.y0 = 0;
+      var treeData = this.tree(this.root);
+      // Compute the new tree layout.
+      var nodes = treeData.descendants(),
+        links = treeData.descendants().slice(1);
+      // Normalize for fixed-depth.
+      nodes.forEach(function (d) {
+        d.y = d.depth * 180
+      });
+    } catch (e) {
+      //Sometimes it complains about d.data not being set but it doesn't seem
+      //to affect anything
+      //console.log('Error when parsing hierarchy');
+    }
     // ****************** Nodes section ***************************
     // Update the nodes...
     var node = this.graph.selectAll('g.node')
@@ -153,6 +182,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .attr("transform", function (d) {
         return "translate(" + source.y0 + "," + source.x0 + ")";
       });
+
 
     // Add Circle for the nodes
     nodeEnter.append('circle')
@@ -231,6 +261,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
           this.chapterTrail = this.chapterTrail.concat(trailAppend);
           this.chapterTrail.push(d.data._id);
         }
+        this.updateCurrentlyReading();
         this.update(d);
         this.router.navigate(['read', d.data._id]);
       });
@@ -303,6 +334,13 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     var link = this.graph.selectAll('path.link')
       .data(links, function (d) {
         return d.data._id;
+      });
+    // Enter any new links at the parent's previous position.
+    var linkEnter = link.enter().insert('path', "g")
+      .attr("class", "link")
+      .attr('d', function (d) {
+        var o = {x: source.x0, y: source.y0}
+        return diagonal(o, o)
       })
       .style('stroke', (d) => {
         if (this.chapterTrail.indexOf(d.data._id) > -1) {
@@ -314,13 +352,6 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
           return '6px';
         }
       });
-    // Enter any new links at the parent's previous position.
-    var linkEnter = link.enter().insert('path', "g")
-      .attr("class", "link")
-      .attr('d', function (d) {
-        var o = {x: source.x0, y: source.y0}
-        return diagonal(o, o)
-      })
 
     // UPDATE
     var linkUpdate = linkEnter.merge(link);
@@ -329,6 +360,16 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .duration(duration)
       .attr('d', function (d) {
         return diagonal(d, d.parent)
+      })
+      .style('stroke', (d) => {
+        if (this.chapterTrail.indexOf(d.data._id) > -1) {
+          return 'green';
+        }
+      })
+      .style('stroke-width', (d) => {
+        if (this.chapterTrail.indexOf(d.data._id) > -1) {
+          return '6px';
+        }
       });
     // Remove any exiting links
     var linkExit = link.exit().transition()
@@ -379,7 +420,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       } else {
         console.log('second triggered');
         d._children = d.children;
-        d.data.children = null
+        d.data.children = null;
         d.children = null;
         self.update(d);
       }

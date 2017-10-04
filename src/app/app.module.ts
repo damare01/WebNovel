@@ -24,6 +24,7 @@ import { BrowseComponent } from './browse/browse.component';
 import { ReadComponent } from './read/read.component';
 import {NotFoundComponent} from "./notfound/notfound.component";
 import { WriteComponent } from './write/write.component';
+import {UserService} from "./user.service";
 
 
 const appRoutes: Routes = [
@@ -75,7 +76,8 @@ const appRoutes: Routes = [
     AuthenticationService,
     wnHttpProvider,
     ChapterService,
-    BookService
+    BookService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })
