@@ -19,4 +19,7 @@ export class BrowseComponent implements OnInit {
     })
   }
 
+  createBook(){
+    console.log("Creatin that book boiii");
+  }
 }

@@ -1,0 +1,42 @@
+<div class="flex-container">
+  <form name="book-properties" class="book-properties full-width">
+    <md-form-field class="full-width">
+      <input name="title" [(ngModel)]="newBook.title" mdInput placeholder="Title">
+    </md-form-field>
+    <br>
+    <md-select placeholder="Genre" name="genre" [(ngModel)]="newBook.genre">
+      <md-option *ngFor="let genre of genres" [value]="genre">
+        {{ genre }}
+      </md-option>
+    </md-select>
+    <br>
+    <md-select placeholder="Language" name="language" [(ngModel)]="newBook.language">
+      <md-option *ngFor="let language of languages" [value]="language.code">
+        {{ language.name }}
+      </md-option>
+    </md-select>
+  </form>
+</div>
+
+<div class="flex-container" style="flex-wrap: wrap">
+  <div style="border-top: 1px dotted darkgray; width:100%; margin: 20px 0px 10px 0px;"></div>
+</div>
+
+<div class="writing-container">
+  <div class="flex-container">
+    <form name="chapter-form">
+      <md-form-field class="full-width">
+        <input id="chapter-title" name="title" mdInput placeholder="Chapter title" [(ngModel)]="newChapter.title">
+      </md-form-field>
+      <br>
+    </form>
+  </div>
+  <div class="flex-container">
+    <textarea id="editor" placeholder="Write something..." [(ngModel)]="newChapter.body"></textarea>
+  </div>
+  <br>
+  <div class="flex-container" style="justify-content: flex-end">
+    <button md-raised-button color="accent" (click)="saveBook()" [disabled]="saving">Save
+    </button>
+  </div>
+</div>

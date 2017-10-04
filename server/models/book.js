@@ -1,12 +1,49 @@
 var mongoose = require('mongoose');
 
 let bookSchema = mongoose.Schema({
-  creator: String, //author id
-  title: String,
-  startChapter: String, //chapter id
+  creator: {
+    type: String,
+    required: true
+  }, //author id
+  title: {
+    type: String,
+    required: true
+  },
+  startChapter: {
+    type: String,
+    required: true
+  }, //chapter id
   coverImage: String, //img url
-  chapters: [String], //chapter ids. TODO: Is this needed, or should you just iterate the tree
-  language: String //language code
+  language: {
+    type: String,
+    required: true,
+    default: 'en'
+  }, //language code
+  genre: {
+    type: String,
+    enum: [
+      'Horror',
+      'Romance',
+      'Science Fiction',
+      'Fantasy',
+      'Mystery/Suspense',
+      'Humour',
+      'Paranormal',
+      'Adventure',
+      'Thriller',
+      'Historical Fiction',
+      'Teen Fiction',
+      'Fan Fiction',
+      'Poetry',
+      'Short story',
+      'Action',
+      'Vampire',
+      'Werewolf',
+      'Spiritual',
+      'Non-Fiction',
+      'Other'
+    ]
+  }
 });
 
 module.exports = mongoose.model('Book', bookSchema);

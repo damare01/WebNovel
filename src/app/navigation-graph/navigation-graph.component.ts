@@ -77,7 +77,11 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     this.chapterService.getChapter(this.rootChapterId).subscribe(chapter => {
 
       this.rootChapter = chapter;
-      this.getChildren(chapter, 0, 20);
+      if(!this.rootChapter.childrenIds.length){
+        this.update(this.root);
+      }else{
+        this.getChildren(chapter, 0, 20);
+      }
     });
   }
 
@@ -171,11 +175,15 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .data(nodes, function (d) {
         return d.data._id;
       });
-    // Enter any new modes at the parent's previous position.
+    // Enter any new nodes at the parent's previous position.
     var nodeEnter = node.enter().append('g')
       .attr('class', 'node')
-      .attr("transform", function (d) {
-        return "translate(" + source.y0 + "," + source.x0 + ")";
+      .attr("transform", (d)=> {
+        if(source){
+          return "translate(" + source.y0 + "," + source.x0 + ")";
+        }else{
+          return "translate(0," + this.height/2 + ")";
+        }
       });
 
 

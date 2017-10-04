@@ -9,7 +9,6 @@
   </div>
   <div class="flex-container">
     <textarea id="editor" placeholder="Write something..." [(ngModel)]="newChapter.body"></textarea>
-    <!--div [froalaEditor]="{height: 300}" [(froalaModel)]="newChapter.body" style="width:75%; margin: auto"></div-->
   </div>
   <br>
   <button md-raised-button color="accent" (click)="saveChapter()" [disabled]="!loaded" style="margin-left: 80%">Save</button>

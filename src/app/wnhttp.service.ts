@@ -16,8 +16,8 @@ export class WnHttp extends Http {
     return super.get(this.apiUrl + url, this.addJwt(options)).map(response=>response.json()).catch(this.handleError);
   }
 
-  post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
-    return super.post(this.apiUrl + url, body, this.addJwt(options)).map(response=>response.json()).catch(this.handleError);
+  post(url: string, body: any, options?: RequestOptionsArgs): Observable<any> {
+    return super.post(this.apiUrl + url, body, this.addJwt(options)).map(response=>response.json());
   }
 
   put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {

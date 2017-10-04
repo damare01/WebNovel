@@ -1,0 +1,34 @@
+.flex-container{
+  display:flex;
+  margin-left: 25%;
+  margin-right: 25%;
+}
+
+md-select{
+  margin-bottom: 5px;
+  width: 250px;
+}
+
+#chapter-title{
+  width: 250px;
+}
+
+.full-width{
+  width: 100%;
+}
+
+.book-properties{
+}
+
+#editor{
+  outline: none;
+  height: 300px;
+  width: 100%;
+  resize: none;
+  margin: auto;
+  overflow:auto;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 1px 1px rgba(0,0,0,0.16);
+  border: 0px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 16px;
+}

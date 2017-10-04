@@ -99,12 +99,15 @@ router.get('/id/:id', (req, res) => {
  *       description: "500 when there was an error"
  */
 router.post('/', (req, res) => {
-  let book = req.body;
-  Book.save(book, (err) => {
+  let book = new Book(req.body);
+  if(!book.creator){
+    book.creator = req.user._id;
+  }
+  book.save((err) => {
     if (err) {
       res.sendStatus(500);
     } else {
-      res.sendStatus(201);
+      res.status(201).send(book._id);
     }
   })
 });

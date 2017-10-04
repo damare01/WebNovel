@@ -19,7 +19,7 @@ export class BookService {
     return this.wnhttp.get("/books/id/" + id);
   }
 
-  saveBook(book: Book): Observable<Response> {
+  saveBook(book: Book): Observable<string> {
     return this.wnhttp.post('/books', book);
   }
 
