@@ -37,6 +37,7 @@ import { MyBooksPageComponent } from './my-books-page/my-books-page.component';
 import { InfoTextComponent } from './info-text/info-text.component';
 import { MyChaptersComponent } from './my-chapters/my-chapters.component';
 import { MyChaptersPageComponent } from './my-chapters-page/my-chapters-page.component';
+import { ReCaptchaModule } from 'angular2-recaptcha';
 
 
 const appRoutes: Routes = [
@@ -97,7 +98,8 @@ const appRoutes: Routes = [
     MdIconModule,
     MdSelectModule,
     MdMenuModule,
-    MdProgressSpinnerModule
+    MdProgressSpinnerModule,
+    ReCaptchaModule
   ],
   providers: [
     AuthenticationService,

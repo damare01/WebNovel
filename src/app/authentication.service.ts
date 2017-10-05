@@ -25,8 +25,8 @@ export class AuthenticationService {
     localStorage.removeItem('currentUser');
   }
 
-  register(email: string, password: string, fullName:string, penName:string){
-    return this.http.post('/auth/register', {email: email, password: password, fullName: fullName, penName: penName})
+  register(email: string, password: string, fullName:string, penName:string, captchaResponse: string){
+    return this.http.post('/auth/register', {email: email, password: password, fullName: fullName, penName: penName, captchaResponse: captchaResponse})
       .map((response: Response)=>{
         let user = response.json();
         if (user && user.token) {

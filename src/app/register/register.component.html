@@ -14,7 +14,7 @@
       <input name="password" type="password" mdInput placeholder="Password" [(ngModel)]="password">
     </md-form-field>
     <br>
-    <!--div class="g-recaptcha" data-sitekey="6LfOSjMUAAAAACAfmQAmw_kijvWFYQOKACzpNkMJ" data-callback="saveCapthcaResponse"></div-->
-    <button color="accent" md-raised-button (click)="register()">REGISTER</button>
+    <re-captcha (captchaResponse)="handleCaptcha($event)" site_key="6LfOSjMUAAAAACAfmQAmw_kijvWFYQOKACzpNkMJ"></re-captcha>
+    <button [disabled]="!captchaResponse" color="accent" md-raised-button (click)="register()" style="margin-top: 10px">REGISTER</button>
   </form>
 </div>

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken'),
   crypto = require('crypto'),
-  User = require('../../../models/user');
+  User = require('../../../models/user'),
+  request = require('request');
 
 var generateToken = function(user) {
   return jwt.sign(user, process.env.SECRET, {
@@ -39,6 +40,7 @@ exports.register = function(req, res, next) {
   const fullName = req.body.fullName;
   const password = req.body.password;
   const penName = req.body.penName;
+  const captchaResponse = req.body.captchaResponse;
 
   // Return error if no email provided
   if (!email) {
@@ -55,36 +57,46 @@ exports.register = function(req, res, next) {
     return res.status(422).send({ error: 'You must enter a password.' });
   }
 
-  User.findOne({ email: email }, function(err, existingUser) {
-    if (err) { return next(err); }
+  var options = {
+    url: 'https://www.google.com/recaptcha/api/siteverify',
+    form: {'secret': process.env.RECAPTCHA_SECRET, 'response': captchaResponse}
+  };
 
-    // If user is not unique, return error
-    if (existingUser) {
-      return res.status(422).send({ error: 'That email address is already in use.' });
-    }
+  request.post(options, (captchaErr, captchaRes, body)=>{
+    if (JSON.parse(body).success) {
 
-    // If email is unique and password was provided, create account
-    let user = new User({
-      email: email,
-      password: password,
-      fullName: fullName,
-      penName: penName
-    });
+      User.findOne({ email: email }, function(err, existingUser) {
+        if (err) { return next(err); }
 
-    user.save(function(err, user) {
-      if (err) {
-        res.status(500).send({});
-      }
+        // If user is not unique, return error
+        if (existingUser) {
+          return res.status(422).send({ error: 'That email address is already in use.' });
+        }
+        // If email is unique and password was provided, create account
+        let user = new User({
+          email: email,
+          password: password,
+          fullName: fullName,
+          penName: penName
+        });
 
-      // Respond with JWT if user was created
-
-      let userInfo = setUserInfo(user);
-
-      res.status(201).json({
-        token: 'JWT ' + generateToken(userInfo)
+        user.save(function(err, user) {
+          if (err) {
+            res.status(500).send({});
+          }
+          // Respond with JWT if user was created
+          let userInfo = setUserInfo(user);
+          res.status(201).json({
+            token: 'JWT ' + generateToken(userInfo)
+          });
+        });
       });
-    });
+    }else{
+      res.status(401).send({});
+    }
   });
+
+
 }
 
 //========================================

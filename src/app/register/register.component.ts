@@ -15,13 +15,14 @@ export class RegisterComponent implements OnInit {
   fullName: string;
   penName: string;
 
+  captchaResponse: string;
   constructor(private _authenticationService: AuthenticationService, private snackBar: MdSnackBar, private router:Router) { }
 
   ngOnInit() {
   }
 
   register(){
-    this._authenticationService.register(this.email, this.password, this.fullName, this.penName).subscribe(res =>{
+    this._authenticationService.register(this.email, this.password, this.fullName, this.penName, this.captchaResponse).subscribe(res =>{
       this.router.navigate(['/home']);
     },
     err=>{
@@ -34,12 +35,12 @@ export class RegisterComponent implements OnInit {
   }
 
   openSnackBar(message:string, action:string){
-    this.snackBar.open(message, action, {
+    this.snackBar.open(message || 'There was an error when trying to register...', action, {
       duration: 4000
     });
   }
 
-  saveCaptchaResponse(response:any){
-    console.log(response);
+  handleCaptcha(response:any){
+    this.captchaResponse = response;
   }
 }
