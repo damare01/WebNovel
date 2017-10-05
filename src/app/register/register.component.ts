@@ -38,4 +38,8 @@ export class RegisterComponent implements OnInit {
       duration: 4000
     });
   }
+
+  saveCaptchaResponse(response:any){
+    console.log(response);
+  }
 }

@@ -16,19 +16,13 @@ export class CurrentlyReadingComponent implements OnInit {
 
   ngOnInit() {
     this._userService.getAllCurrentlyReading().subscribe(currentlyReading =>{
+      console.log(currentlyReading);
       let bookIds: string[] = [];
       currentlyReading.forEach(cr =>{
         if(cr.book){
           bookIds.push(cr.book);
         }
-      })
-      this._bookService.getBooks(bookIds).subscribe(books =>{
-       this.currentlyReadingBooks = books;
-      })
-
+      });
     });
   }
-
-
-
 }
