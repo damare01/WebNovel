@@ -5,7 +5,8 @@ import {HttpModule} from "@angular/http";
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
-  MdButtonModule, MdCardModule, MdFormFieldModule, MdIconModule, MdInputModule, MdMenuModule, MdSelectModule,
+  MdButtonModule, MdCardModule, MdFormFieldModule, MdIconModule, MdInputModule, MdMenuModule, MdProgressSpinnerModule,
+  MdSelectModule,
   MdSnackBarModule,
   MdToolbarModule
 } from "@angular/material";
@@ -30,6 +31,12 @@ import { CurrentlyReadingComponent } from './currently-reading/currently-reading
 import { SectionHeaderComponent } from './section-header/section-header.component';
 import { RecommendedComponent } from './recommended/recommended.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
+import { EditorComponent } from './editor/editor.component';
+import { MyBooksComponent } from './my-books/my-books.component';
+import { MyBooksPageComponent } from './my-books-page/my-books-page.component';
+import { InfoTextComponent } from './info-text/info-text.component';
+import { MyChaptersComponent } from './my-chapters/my-chapters.component';
+import { MyChaptersPageComponent } from './my-chapters-page/my-chapters-page.component';
 
 
 const appRoutes: Routes = [
@@ -41,6 +48,8 @@ const appRoutes: Routes = [
   { path: 'read/:chapterId', component: ReadComponent},
   { path: 'write/:parentChapter', component: WriteComponent},
   { path: 'newbook', component: NewBookComponent},
+  { path: 'mybooks', component: MyBooksPageComponent},
+  { path: 'mychapters', component: MyChaptersPageComponent},
   { path: '',
     redirectTo: '/home',
     pathMatch: 'full'
@@ -65,7 +74,13 @@ const appRoutes: Routes = [
     CurrentlyReadingComponent,
     SectionHeaderComponent,
     RecommendedComponent,
-    UserMenuComponent
+    UserMenuComponent,
+    EditorComponent,
+    MyBooksComponent,
+    MyBooksPageComponent,
+    InfoTextComponent,
+    MyChaptersComponent,
+    MyChaptersPageComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +96,8 @@ const appRoutes: Routes = [
     MdCardModule,
     MdIconModule,
     MdSelectModule,
-    MdMenuModule
+    MdMenuModule,
+    MdProgressSpinnerModule
   ],
   providers: [
     AuthenticationService,

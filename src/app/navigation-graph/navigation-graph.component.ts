@@ -61,6 +61,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
           });
         });
       }
+
     });
   }
 

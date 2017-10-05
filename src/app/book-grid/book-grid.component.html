@@ -1,6 +1,6 @@
 <div class="container">
   <div *ngFor="let book of books" class="book-card">
-    <md-card [routerLink]="['/read', book.startChapter]">
+    <md-card (click)="openBook(book)">
       <md-card-title>{{book.title}}</md-card-title>
     </md-card>
   </div>

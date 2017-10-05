@@ -27,4 +27,8 @@ export class BookService {
     return this.wnhttp.post('/books', book);
   }
 
+  getMyBooks(): Observable<Book[]>{
+    return this.wnhttp.get('/books/mybooks');
+  }
+
 }

@@ -20,15 +20,6 @@ md-select{
 .book-properties{
 }
 
-#editor{
-  outline: none;
-  height: 300px;
+wn-editor{
   width: 100%;
-  resize: none;
-  margin: auto;
-  overflow:auto;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 1px 1px rgba(0,0,0,0.16);
-  border: 0px;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  font-size: 16px;
 }

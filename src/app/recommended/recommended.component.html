@@ -1,2 +1,3 @@
 <wn-section-header [title]="'Recommended for you'"></wn-section-header>
-<wn-book-grid [books]="recommendedBooks"></wn-book-grid>
+<md-spinner *ngIf="!recommendedBooks"></md-spinner>
+<wn-book-grid *ngIf="recommendedBooks" [books]="recommendedBooks"></wn-book-grid>

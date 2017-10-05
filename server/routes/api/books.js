@@ -47,6 +47,33 @@ router.get('/', (req, res) => {
     }
   })
 });
+/**
+ * @swagger
+ * /books/mybooks:
+ *   get:
+ *     tags:
+ *       - Books
+ *     description: Returns all of the books created by the logged in user
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: An array of book objects
+ *         schema:
+ *           $ref: '#/definitions/Book'
+ */
+router.get('/mybooks', (req, res) => {
+  let user = req.user;
+  Book.find({
+    'creator': user._id
+  }, (err, books) => {
+    if (err) {
+      res.status(500).send({});
+    } else {
+      res.send(books);
+    }
+  })
+});
 
 /**
  * @swagger
@@ -83,6 +110,8 @@ router.get('/:ids', (req, res) => {
       res.send(books);
     });
 });
+
+
 
 /**
  * @swagger

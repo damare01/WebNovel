@@ -10,7 +10,7 @@
   position: fixed;
   bottom: 0;
   overflow-y: hidden;
-  transition: height 1s;
+  transition: height 0.8s;
   background-color: rgba(255, 228, 178, 0.9);
 }
 

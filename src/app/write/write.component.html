@@ -8,7 +8,7 @@
     </form>
   </div>
   <div class="flex-container">
-    <textarea id="editor" placeholder="Write something..." [(ngModel)]="newChapter.body"></textarea>
+    <wn-editor [elementId]="'chapter-editor'" (onEditorKeyup)="newChapter.body = $event"></wn-editor>
   </div>
   <br>
   <button md-raised-button color="accent" (click)="saveChapter()" [disabled]="!loaded" style="margin-left: 80%">Save</button>

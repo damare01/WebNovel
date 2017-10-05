@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {User} from "../../models/user";
 import {UserService} from "../user.service";
 import {AuthenticationService} from "../authentication.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'wn-user-menu',
@@ -12,7 +13,7 @@ export class UserMenuComponent implements OnInit {
 
   currentUser: User;
 
-  constructor(private _userService: UserService, private _authenticationService: AuthenticationService) {
+  constructor(private _userService: UserService, private _authenticationService: AuthenticationService, private router: Router) {
   }
 
   ngOnInit() {
@@ -21,5 +22,6 @@ export class UserMenuComponent implements OnInit {
 
   logout(){
     this._authenticationService.logout();
+    this.router.navigate(['/login']);
   }
 }
