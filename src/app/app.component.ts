@@ -14,7 +14,6 @@ export class AppComponent {
 
   constructor(private authenticationService: AuthenticationService, private userService: UserService) {
     this.currentUser = this.userService.getCurrentUser();
-    console.log(this.currentUser);
   }
 
   logout() {

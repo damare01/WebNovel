@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Book} from "../../models/book";
 import {UserService} from "../user.service";
 import {BookService} from "../book.service";
@@ -12,17 +12,26 @@ export class CurrentlyReadingComponent implements OnInit {
 
   currentlyReadingBooks: Book[];
 
-  constructor(private _userService: UserService, private _bookService: BookService) { }
+  constructor(private _userService: UserService, private _bookService: BookService) {
+  }
 
   ngOnInit() {
-    this._userService.getAllCurrentlyReading().subscribe(currentlyReading =>{
-      console.log(currentlyReading);
+    this._userService.getAllCurrentlyReading().subscribe(currentlyReading => {
       let bookIds: string[] = [];
-      currentlyReading.forEach(cr =>{
-        if(cr.book){
+      currentlyReading.forEach(cr => {
+        if (cr.book) {
           bookIds.push(cr.book);
         }
       });
+      if (bookIds.length) {
+        this._bookService.getBooks(bookIds).subscribe(books => {
+          this.currentlyReadingBooks = books;
+        });
+      }else{
+        this.currentlyReadingBooks = [];
+      }
     });
   }
+
+
 }
