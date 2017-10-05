@@ -25,6 +25,7 @@ export class EditorComponent implements OnDestroy, AfterViewInit {
       height: 400,
       skin_url: '../assets/skins/lightgray',
       menubar: false,
+      browser_spellcheck: true,
       setup: editor => {
         this.editor = editor;
         editor.on('keyup change', () => {

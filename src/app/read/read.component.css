@@ -12,6 +12,7 @@
   overflow-y: hidden;
   transition: height 0.8s;
   background-color: rgba(255, 228, 178, 0.9);
+  cursor: move;
 }
 
 .graph-container:hover{
