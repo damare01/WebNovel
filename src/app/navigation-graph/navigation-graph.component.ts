@@ -193,7 +193,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .attr('class', 'node')
       .attr('r', 1e-6)
       .style("fill", function (d) {
-        return d.data.childrenIds.length && !d.children ? "teal" : "#fff";
+        return d.data.childrenIds.length && !d.children ? "#009588" : "#fff";
       });
     //Add buttons
     var addChapterButton = nodeEnter.append('g')
@@ -316,7 +316,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     nodeUpdate.select('circle.node')
       .attr('r', 20)
       .style("fill", function (d) {
-        return d.data.childrenIds.length && !d.children ? "teal" : "#fff";
+        return d.data.childrenIds.length && !d.children ? "#009588" : "#fff";
       })
       .attr('cursor', 'pointer');
     // Remove any exiting nodes
