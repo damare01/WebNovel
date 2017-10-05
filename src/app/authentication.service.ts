@@ -3,6 +3,7 @@ import {Http, Response} from "@angular/http";
 import 'rxjs/add/operator/map';
 import {Observable} from "rxjs/Observable";
 import {isNullOrUndefined} from "util";
+import * as jwtDecode from 'jwt-decode';
 
 @Injectable()
 export class AuthenticationService {
@@ -36,10 +37,12 @@ export class AuthenticationService {
       });
   }
 
-  isLoggedIn():boolean{
-    //TODO Actually check if the token is expired instead, then refresh it
-    let user = localStorage.getItem('currentUser');
-    return !isNullOrUndefined(user);
+  static isLoggedIn():boolean{
+    let user = JSON.parse(localStorage.getItem('currentUser'));
+    let userInfo = jwtDecode(user.token);
+    let expires = userInfo.exp;
+    let now = new Date().valueOf()/1000;
+    return expires - now > 0;
   }
 
 }

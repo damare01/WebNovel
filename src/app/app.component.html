@@ -1,12 +1,11 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
   <md-toolbar color="primary">
-    <span [routerLink]="['/home']" style="cursor: pointer">WebNovel</span>
+    <span [routerLink]="['/home']" style="cursor: pointer; color: white">WebNovel</span>
     <span class="fill-remaining-space"></span>
     <span>
-      <button color="accent" md-raised-button [routerLink]="['/login']">LOGIN</button>
-      <button color="accent" md-raised-button [routerLink]="['/register']">REGISTER</button>
-      <button color="accent" md-raised-button (click)="logout()">LOGOUT</button>
+      <button color="accent" md-raised-button [routerLink]="['/login']" *ngIf="!isLoggedIn()">LOGIN</button>
+      <button color="accent" md-raised-button [routerLink]="['/register']" *ngIf="!isLoggedIn()">REGISTER</button>
+      <button color="accent" md-raised-button (click)="logout()" *ngIf="isLoggedIn()">LOGOUT</button>
     </span>
   </md-toolbar>
 </div>

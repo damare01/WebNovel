@@ -17,7 +17,7 @@ export class WnHttp extends Http {
   }
 
   post(url: string, body: any, options?: RequestOptionsArgs): Observable<any> {
-    return super.post(this.apiUrl + url, body, this.addJwt(options)).map(response=>response.json());
+    return super.post(this.apiUrl + url, body, this.addJwt(options)).map(response=>response.json()).catch(this.handleError);
   }
 
   put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
@@ -49,7 +49,7 @@ export class WnHttp extends Http {
       window.location.href = '/login'; //TODO change to angular router perhaps?
     }
 
-    return Observable.throw(error._body);
+    return error;
   }
 }
 
