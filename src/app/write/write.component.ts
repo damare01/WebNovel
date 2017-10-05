@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ChapterService} from "../chapter.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Chapter} from "../../models/chapter";
+import {UserService} from "../user.service";
 
 @Component({
   selector: 'wn-write',
@@ -15,7 +16,7 @@ export class WriteComponent implements OnInit {
 
   loaded:boolean = false;
 
-  constructor(private _chapterService:ChapterService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private _chapterService:ChapterService, private route: ActivatedRoute, private router: Router, private _userService: UserService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params =>{
@@ -33,7 +34,7 @@ export class WriteComponent implements OnInit {
 
   saveChapter(){
     this.loaded = false;
-    this.newChapter.author='59c3995ddd8415653e5ebc87';//TODO Create userservice to get current user
+    this.newChapter.author= this._userService.getCurrentUser()._id;
     this._chapterService.saveChapter(this.newChapter).subscribe((chapterId)=>{
       this.parentChapter.childrenIds.push(chapterId);
       this._chapterService.updateChapter(this.parentChapter).subscribe((response)=>{
