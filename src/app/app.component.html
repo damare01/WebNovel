@@ -5,8 +5,8 @@
     <span>
       <button color="accent" md-raised-button [routerLink]="['/login']" *ngIf="!isLoggedIn()">LOGIN</button>
       <button color="accent" md-raised-button [routerLink]="['/register']" *ngIf="!isLoggedIn()">REGISTER</button>
-      <button md-raised-button color="accent" [routerLink]="'/newbook'" *ngIf="isLoggedIn()">Start a Book</button>
       <wn-user-menu *ngIf="isLoggedIn()"></wn-user-menu>
+      <button md-raised-button color="accent" [routerLink]="'/newbook'" *ngIf="isLoggedIn()">Start a Book</button>
     </span>
   </md-toolbar>
 </div>
