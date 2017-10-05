@@ -1,13 +1,13 @@
 .reading-container{
-  max-width:600px;
-  margin: 0 auto;
+  max-width:750px;
+  margin: 0 auto 5% auto;
 }
 
 .graph-container{
   width: 100%;
   border-top: 1px solid darkgray;
   height: 5%;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   overflow-y: hidden;
   transition: height 1s;
@@ -21,7 +21,7 @@
 
 .page-container{
   width:100%;
-  height:95%;
+  height:100%;
 }
 
 .text{
