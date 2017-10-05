@@ -4,6 +4,7 @@
     <div *ngIf="chapter" [innerHtml]="chapter.body"></div>
   </div>
   <div class="graph-container">
+    <div style="max-width: 20px; max-height: 10px;margin: 0 auto;"><i style="font-size: 24px;" class="fa fa-caret-up"></i></div>
     <wn-navigation-graph *ngIf="chapter" [chapterId]="chapter._id"
                          (addChapterToNode)="writeChapter($event)"></wn-navigation-graph>
   </div>

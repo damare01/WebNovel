@@ -206,7 +206,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .attr('transform', function (d) {
         return `translate(25, -25)`;
       })
-      .style('fill', 'green');
+      .style('fill', '#ff9800');
 
     addChapterButton
       .append('text')
@@ -347,7 +347,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       })
       .style('stroke', (d) => {
         if (this.chapterTrail.indexOf(d.data._id) > -1) {
-          return 'green';
+          return '#ff9800';
         }
       })
       .style('stroke-width', (d) => {
@@ -366,7 +366,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       })
       .style('stroke', (d) => {
         if (this.chapterTrail.indexOf(d.data._id) > -1) {
-          return 'green';
+          return '#ff9800';
         }
       })
       .style('stroke-width', (d) => {
