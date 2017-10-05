@@ -14,12 +14,8 @@ export class BrowseComponent implements OnInit {
   constructor(private _bookService: BookService) { }
 
   ngOnInit() {
-    this._bookService.getBooks().subscribe(books =>{
+    this._bookService.getAllBooks().subscribe(books =>{
       this.books = books;
     })
-  }
-
-  createBook(){
-    console.log("Creatin that book boiii");
   }
 }

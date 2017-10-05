@@ -1,8 +1,8 @@
 .book-card{
   width: 20%;
-  padding: 10px;
-  margin: auto;
+  padding: 10px 10px 10px 0;
   cursor: pointer;
+  flex: 1 0 auto;
 }
 
 .container{

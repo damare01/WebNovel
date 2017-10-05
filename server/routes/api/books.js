@@ -50,6 +50,42 @@ router.get('/', (req, res) => {
 
 /**
  * @swagger
+ * /books/{ids}:
+ *   get:
+ *     tags:
+ *       - Books
+ *     description: Returns the books with the provided ids
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *      -
+ *        name: "ids"
+ *        in: "path"
+ *        description: "Book ids seperated by a comma"
+ *        required: true
+ *        type: "string"
+ *     responses:
+ *       200:
+ *         description: An array of book objects
+ *         schema:
+ *           $ref: '#/definitions/Book'
+ */
+router.get('/:ids', (req, res) => {
+  let idsString = req.params.ids;
+  let ids = idsString.split(',');
+  Book.find({
+      '_id': {$in: ids}
+    },
+    (err, books) => {
+      if (err) {
+        res.status(500).send({});
+      }
+      res.send(books);
+    });
+});
+
+/**
+ * @swagger
  * /books/id/{id}:
  *   get:
  *     tags:
@@ -100,7 +136,7 @@ router.get('/id/:id', (req, res) => {
  */
 router.post('/', (req, res) => {
   let book = new Book(req.body);
-  if(!book.creator){
+  if (!book.creator) {
     book.creator = req.user._id;
   }
   book.save((err) => {

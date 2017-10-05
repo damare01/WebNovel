@@ -12,7 +12,8 @@ var setUserInfo = function(request) {
   return {
     _id: request._id,
     fullName: request.fullName,
-    email: request.email
+    email: request.email,
+    penName: request.penName
   };
 };
 
@@ -24,8 +25,7 @@ exports.login = function(req, res, next) {
   let userInfo = setUserInfo(req.user);
 
   res.status(200).json({
-    token: generateToken(userInfo),
-    user: userInfo
+    token: generateToken(userInfo)
   });
 }
 
@@ -38,6 +38,7 @@ exports.register = function(req, res, next) {
   const email = req.body.email;
   const fullName = req.body.fullName;
   const password = req.body.password;
+  const penName = req.body.penName;
 
   // Return error if no email provided
   if (!email) {
@@ -66,22 +67,21 @@ exports.register = function(req, res, next) {
     let user = new User({
       email: email,
       password: password,
-      fullName: fullName
+      fullName: fullName,
+      penName: penName
     });
 
     user.save(function(err, user) {
-      if (err) { return next(err); }
-
-      // Subscribe member to Mailchimp list
-      // mailchimp.subscribeToNewsletter(user.email);
+      if (err) {
+        res.status(500).send({});
+      }
 
       // Respond with JWT if user was created
 
       let userInfo = setUserInfo(user);
 
       res.status(201).json({
-        token: 'JWT ' + generateToken(userInfo),
-        user: userInfo
+        token: 'JWT ' + generateToken(userInfo)
       });
     });
   });

@@ -13,6 +13,8 @@ export class ReadComponent implements OnInit {
   chapterId:string;
   chapter: Chapter;
 
+  showGraph: boolean = true;
+
   constructor(private _chapterService: ChapterService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
@@ -27,6 +29,10 @@ export class ReadComponent implements OnInit {
 
   writeChapter(parentChapter: string){
     this.router.navigate(['write', parentChapter]);
+  }
+
+  toggleGraph(){
+    this.showGraph = !this.showGraph;
   }
 
 }

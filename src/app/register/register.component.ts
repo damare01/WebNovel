@@ -13,6 +13,7 @@ export class RegisterComponent implements OnInit {
   email: string;
   password: string;
   fullName: string;
+  penName: string;
 
   constructor(private _authenticationService: AuthenticationService, private snackBar: MdSnackBar, private router:Router) { }
 
@@ -20,7 +21,7 @@ export class RegisterComponent implements OnInit {
   }
 
   register(){
-    this._authenticationService.register(this.email, this.password, this.fullName).subscribe(res =>{
+    this._authenticationService.register(this.email, this.password, this.fullName, this.penName).subscribe(res =>{
       this.router.navigate(['/home']);
     },
     err=>{

@@ -8,6 +8,10 @@ var userSchema = new mongoose.Schema({
     trim: true,
     required: true
   },
+  penName:{
+    type: String,
+    trim: true
+  },
   email: {
     type: String,
     unique: true,
@@ -27,7 +31,6 @@ var userSchema = new mongoose.Schema({
   resetPasswordExpires: {type: Date},
   currentlyReading: {
     type: [CurrentlyReading],
-    required: true,
     default: []
   }
 });

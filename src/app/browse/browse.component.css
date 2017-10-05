@@ -5,3 +5,8 @@
   font-size: large;
   color:white;
 }
+
+.container{
+  max-width: 1140px;
+  margin: 0 auto;
+}

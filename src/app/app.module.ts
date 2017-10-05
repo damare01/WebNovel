@@ -5,7 +5,8 @@ import {HttpModule} from "@angular/http";
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
-  MdButtonModule, MdCardModule, MdFormFieldModule, MdIconModule, MdInputModule, MdSelectModule, MdSnackBarModule,
+  MdButtonModule, MdCardModule, MdFormFieldModule, MdIconModule, MdInputModule, MdMenuModule, MdSelectModule,
+  MdSnackBarModule,
   MdToolbarModule
 } from "@angular/material";
 import { BookGridComponent } from './book-grid/book-grid.component';
@@ -25,6 +26,10 @@ import {NotFoundComponent} from "./notfound/notfound.component";
 import { WriteComponent } from './write/write.component';
 import {UserService} from "./user.service";
 import { NewBookComponent } from './new-book/new-book.component';
+import { CurrentlyReadingComponent } from './currently-reading/currently-reading.component';
+import { SectionHeaderComponent } from './section-header/section-header.component';
+import { RecommendedComponent } from './recommended/recommended.component';
+import { UserMenuComponent } from './user-menu/user-menu.component';
 
 
 const appRoutes: Routes = [
@@ -56,7 +61,11 @@ const appRoutes: Routes = [
     ReadComponent,
     NotFoundComponent,
     WriteComponent,
-    NewBookComponent
+    NewBookComponent,
+    CurrentlyReadingComponent,
+    SectionHeaderComponent,
+    RecommendedComponent,
+    UserMenuComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +80,8 @@ const appRoutes: Routes = [
     MdSnackBarModule,
     MdCardModule,
     MdIconModule,
-    MdSelectModule
+    MdSelectModule,
+    MdMenuModule
   ],
   providers: [
     AuthenticationService,

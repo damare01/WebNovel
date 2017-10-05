@@ -11,8 +11,12 @@ export class BookService {
   constructor(private wnhttp: WnHttp) {
   }
 
-  getBooks(): Observable<Book[]> {
+  getAllBooks(): Observable<Book[]> {
     return this.wnhttp.get('/books')
+  }
+
+  getBooks(ids: string[]): Observable<Book[]>{
+    return this.wnhttp.get('/books/' + ids);
   }
 
   getBook(id: string): Observable<Book> {

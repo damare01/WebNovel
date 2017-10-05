@@ -84,6 +84,42 @@ router.get('/currentlyreading/:bookId', (req, res)=>{
       }
   })
 });
+
+/**
+ * @swagger
+ * /users/currentlyreading:
+ *   get:
+ *     tags:
+ *       - currentlyreading
+ *     description:
+ *       - Returns all the currently-reading objects from the logged in user
+ *     produces:
+ *       - application/json
+ *     responses:
+ *      200:
+ *        description: An array of currently-reading objects
+ *        schema:
+ *          $ref: '#/definitions/CurrentlyReading'
+ *
+ */
+router.get('/currentlyreading', (req, res)=>{
+  User.findOne(
+    {
+      _id: req.user._id
+    },
+    (err, user)=>{
+      if(err){
+        res.status(500).send({});
+      }else{
+        if(user && user.currentlyReading){
+          res.send(user.currentlyReading);
+        }else{
+          res.sendStatus(204);
+        }
+      }
+  })
+});
+
 /**
  * @swagger
  * /currentlyreading:

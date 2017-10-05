@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthenticationService} from "./authentication.service";
+import {User} from "../models/user";
+import {UserService} from "./user.service";
 
 @Component({
   selector: 'app-root',
@@ -8,14 +10,20 @@ import {AuthenticationService} from "./authentication.service";
 })
 export class AppComponent {
 
-  constructor(private authenticationService: AuthenticationService){}
+  currentUser: User;
 
-  logout(){
+  constructor(private authenticationService: AuthenticationService, private userService: UserService) {
+    this.currentUser = this.userService.getCurrentUser();
+    console.log(this.currentUser);
+  }
+
+  logout() {
     this.authenticationService.logout();
   }
 
-  isLoggedIn():boolean{
+  isLoggedIn(): boolean {
     return AuthenticationService.isLoggedIn();
   }
+
 
 }

@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Http, Response} from "@angular/http";
 import 'rxjs/add/operator/map';
 import {Observable} from "rxjs/Observable";
-import {isNullOrUndefined} from "util";
 import * as jwtDecode from 'jwt-decode';
 
 @Injectable()
@@ -26,8 +25,8 @@ export class AuthenticationService {
     localStorage.removeItem('currentUser');
   }
 
-  register(email: string, password: string, fullName:string){
-    return this.http.post('/auth/register', {email: email, password: password, fullName: fullName})
+  register(email: string, password: string, fullName:string, penName:string){
+    return this.http.post('/auth/register', {email: email, password: password, fullName: fullName, penName: penName})
       .map((response: Response)=>{
         let user = response.json();
         if (user && user.token) {
@@ -38,6 +37,10 @@ export class AuthenticationService {
   }
 
   static isLoggedIn():boolean{
+    let currentUser = localStorage.getItem('currentUser');
+    if(!currentUser){
+      return false;
+    }
     let user = JSON.parse(localStorage.getItem('currentUser'));
     let userInfo = jwtDecode(user.token);
     let expires = userInfo.exp;

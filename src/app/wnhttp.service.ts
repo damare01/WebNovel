@@ -48,8 +48,7 @@ export class WnHttp extends Http {
       //this.router.navigate(['login']);
       window.location.href = '/login'; //TODO change to angular router perhaps?
     }
-
-    return error;
+    return Observable.throw(error);
   }
 }
 
