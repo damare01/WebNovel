@@ -1,6 +1,6 @@
 .reading-container{
   max-width:750px;
-  margin: 0 auto 5% auto;
+  margin: 10px auto 5% auto;
 }
 
 .graph-container{
@@ -34,4 +34,10 @@
   width: 100%;
   flex-basis: auto;
   margin: auto;
+}
+
+.content{
+  font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  line-height: 25px;
 }

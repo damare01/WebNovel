@@ -1,7 +1,7 @@
 <div class="page-container">
   <div class="reading-container">
     <h2 class="header" *ngIf="chapter">{{chapter.title}}</h2>
-    <div *ngIf="chapter" [innerHtml]="chapter.body"></div>
+    <div class="content" *ngIf="chapter" [innerHtml]="chapter.body"></div>
   </div>
   <div class="graph-container">
     <div style="max-width: 20px; max-height: 10px;margin: 0 auto;"><i style="font-size: 24px;" class="fa fa-caret-up"></i></div>
