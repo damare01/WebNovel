@@ -39,7 +39,7 @@ var Book = require('../../models/book');
  *           $ref: '#/definitions/Book'
  */
 router.get('/', (req, res) => {
-  Book.find((err, books) => {
+  Book.find({'deleted':false},(err, books) => {
     if (err) {
       res.sendStatus(500);
     } else {
@@ -65,7 +65,8 @@ router.get('/', (req, res) => {
 router.get('/mybooks', (req, res) => {
   let user = req.user;
   Book.find({
-    'creator': user._id
+    'creator': user._id,
+    'deleted': false
   }, (err, books) => {
     if (err) {
       res.status(500).send({});
@@ -101,7 +102,8 @@ router.get('/:ids', (req, res) => {
   let idsString = req.params.ids;
   let ids = idsString.split(',');
   Book.find({
-      '_id': {$in: ids}
+      '_id': {$in: ids},
+      'deleted': false
     },
     (err, books) => {
       if (err) {
@@ -137,7 +139,7 @@ router.get('/:ids', (req, res) => {
  */
 router.get('/id/:id', (req, res) => {
   let id = req.params.id;
-  Book.findOne({_id: id}, (err, chapter) => {
+  Book.findOne({_id: id, 'deleted':false}, (err, chapter) => {
     if (err) {
       res.sendStatus(500);
     } else if (!chapter) {

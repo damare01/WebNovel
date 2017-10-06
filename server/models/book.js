@@ -43,6 +43,10 @@ let bookSchema = mongoose.Schema({
       'Non-Fiction',
       'Other'
     ]
+  },
+  deleted: {
+    type: Boolean,
+    default: false
   }
 });
 
