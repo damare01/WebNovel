@@ -192,8 +192,8 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     nodeEnter.append('circle')
       .attr('class', 'node')
       .attr('r', 1e-6)
-      .style("fill", function (d) {
-        return d.data.childrenIds.length && !d.children ? "#009588" : "#fff";
+      .style("fill", (d)=> {
+        return this.colorNode(d);
       });
     //Add buttons
     var addChapterButton = nodeEnter.append('g')
@@ -229,7 +229,9 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .on('click', click);
     expandButton
       .append('circle')
-      .attr('r', 10)
+      .attr('r', (d)=>{
+        return (d.data.childrenIds.length && !d.children) || !d.parent ? 10 : 0;
+      })
       .attr('transform', function (d) {
         return `translate(35, 0)`;
       })
@@ -246,7 +248,12 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       })
       .attr('text-anchor', 'middle')
       .attr('dy', '0.4em')
-      .text('\uf061');
+      .attr('visibility', (d)=>{
+        return (d.data.childrenIds.length && !d.children) || !d.parent ? 'visible' : 'hidden';
+      })
+      .text((d)=>{
+          return '\uf061';
+      });
 
     var viewButton = nodeEnter
       .append('g')
@@ -315,8 +322,8 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     // Update the node attributes and style
     nodeUpdate.select('circle.node')
       .attr('r', 20)
-      .style("fill", function (d) {
-        return d.data.childrenIds.length && !d.children ? "#009588" : "#fff";
+      .style("fill", (d)=> {
+        return this.colorNode(d);
       })
       .attr('cursor', 'pointer');
     // Remove any exiting nodes
@@ -429,6 +436,11 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
         self.update(d);
       }
     }
+  }
+
+
+  colorNode(d:any){
+    return d.data.childrenIds.length && !d.children ? "#bdbdbd" : "#f7f6f3";
   }
 
 }

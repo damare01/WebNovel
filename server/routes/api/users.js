@@ -122,6 +122,44 @@ router.get('/currentlyreading', (req, res)=>{
 
 /**
  * @swagger
+ * /users/{id}:
+ *   get:
+ *     tags:
+ *       - currentlyreading
+ *     description:
+ *       - Returns the user with the specified ID
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       -
+ *        name: "id"
+ *        in: "path"
+ *        description: "User Id"
+ *        required: true
+ *        type: "string"
+ *     responses:
+ *      200:
+ *        description: A user object
+ *        schema:
+ *          $ref: '#/definitions/User'
+ *
+ */
+router.get('/:id', (req, res)=>{
+  User.findOne(
+    {
+      _id: req.params['id']
+    },
+    (err, user)=>{
+      if(err){
+        res.status(500).send({});
+      }else{
+       res.send(user);
+      }
+    })
+});
+
+/**
+ * @swagger
  * /currentlyreading:
  *   put:
  *    tags:

@@ -1,10 +1,15 @@
 <div class="page-container">
   <div class="reading-container">
-    <h2 class="header" *ngIf="chapter">{{chapter.title}}</h2>
-    <div class="content" *ngIf="chapter" [innerHtml]="chapter.body"></div>
+    <div *ngIf="chapter && author">
+      <h2 class="header" *ngIf="chapter">{{chapter.title}}</h2>
+      <div>By {{author.penName || author.fullName}}</div>
+      <div class="content" *ngIf="chapter" [innerHtml]="chapter.body"></div>
+    </div>
+    <md-spinner style="margin:auto" *ngIf="!chapter || !author"></md-spinner>
   </div>
   <div class="graph-container">
-    <div style="max-width: 20px; max-height: 10px;margin: 0 auto;"><i style="font-size: 24px;" class="fa fa-caret-up"></i></div>
+    <div style="max-width: 20px; max-height: 10px;margin: 0 auto;"><i style="font-size: 24px;"
+                                                                      class="fa fa-caret-up"></i></div>
     <wn-navigation-graph *ngIf="chapter" [chapterId]="chapter._id"
                          (addChapterToNode)="writeChapter($event)"></wn-navigation-graph>
   </div>

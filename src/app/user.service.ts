@@ -31,4 +31,8 @@ export class UserService {
     let user = jwtDecode(token);
     return user;
   }
+
+  getUser(id: string): Observable<User>{
+    return this._wnhttp.get('/users/' + id);
+  }
 }
