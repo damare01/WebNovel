@@ -38,19 +38,20 @@ import { InfoTextComponent } from './info-text/info-text.component';
 import { MyChaptersComponent } from './my-chapters/my-chapters.component';
 import { MyChaptersPageComponent } from './my-chapters-page/my-chapters-page.component';
 import { ReCaptchaModule } from 'angular2-recaptcha';
+import {AuthGuard} from "./auth.guard";
 
 
 const appRoutes: Routes = [
-  { path: 'home', component: HomeComponent},
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
-  { path: 'graph', component: NavigationGraphComponent},
-  { path: 'browse', component: BrowseComponent},
-  { path: 'read/:chapterId', component: ReadComponent},
-  { path: 'write/:parentChapter', component: WriteComponent},
-  { path: 'newbook', component: NewBookComponent},
-  { path: 'mybooks', component: MyBooksPageComponent},
-  { path: 'mychapters', component: MyChaptersPageComponent},
+  { path: 'graph', component: NavigationGraphComponent, canActivate: [AuthGuard]},
+  { path: 'browse', component: BrowseComponent, canActivate: [AuthGuard]},
+  { path: 'read/:chapterId', component: ReadComponent, canActivate: [AuthGuard]},
+  { path: 'write/:parentChapter', component: WriteComponent, canActivate: [AuthGuard]},
+  { path: 'newbook', component: NewBookComponent, canActivate: [AuthGuard]},
+  { path: 'mybooks', component: MyBooksPageComponent, canActivate: [AuthGuard]},
+  { path: 'mychapters', component: MyChaptersPageComponent, canActivate: [AuthGuard]},
   { path: '',
     redirectTo: '/home',
     pathMatch: 'full'
@@ -106,7 +107,8 @@ const appRoutes: Routes = [
     wnHttpProvider,
     ChapterService,
     BookService,
-    UserService
+    UserService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

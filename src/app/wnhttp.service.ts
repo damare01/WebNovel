@@ -43,11 +43,11 @@ export class WnHttp extends Http {
   }
 
   private handleError(error: any) {
-    if (error.status === 401) {
+    /*if (error.status === 401) {
       // 401 unauthorized response so log user out of client
       //this.router.navigate(['login']);
       window.location.href = '/login'; //TODO change to angular router perhaps?
-    }
+    }*/
     return Observable.throw(error);
   }
 }
