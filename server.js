@@ -8,7 +8,7 @@ var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-app.use(logger('dev'));
+app.use(logger(process.env.DEV ? 'dev':'combined'));
 
 //Enable CORS
 app.use((req, res, next)=>{
