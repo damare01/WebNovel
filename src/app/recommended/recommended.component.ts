@@ -16,7 +16,7 @@ export class RecommendedComponent implements OnInit {
   ngOnInit() {
     //TODO Create an endpoint for getting reccomended books for the user
     this._bookService.getAllBooks().subscribe(books=>{
-      this.recommendedBooks = books;
+      this.recommendedBooks = books.reverse();
     })
   }
 
