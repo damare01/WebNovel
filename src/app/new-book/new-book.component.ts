@@ -6,6 +6,7 @@ import {BookService} from "../book.service";
 import {ChapterService} from "../chapter.service";
 import {MdSnackBar} from "@angular/material";
 import {Router} from "@angular/router";
+import {UserService} from "../user.service";
 
 @Component({
   selector: 'wn-new-book',
@@ -21,7 +22,7 @@ export class NewBookComponent implements OnInit {
 
   saving:boolean = false;
 
-  constructor(private _bookService: BookService, private _chapterService: ChapterService, private snackBar: MdSnackBar, private router: Router) {
+  constructor(private _bookService: BookService, private _chapterService: ChapterService, private snackBar: MdSnackBar, private router: Router, private _userService: UserService) {
     this.convertEnumToArray();
     this.addLanguages();
   }
@@ -48,7 +49,7 @@ export class NewBookComponent implements OnInit {
     this.saving = true;
 
     if(!this.newChapter.title || !this.newChapter.body){
-      this.snackBar.open('Please write a the first chapter', 'Dismiss', {
+      this.snackBar.open('Please write the first chapter', 'Dismiss', {
         duration: 3000
       });
     }else if(!this.newBook.title || !this.newBook.genre || !this.newBook.language){
@@ -56,6 +57,7 @@ export class NewBookComponent implements OnInit {
         duration: 3000
       });
     }else{
+      this.newChapter.author = this._userService.getCurrentUser()._id;
       this._chapterService.saveChapter(this.newChapter).subscribe(chapterId=>{
         this.newBook.startChapter = chapterId;
         this.newChapter._id = chapterId;
