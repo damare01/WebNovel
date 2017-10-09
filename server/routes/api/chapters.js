@@ -95,6 +95,9 @@ router.get('/id/:id', (req, res) => {
  */
 router.post('/', (req, res) => {
   let chapter = new Chapter(req.body);
+  if (!chapter.author) {
+    chapter.author = req.user._id;
+  }
   chapter.save((err) => {
     if (err) {
       res.sendStatus(500);

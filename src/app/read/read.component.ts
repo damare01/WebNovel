@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ChapterService} from "../chapter.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Chapter} from "../../models/chapter";
@@ -12,7 +12,7 @@ import {UserService} from "../user.service";
 })
 export class ReadComponent implements OnInit {
 
-  chapterId:string;
+  chapterId: string;
   chapter: Chapter;
   author: User;
 
@@ -21,25 +21,30 @@ export class ReadComponent implements OnInit {
   constructor(private _chapterService: ChapterService,
               private route: ActivatedRoute,
               private router: Router,
-              private _userService: UserService) { }
+              private _userService: UserService) {
+  }
 
   ngOnInit() {
-    this.route.params.subscribe(params =>{
+    this.route.params.subscribe(params => {
       this.chapterId = params['chapterId'];
-      this._chapterService.getChapter(this.chapterId).subscribe(chapter =>{
+      this._chapterService.getChapter(this.chapterId).subscribe(chapter => {
         this.chapter = chapter;
-        this._userService.getUser(this.chapter.author).subscribe(user =>{
-          this.author = user;
-        });
+        this._userService.getUser(this.chapter.author).subscribe(user => {
+            this.author = user;
+          },
+          err => {
+            this.author = new User();
+            this.author.penName = 'Unknown';
+          });
       });
     })
   }
 
-  writeChapter(parentChapter: string){
+  writeChapter(parentChapter: string) {
     this.router.navigate(['write', parentChapter]);
   }
 
-  toggleGraph(){
+  toggleGraph() {
     this.showGraph = !this.showGraph;
   }
 
