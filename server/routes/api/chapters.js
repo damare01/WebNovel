@@ -20,7 +20,7 @@ const requireAuth = require('passport').authenticate('jwt', {session: false});
  *         type: "array"
  *         items:
  *          type: "string"
- *       tag:
+ *       tags:
  *         type: "array"
  *         items:
  *          type: "string"
@@ -141,13 +141,26 @@ router.put('/', requireAuth, (req, res) => {
 
 /**
  * @swagger
- * /chapters/children:
+ * /chapters/{parentId}/child/{childId}:
  *   post:
  *    tags:
  *      - Chapters
- *    description: "Modifies an existing chapter's children"
+ *    description: "Adds a child chapter to an existing chapter"
  *    produces:
  *      - application/json
+ *    parameters:
+ *      -
+ *        name: "parentId"
+ *        in: "path"
+ *        description: "parent chapter id"
+ *        required: true
+ *        type: "string"
+ *      -
+ *        name: "childId"
+ *        in: "path"
+ *        description: "child chapter id"
+ *        required: true
+ *        type: "string"
  *    responses:
  *      200:
  *        description: "The old chapter object"
@@ -156,8 +169,8 @@ router.put('/', requireAuth, (req, res) => {
  *      500:
  *        description: "500 when there was an error"
  */
-router.post('/:id/child/:childId', requireAuth, (req, res) => {
-  Chapter.findOne({_id: req.params['id']}, (err, chapter) => {
+router.post('/:parentId/child/:childId', requireAuth, (req, res) => {
+  Chapter.findOne({_id: req.params['parentId']}, (err, chapter) => {
     if (err) {
       res.status(500).send({});
     } else {
