@@ -8,4 +8,5 @@ export class Chapter{
   _children: any[];
   childrenIds:string[];
   book:string;
+  tags: string[];
 }

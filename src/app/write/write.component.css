@@ -1,8 +1,18 @@
 .flex-container{
-  display: flex;
+  margin-left: 15%;
+  margin-right: 15%;
 }
 
+tag-input{
+  width: 50%;
+  background-color: inherit;
+  margin-bottom: 10px;
+}
 wn-editor{
   margin:auto;
-  width: 75%;
+  width: 100%;
+}
+
+/deep/input.ng2-tag-input__text-input{
+ background: 0 0;
 }

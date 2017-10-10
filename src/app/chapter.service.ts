@@ -31,4 +31,8 @@ export class ChapterService {
     return this.wnhttp.put('/chapters', chapter);
   }
 
+  addChildToChapter(chapterId: string, childId:string){
+    return this.wnhttp.post(`/chapters/${chapterId}/child/${childId}`, {});
+  }
+
 }

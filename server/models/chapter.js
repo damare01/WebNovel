@@ -10,6 +10,10 @@ let chapterSchema = mongoose.Schema({
   created: {
     type: Date,
     default: Date.now
+  },
+  tags: {
+    type: [String],
+    default: []
   }
 })
 

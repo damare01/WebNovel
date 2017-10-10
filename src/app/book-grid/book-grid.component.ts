@@ -26,7 +26,6 @@ export class BookGridComponent implements OnInit, OnChanges {
 
   ngOnChanges(){
     this.allBooks = [];
-    let counter = 0;
     this.books.forEach(book=>{
       let bookInfo = new BookInfo();
       bookInfo.book = book;

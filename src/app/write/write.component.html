@@ -1,11 +1,12 @@
 <div class="writing-container">
   <div class="flex-container">
-    <form name="chapter" style="margin:auto">
+    <form name="chapter">
       <md-form-field class="full-width">
-        <input name="title" mdInput placeholder="Title" [(ngModel)]="newChapter.title">
+        <input name="title" mdInput placeholder="Chapter title" [(ngModel)]="newChapter.title">
       </md-form-field>
-      <br>
     </form>
+    <br>
+    <tag-input [(ngModel)]="tags" [placeholder]="'Enter tags'"></tag-input>
   </div>
   <div class="flex-container">
     <wn-editor [elementId]="'chapter-editor'" (onEditorKeyup)="newChapter.body = $event"></wn-editor>

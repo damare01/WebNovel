@@ -41,6 +41,7 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
 import {AuthGuard} from "./auth.guard";
 import {LikeService} from "./like.service";
 import { CapitalizePipe } from './capitalize.pipe';
+import { TagInputModule } from 'ngx-chips';
 
 
 const appRoutes: Routes = [
@@ -103,7 +104,8 @@ const appRoutes: Routes = [
     MdSelectModule,
     MdMenuModule,
     MdProgressSpinnerModule,
-    ReCaptchaModule
+    ReCaptchaModule,
+    TagInputModule
   ],
   providers: [
     AuthenticationService,

@@ -20,6 +20,10 @@ const requireAuth = require('passport').authenticate('jwt', {session: false});
  *         type: "array"
  *         items:
  *          type: "string"
+ *       tag:
+ *         type: "array"
+ *         items:
+ *          type: "string"
  */
 
 /**
@@ -131,6 +135,40 @@ router.put('/', requireAuth, (req, res) => {
       res.status(500).send({});
     } else {
       res.status(200).send(doc);
+    }
+  })
+});
+
+/**
+ * @swagger
+ * /chapters/children:
+ *   post:
+ *    tags:
+ *      - Chapters
+ *    description: "Modifies an existing chapter's children"
+ *    produces:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: "The old chapter object"
+ *        schema:
+ *          $ref: '#/definitions/Chapter'
+ *      500:
+ *        description: "500 when there was an error"
+ */
+router.post('/:id/child/:childId', requireAuth, (req, res) => {
+  Chapter.findOne({_id: req.params['id']}, (err, chapter) => {
+    if (err) {
+      res.status(500).send({});
+    } else {
+      chapter.childrenIds.push(req.params['childId']);
+      chapter.save((err, done) => {
+        if (err) {
+          res.status(500).send({});
+        } else {
+          res.status(200).send(chapter);
+        }
+      });
     }
   })
 });
