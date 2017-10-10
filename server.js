@@ -5,7 +5,6 @@ const router = require('./server/routes/router');
 
 
 var app = express();
-var ssl = require('express-ssl');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
