@@ -15,6 +15,7 @@ export class BookGridComponent implements OnInit, OnChanges {
 
   @Input('books') books: Book[];
   allBooks: BookInfo[] = [];
+  bookInfoLoaded: boolean = false;
 
   constructor(private _userService: UserService, private router: Router, private _likeService: LikeService) {
   }
@@ -32,8 +33,13 @@ export class BookGridComponent implements OnInit, OnChanges {
       this._userService.getUser(book.creator).subscribe(user =>{
         bookInfo.creator= user;
         this.allBooks.push(bookInfo);
+        this.updateBookInfoLoaded();
       });
     });
+  }
+
+  updateBookInfoLoaded(){
+    this.bookInfoLoaded = (this.allBooks.length === this.books.length);
   }
 
   openBook(book: Book) {
