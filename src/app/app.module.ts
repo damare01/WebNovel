@@ -40,6 +40,7 @@ import { MyChaptersPageComponent } from './my-chapters-page/my-chapters-page.com
 import { ReCaptchaModule } from 'angular2-recaptcha';
 import {AuthGuard} from "./auth.guard";
 import {LikeService} from "./like.service";
+import { CapitalizePipe } from './capitalize.pipe';
 
 
 const appRoutes: Routes = [
@@ -83,7 +84,8 @@ const appRoutes: Routes = [
     MyBooksPageComponent,
     InfoTextComponent,
     MyChaptersComponent,
-    MyChaptersPageComponent
+    MyChaptersPageComponent,
+    CapitalizePipe
   ],
   imports: [
     BrowserModule,

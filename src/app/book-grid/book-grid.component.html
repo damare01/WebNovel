@@ -4,6 +4,7 @@
     <md-card (click)="openBook(bookInfo.book)">
       <md-card-title>{{bookInfo.book.title}}</md-card-title>
       <md-card-subtitle>By {{bookInfo.creator.penName || bookInfo.creator.fullName}}</md-card-subtitle>
+      <md-card-subtitle>{{bookInfo.book.genre | capitalize}}</md-card-subtitle>
     </md-card>
   </div>
 </div>
