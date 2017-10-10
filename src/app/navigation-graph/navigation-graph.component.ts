@@ -111,7 +111,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
             chapter.children = [];
           }
           chapter.children.push(childChapter);
-          if (++counter >= childrenLength && this.chapterTrail.indexOf(childChapter._id) === -1) {
+          if (++counter >= childrenLength) {
             this.root = d3.hierarchy(chapter);
             this.root.x0 = this.height / 2;
             this.root.y0 = 0;
