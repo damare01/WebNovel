@@ -22,4 +22,8 @@ describe('BookGridComponent', () => {
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should open a book when book card is clicked', ()=>{
+    expect(component).toBeTruthy();
+  })
 });

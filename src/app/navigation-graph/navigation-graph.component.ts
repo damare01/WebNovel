@@ -28,6 +28,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
   private tree: any;
   rootChapter: Chapter;
   root: any;
+  duration: number = 1000;
 
   chapterTrail: string[] = [];
 
@@ -104,7 +105,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     if (!childrenLength) {
       chapter.children = null;
     } else if (chapter.childrenIds) {
-      chapter.childrenIds.forEach((childId, i) => {
+      chapter.childrenIds.forEach((childId) => {
         this.chapterService.getChapter(childId).subscribe(childChapter => {
           if (!chapter.children) {
             chapter.children = [];
@@ -158,7 +159,8 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
   }
 
   private update(source) {
-    let duration = 1000;
+    let duration = this.duration;
+    let nodes, links;
     try {
       this.root = d3.hierarchy(this.rootChapter, (d) => {
         return d.children;
@@ -166,27 +168,28 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
 
       this.root.x0 = this.height / 2;
       this.root.y0 = 0;
-      var treeData = this.tree(this.root);
+      const treeData = this.tree(this.root);
       // Compute the new tree layout.
-      var nodes = treeData.descendants(),
+      nodes = treeData.descendants(),
         links = treeData.descendants().slice(1);
       // Normalize for fixed-depth.
       nodes.forEach(function (d) {
         d.y = d.depth * 180
       });
     } catch (e) {
+      return;
       //Sometimes it complains about d.data not being set but it doesn't seem
       //to affect anything
       //console.log('Error when parsing hierarchy');
     }
     // ****************** Nodes section ***************************
     // Update the nodes...
-    var node = this.graph.selectAll('g.node')
+    const node = this.graph.selectAll('g.node')
       .data(nodes, function (d) {
         return d.data._id;
       });
     // Enter any new nodes at the parent's previous position.
-    var nodeEnter = node.enter().append('g')
+    const nodeEnter = node.enter().append('g')
       .attr('class', 'node')
       .attr("transform", (d) => {
         if (source) {
@@ -196,16 +199,141 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
         }
       });
 
-
-    // Add Circle for the nodes
     nodeEnter.append('circle')
       .attr('class', 'node')
       .attr('r', 1e-6)
       .style("fill", (d) => {
         return this.colorNode(d);
       });
-    //Add buttons
-    var addChapterButton = nodeEnter.append('g')
+
+    this.createButtons(nodeEnter);
+
+    this.createTitleLabels(nodeEnter);
+
+    // UPDATE
+    const nodeUpdate = nodeEnter.merge(node);
+
+    this.updateNodes(nodeUpdate);
+    // Transition to the proper position for the node
+
+    // Remove any exiting nodes
+    const nodeExit = node.exit().transition()
+      .duration(duration)
+      .attr("transform", function (d) {
+        return "translate(" + source.y + "," + source.x + ")";
+      })
+      .remove();
+    // On exit reduce the node circles size to 0
+    nodeExit.select('circle')
+      .attr('r', 1e-6);
+    // On exit reduce the opacity of text labels
+    nodeExit.select('text')
+      .style('fill-opacity', 1e-6);
+
+    // ****************** links section ***************************
+    // Update the links...
+    const link = this.graph.selectAll('path.link')
+      .data(links, function (d) {
+        return d.data._id;
+      });
+    // Enter any new links at the parent's previous position.
+    const linkEnter = link.enter().insert('path', "g")
+      .attr("class", "link")
+      .attr('d', function (d) {
+        var o = {x: source.x0, y: source.y0};
+        return diagonal(o, o)
+      })
+      .style('stroke', (d) => {
+        if (this.chapterTrail.indexOf(d.data._id) > -1) {
+          return '#ff9800';
+        }
+      })
+      .style('stroke-width', (d) => {
+        if (this.chapterTrail.indexOf(d.data._id) > -1) {
+          return '6px';
+        }
+      });
+
+    // UPDATE
+    const linkUpdate = linkEnter.merge(link);
+    // Transition back to the parent element position
+    linkUpdate.transition()
+      .duration(duration)
+      .attr('d', function (d) {
+        return diagonal(d, d.parent)
+      })
+      .style('stroke', (d) => {
+        if (this.chapterTrail.indexOf(d.data._id) > -1) {
+          return '#ff9800';
+        }
+      })
+      .style('stroke-width', (d) => {
+        if (this.chapterTrail.indexOf(d.data._id) > -1) {
+          return '6px';
+        }
+      });
+    // Remove any exiting links
+    const linkExit = link.exit().transition()
+      .duration(duration)
+      .attr('d', function (d) {
+        console.log('link exiting');
+        var o = {x: source.x, y: source.y};
+        return diagonal(o, o)
+      })
+      .remove();
+    // Store the old positions for transition.
+    nodes.forEach(function (d) {
+      d.x0 = d.x;
+      d.y0 = d.y;
+    });
+
+    // Creates a curved (diagonal) path from parent to the child nodes
+    function diagonal(s, d) {
+      return `M ${s.y} ${s.x}
+            C ${(s.y + d.y) / 2} ${s.x},
+              ${(s.y + d.y) / 2} ${d.x},
+              ${d.y} ${d.x}`;
+    }
+  }
+
+  updateNodes(nodeUpdate: any) {
+    nodeUpdate.transition()
+      .duration(this.duration)
+      .attr("transform", function (d) {
+        return "translate(" + d.y + "," + d.x + ")";
+      });
+    // Update the node attributes and style
+    nodeUpdate.select('circle.node')
+      .attr('r', 20)
+      .style("fill", (d) => {
+        return this.colorNode(d);
+      })
+      .attr('cursor', 'pointer');
+  }
+
+  createTitleLabels(nodeEnter: any) {
+    nodeEnter.append('text')
+      .attr("dy", "3.5em")
+      .attr("x", function (d) {
+        return d.children || d._children ? -13 : -10;
+      })
+      .attr("text-anchor", function (d) {
+        return d.children || d._children ? "end" : "start";
+      })
+      .attr('class', 'title-text')
+      .text(function (d) {
+        return d.data.title;
+      });
+  }
+
+  createButtons(nodeEnter: any) {
+    this.createAddChapterButton(nodeEnter);
+    this.createExpandButton(nodeEnter);
+    this.createViewButton(nodeEnter);
+  }
+
+  createAddChapterButton(nodeEnter: any) {
+    const addChapterButton = nodeEnter.append('g')
       .attr('class', 'button add-chapter')
       .on('click', (d) => {
         this.addChapterToNode.emit(d.data._id);
@@ -231,11 +359,15 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .attr('text-anchor', 'middle')
       .attr('dy', '0.4em')
       .text('\uf067');
+  }
 
-    var expandButton = nodeEnter
+  createExpandButton(nodeEnter: any) {
+    const expandButton = nodeEnter
       .append('g')
       .attr('class', 'button expand')
-      .on('click', click);
+      .on('click', (d) => {
+        this.expandNode(d);
+      });
     expandButton
       .append('circle')
       .attr('r', (d) => {
@@ -263,27 +395,15 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .text((d) => {
         return '\uf061';
       });
+  }
 
-    var viewButton = nodeEnter
+  createViewButton(nodeEnter: any) {
+    const viewButton = nodeEnter
       .append('g')
       .attr('class', 'button view')
       .on('click', (d) => {
-        if (d.parent) {
-          let parent = d.parent;
-          let trailAppend: string[] = [];
-          while (this.chapterTrail.indexOf(parent.data._id) === -1 || !parent) {
-            trailAppend.push(parent.data._id);
-            parent = parent.parent;
-          }
-          trailAppend.reverse();
-          let deleteIndex = this.chapterTrail.indexOf(parent.data._id);
-          this.chapterTrail.splice(deleteIndex + 1, this.chapterTrail.length);
-          this.chapterTrail = this.chapterTrail.concat(trailAppend);
-          this.chapterTrail.push(d.data._id);
-        }
-        this.updateCurrentlyReading();
-        this.update(d);
-        this.router.navigate(['read', d.data._id]);
+        this.viewChapter(d);
+        this.expandNode(d);
       });
     viewButton
       .append('circle')
@@ -305,151 +425,57 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .attr('text-anchor', 'middle')
       .attr('dy', '0.4em')
       .text('\uf06e');
+  }
 
-    // Add labels for the nodes
-    nodeEnter.append('text')
-      .attr("dy", "3.5em")
-      .attr("x", function (d) {
-        return d.children || d._children ? -13 : -10;
-      })
-      .attr("text-anchor", function (d) {
-        return d.children || d._children ? "end" : "start";
-      })
-      .attr('class', 'title-text')
-      .text(function (d) {
-        return d.data.title;
-      });
-
-    // UPDATE
-    var nodeUpdate = nodeEnter.merge(node);
-    // Transition to the proper position for the node
-    nodeUpdate.transition()
-      .duration(duration)
-      .attr("transform", function (d) {
-        return "translate(" + d.y + "," + d.x + ")";
-      });
-    // Update the node attributes and style
-    nodeUpdate.select('circle.node')
-      .attr('r', 20)
-      .style("fill", (d) => {
-        return this.colorNode(d);
-      })
-      .attr('cursor', 'pointer');
-    // Remove any exiting nodes
-    var nodeExit = node.exit().transition()
-      .duration(duration)
-      .attr("transform", function (d) {
-        return "translate(" + source.y + "," + source.x + ")";
-      })
-      .remove();
-    // On exit reduce the node circles size to 0
-    nodeExit.select('circle')
-      .attr('r', 1e-6);
-    // On exit reduce the opacity of text labels
-    nodeExit.select('text')
-      .style('fill-opacity', 1e-6);
-
-    // ****************** links section ***************************
-    // Update the links...
-    var link = this.graph.selectAll('path.link')
-      .data(links, function (d) {
-        return d.data._id;
-      });
-    // Enter any new links at the parent's previous position.
-    var linkEnter = link.enter().insert('path', "g")
-      .attr("class", "link")
-      .attr('d', function (d) {
-        var o = {x: source.x0, y: source.y0}
-        return diagonal(o, o)
-      })
-      .style('stroke', (d) => {
-        if (this.chapterTrail.indexOf(d.data._id) > -1) {
-          return '#ff9800';
-        }
-      })
-      .style('stroke-width', (d) => {
-        if (this.chapterTrail.indexOf(d.data._id) > -1) {
-          return '6px';
-        }
-      });
-
-    // UPDATE
-    var linkUpdate = linkEnter.merge(link);
-    // Transition back to the parent element position
-    linkUpdate.transition()
-      .duration(duration)
-      .attr('d', function (d) {
-        return diagonal(d, d.parent)
-      })
-      .style('stroke', (d) => {
-        if (this.chapterTrail.indexOf(d.data._id) > -1) {
-          return '#ff9800';
-        }
-      })
-      .style('stroke-width', (d) => {
-        if (this.chapterTrail.indexOf(d.data._id) > -1) {
-          return '6px';
-        }
-      });
-    // Remove any exiting links
-    var linkExit = link.exit().transition()
-      .duration(duration)
-      .attr('d', function (d) {
-        console.log('link exiting');
-        var o = {x: source.x, y: source.y}
-        return diagonal(o, o)
-      })
-      .remove();
-    // Store the old positions for transition.
-    nodes.forEach(function (d) {
-      d.x0 = d.x;
-      d.y0 = d.y;
-    });
-
-    // Creates a curved (diagonal) path from parent to the child nodes
-    function diagonal(s, d) {
-      let path = `M ${s.y} ${s.x}
-            C ${(s.y + d.y) / 2} ${s.x},
-              ${(s.y + d.y) / 2} ${d.x},
-              ${d.y} ${d.x}`
-      return path
-    }
-
-    // Toggle children on click.
-    let self = this;
-
-    function click(d) {
-      if (d.data.childrenIds && !d.children) {
-        console.log('first triggered');
-        //console.log(d);
-        let counter = 0;
-        d.data.childrenIds.forEach((childId, i) => {
-          self.chapterService.getChapter(childId).subscribe(childChapter => {
-            if (!d.children) {
-              d.children = [];
-            }
-            if (!d.data.children) {
-              d.data.children = [];
-            }
-            d.data.children[i] = childChapter;
-            if (++counter >= d.children.length) {
-              self.update(d);
-            }
-          })
+  expandNode(d: any) {
+    if (d.data.childrenIds && !d.children) {
+      console.log('first triggered');
+      //console.log(d);
+      let counter = 0;
+      d.data.childrenIds.forEach((childId, i) => {
+        this.chapterService.getChapter(childId).subscribe(childChapter => {
+          if (!d.children) {
+            d.children = [];
+          }
+          if (!d.data.children) {
+            d.data.children = [];
+          }
+          d.data.children[i] = childChapter;
+          if (++counter >= d.children.length) {
+            this.update(d);
+          }
         })
-      } else {
-        console.log('second triggered');
-        d._children = d.children;
-        d.data.children = null;
-        d.children = null;
-        self.update(d);
-      }
+      })
+    } else {
+      console.log('second triggered');
+      d._children = d.children;
+      d.data.children = null;
+      d.children = null;
+      this.update(d);
     }
   }
 
-
   colorNode(d: any) {
     return d.data.childrenIds.length && !d.children ? "#bdbdbd" : "#f7f6f3";
+  }
+
+  viewChapter(d: any) {
+    if (d.parent) {
+      let parent = d.parent;
+      let trailAppend: string[] = [];
+      while (this.chapterTrail.indexOf(parent.data._id) === -1 || !parent) {
+        trailAppend.push(parent.data._id);
+        parent = parent.parent;
+      }
+      trailAppend.reverse();
+      let deleteIndex = this.chapterTrail.indexOf(parent.data._id);
+      this.chapterTrail.splice(deleteIndex + 1, this.chapterTrail.length);
+      this.chapterTrail = this.chapterTrail.concat(trailAppend);
+      this.chapterTrail.push(d.data._id);
+    }
+    this.updateCurrentlyReading();
+    this.update(d);
+    this.router.navigate(['read', d.data._id]);
   }
 
 }
