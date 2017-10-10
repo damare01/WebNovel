@@ -3,7 +3,26 @@
     <div *ngIf="chapter && author">
       <h2 class="header" *ngIf="chapter">{{chapter.title}}</h2>
       <div>By {{author.penName || author.fullName}}</div>
+      <div class="likeStats">
+        <span class="number-of-likes content">
+          <i class="fa fa-thumbs-o-up"></i> {{numberOfLikes}}
+        </span>
+        <span class="number-of-dislikes content">
+          <i class="fa fa-thumbs-o-down"></i> {{numberOfDislikes}}
+        </span>
+      </div>
       <div class="content" *ngIf="chapter" [innerHtml]="chapter.body"></div>
+
+      <div class="buttons">
+        <button md-fab class="like" (click)="like()" alt="Like chapter">
+          <i class="fa" [ngClass]="{'fa-thumbs-o-up': !liked, 'fa-thumbs-up': liked}"></i>
+        </button>
+
+        <button md-fab color="warn" class="dislike" (click)="dislike()" alt="Dislike chapter">
+          <i class="fa" [ngClass]="{'fa-thumbs-o-down': !disliked, 'fa-thumbs-down': disliked}"></i>
+        </button>
+
+      </div>
     </div>
     <md-spinner style="margin:auto" *ngIf="!chapter || !author"></md-spinner>
   </div>

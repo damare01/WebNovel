@@ -39,6 +39,7 @@ import { MyChaptersComponent } from './my-chapters/my-chapters.component';
 import { MyChaptersPageComponent } from './my-chapters-page/my-chapters-page.component';
 import { ReCaptchaModule } from 'angular2-recaptcha';
 import {AuthGuard} from "./auth.guard";
+import {LikeService} from "./like.service";
 
 
 const appRoutes: Routes = [
@@ -108,7 +109,8 @@ const appRoutes: Routes = [
     ChapterService,
     BookService,
     UserService,
-    AuthGuard
+    AuthGuard,
+    LikeService
   ],
   bootstrap: [AppComponent]
 })

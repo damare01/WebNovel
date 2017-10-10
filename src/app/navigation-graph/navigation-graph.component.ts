@@ -403,7 +403,9 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .attr('class', 'button view')
       .on('click', (d) => {
         this.viewChapter(d);
-        this.expandNode(d);
+        if(!d.children){
+          this.expandNode(d);
+        }
       });
     viewButton
       .append('circle')

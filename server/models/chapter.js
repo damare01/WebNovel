@@ -10,14 +10,6 @@ let chapterSchema = mongoose.Schema({
   created: {
     type: Date,
     default: Date.now
-  },
-  likes: {
-    type: Number,
-    default: 0
-  },
-  dislikes: {
-    type: Number,
-    default: 0
   }
 })
 

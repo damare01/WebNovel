@@ -1,6 +1,6 @@
 .reading-container{
   max-width:750px;
-  margin: 10px auto 5% auto;
+  margin: 10px auto 7% auto;
 }
 
 .graph-container{
@@ -40,4 +40,22 @@
   font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
   font-size: 16px;
   line-height: 25px;
+}
+
+button{
+  margin: 0 10px 0 0;
+}
+
+.next{
+  float: right;
+  bottom:0;
+}
+
+.number-of-likes{
+  color: #009688;
+  margin-right: 10px;
+}
+
+.number-of-dislikes{
+  color: #f44336;
 }

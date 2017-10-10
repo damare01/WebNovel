@@ -6,6 +6,7 @@ var passport = require('passport');
 var chapters = require('./chapters');
 var books = require('./books');
 var users = require('./users');
+var likes = require('./likes');
 
 mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true, promiseLibrary: global.Promise});
 var db = mongoose.connection;
@@ -17,6 +18,7 @@ db.once('open', () => {
   router.use('/chapters', chapters);
   router.use('/books', books);
   router.use('/users', users);
+  router.use('/likes', likes)
 });
 
 var swaggerJSDoc = require('swagger-jsdoc');
