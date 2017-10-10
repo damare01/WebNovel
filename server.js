@@ -5,10 +5,12 @@ const router = require('./server/routes/router');
 
 
 var app = express();
+var ssl = require('express-ssl');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(ssl());
 
-app.use(logger(process.env.DEV ? 'dev':'combined'));
+app.use(logger(process.env.NODE_ENV === 'development' ? 'dev':'combined'));
 
 //Enable CORS
 app.use((req, res, next)=>{

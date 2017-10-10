@@ -36,6 +36,7 @@
     "crypto": "^1.0.1",
     "d3": "^4.10.2",
     "express": "^4.15.4",
+    "express-ssl": "^3.1.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
     "jsonwebtoken": "^8.0.1",
