@@ -136,7 +136,8 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     let element = this.graphContainer.nativeElement;
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
-    let svg = d3.select(element).append('svg')
+    let svg = d3.select(element)
+      .append('svg')
       .attr('width', element.offsetWidth)
       .attr('height', element.offsetHeight);
 
@@ -146,7 +147,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .style("fill", "none")
       .style("pointer-events", "all")
       .call(d3.zoom()
-        .scaleExtent([1 / 2, 4])
+        .scaleExtent([1/4, 4])
         .on("zoom", function () {
           d3.select('g.graph').attr("transform", d3.event.transform);
         }));
@@ -315,7 +316,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     nodeEnter.append('text')
       .attr("dy", "3.0em")
       .attr("x", function (d) {
-        return  -13;
+        return -13;
       })
       .attr("text-anchor", function (d) {
         return d.children || d._children ? "end" : "start";
@@ -403,7 +404,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .attr('class', 'button view')
       .on('click', (d) => {
         this.viewChapter(d);
-        if(!d.children){
+        if (!d.children) {
           this.expandNode(d);
         }
       });
@@ -474,7 +475,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       this.chapterTrail.splice(deleteIndex, this.chapterTrail.length);
       this.chapterTrail = this.chapterTrail.concat(trailAppend);
       this.chapterTrail.push(d.data._id);
-    }else{
+    } else {
       this.chapterTrail = [this.rootChapterId];
     }
     this.updateCurrentlyReading();
