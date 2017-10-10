@@ -5,6 +5,7 @@ import {Chapter} from "../../models/chapter";
 import {User} from "../../models/user";
 import {UserService} from "../user.service";
 import {LikeService} from "../like.service";
+import {AuthenticationService} from "../authentication.service";
 
 @Component({
   selector: 'wn-read',
@@ -114,4 +115,7 @@ export class ReadComponent implements OnInit {
     this.showGraph = !this.showGraph;
   }
 
+  isLoggedIn():boolean{
+    return AuthenticationService.isLoggedIn();
+  }
 }

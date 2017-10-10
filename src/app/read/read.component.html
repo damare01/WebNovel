@@ -14,13 +14,14 @@
       <div class="content" *ngIf="chapter" [innerHtml]="chapter.body"></div>
 
       <div class="buttons">
-        <button md-fab class="like" (click)="like()" alt="Like chapter">
+        <button [disabled]="!isLoggedIn()" md-fab class="like" (click)="like()" alt="Like chapter">
           <i class="fa" [ngClass]="{'fa-thumbs-o-up': !liked, 'fa-thumbs-up': liked}"></i>
         </button>
 
-        <button md-fab color="warn" class="dislike" (click)="dislike()" alt="Dislike chapter">
+        <button [disabled]="!isLoggedIn()" md-fab color="warn" class="dislike" (click)="dislike()" alt="Dislike chapter">
           <i class="fa" [ngClass]="{'fa-thumbs-o-down': !disliked, 'fa-thumbs-down': disliked}"></i>
         </button>
+        <wn-info-text *ngIf="!isLoggedIn()" [text]="'Login to vote'"></wn-info-text>
 
       </div>
     </div>
