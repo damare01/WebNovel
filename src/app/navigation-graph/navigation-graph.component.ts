@@ -313,9 +313,9 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
 
   createTitleLabels(nodeEnter: any) {
     nodeEnter.append('text')
-      .attr("dy", "3.5em")
+      .attr("dy", "3.0em")
       .attr("x", function (d) {
-        return d.children || d._children ? -13 : -10;
+        return  -13;
       })
       .attr("text-anchor", function (d) {
         return d.children || d._children ? "end" : "start";
