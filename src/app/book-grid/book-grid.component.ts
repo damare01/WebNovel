@@ -1,23 +1,39 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {Book} from "../../models/book";
 import {UserService} from "../user.service";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../authentication.service";
+import {User} from "../../models/user";
+import {LikeService} from "../like.service";
 
 @Component({
   selector: 'wn-book-grid',
   templateUrl: './book-grid.component.html',
   styleUrls: ['./book-grid.component.css']
 })
-export class BookGridComponent implements OnInit {
+export class BookGridComponent implements OnInit, OnChanges {
 
   @Input('books') books: Book[];
+  allBooks: BookInfo[] = [];
 
-  constructor(private _userService: UserService, private router: Router) {
+  constructor(private _userService: UserService, private router: Router, private _likeService: LikeService) {
   }
 
 
   ngOnInit() {
+  }
+
+  ngOnChanges(){
+    this.allBooks = [];
+    let counter = 0;
+    this.books.forEach(book=>{
+      let bookInfo = new BookInfo();
+      bookInfo.book = book;
+      this._userService.getUser(book.creator).subscribe(user =>{
+        bookInfo.creator= user;
+        this.allBooks.push(bookInfo);
+      });
+    });
   }
 
   openBook(book: Book) {
@@ -35,4 +51,9 @@ export class BookGridComponent implements OnInit {
 
   }
 
+}
+
+class BookInfo{
+  book: Book;
+  creator: User;
 }

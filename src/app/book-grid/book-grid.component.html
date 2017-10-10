@@ -1,7 +1,8 @@
 <div class="container">
-  <div *ngFor="let book of books" class="book-card">
-    <md-card (click)="openBook(book)">
-      <md-card-title>{{book.title}}</md-card-title>
+  <div *ngFor="let bookInfo of allBooks" class="book-card">
+    <md-card (click)="openBook(bookInfo.book)">
+      <md-card-title>{{bookInfo.book.title}}</md-card-title>
+      <md-card-subtitle>By {{bookInfo.creator.penName || bookInfo.creator.fullName}}</md-card-subtitle>
     </md-card>
   </div>
 </div>

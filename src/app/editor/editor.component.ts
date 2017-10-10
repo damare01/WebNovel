@@ -21,11 +21,6 @@ export class EditorComponent implements OnDestroy, AfterViewInit {
   ngAfterViewInit() {
     tinymce.init({
       selector: '#' + this.elementId,
-      plugins: [
-        'advlist autolink lists link image charmap print preview anchor',
-        'searchreplace visualblocks code fullscreen',
-        'insertdatetime media table contextmenu paste'
-      ],
       height: 400,
       skin_url: '../assets/skins/lightgray',
       menubar: false,
