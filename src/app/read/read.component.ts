@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ChapterService} from "../chapter.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Chapter} from "../../models/chapter";
@@ -7,12 +7,17 @@ import {UserService} from "../user.service";
 import {LikeService} from "../like.service";
 import {AuthenticationService} from "../authentication.service";
 
+import 'tinymce';
+import 'tinymce/themes/modern';
+import 'tinymce/plugins/table';
+import 'tinymce/plugins/link';
+
 @Component({
   selector: 'wn-read',
   templateUrl: './read.component.html',
   styleUrls: ['./read.component.css']
 })
-export class ReadComponent implements OnInit {
+export class ReadComponent implements OnInit, AfterViewInit {
 
   chapterId: string;
   chapter: Chapter;
@@ -20,8 +25,12 @@ export class ReadComponent implements OnInit {
   liked: boolean = false;
   disliked: boolean = false;
 
+  newBody: string = "";
+
   numberOfLikes: number = 0;
   numberOfDislikes: number = 0;
+
+  editable: boolean = false;
 
   showGraph: boolean = true;
 
@@ -39,6 +48,62 @@ export class ReadComponent implements OnInit {
       this.getNumberOfLikes(this.chapterId);
       this.getMyLike(this.chapterId);
     })
+  }
+
+  ngAfterViewInit() {
+  }
+
+
+  initInlineEditor() {
+    tinymce.init({
+      selector: 'div#chapter-content',
+      inline: true,
+
+      skin_url: '../assets/skins/lightgray',
+      toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+      menubar: false,
+      setup: editor => {
+        editor.on('keyup change', () => {
+          const content = editor.getContent();
+          this.newBody = content;
+        });
+      }
+    });
+  }
+
+  removeInlineEditor() {
+    if (tinymce) {
+      tinymce.remove();
+    }
+  }
+
+  editChapter() {
+    this.editable = true;
+    this.initInlineEditor();
+  }
+
+  saveChapter() {
+    this.editable = false;
+    this.removeInlineEditor();
+    if (this.newBody) {
+      this.chapter.body = this.newBody;
+    }
+    this._chapterService.updateChapter(this.chapter).subscribe(newChapter => {
+    });
+  }
+
+  discardChanges() {
+    this.editable = false;
+    this.removeInlineEditor();
+    let currentChapter = this.chapter;
+    this.chapter = null;
+    setTimeout(() => {
+      this.chapter = currentChapter;
+    });
+  }
+
+  loggedInUserIsAuthor(): boolean {
+    return this._userService.getCurrentUser()._id === this.chapter.author;
   }
 
   getNumberOfLikes(chapterId: string) {
@@ -115,7 +180,7 @@ export class ReadComponent implements OnInit {
     this.showGraph = !this.showGraph;
   }
 
-  isLoggedIn():boolean{
+  isLoggedIn(): boolean {
     return AuthenticationService.isLoggedIn();
   }
 }

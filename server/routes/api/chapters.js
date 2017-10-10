@@ -106,15 +106,31 @@ router.post('/', requireAuth, (req, res) => {
   })
 });
 
+/**
+ * @swagger
+ * /chapters:
+ *   put:
+ *    tags:
+ *      - Chapters
+ *    description: "Modifies an existing chapter if the logged in user is the original author"
+ *    produces:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: "The old chapter object"
+ *        schema:
+ *          $ref: '#/definitions/Chapter'
+ *      500:
+ *        description: "500 when there was an error"
+ */
 router.put('/', requireAuth, (req, res) => {
   let chapter = new Chapter(req.body);
-  console.log(chapter);
   let id = chapter._id;
-  Chapter.findOneAndUpdate({_id: id}, chapter, (err, doc) => {
+  Chapter.findOneAndUpdate({_id: id, author: req.user._id}, chapter, (err, doc) => {
     if (err) {
-      res.sendStatus(500);
+      res.status(500).send({});
     } else {
-      res.sendStatus(200);
+      res.status(200).send(doc);
     }
   })
 });

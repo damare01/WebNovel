@@ -1,17 +1,23 @@
 <div class="page-container">
   <div class="reading-container">
     <div *ngIf="chapter && author">
+
       <h2 class="header" *ngIf="chapter">{{chapter.title}}</h2>
+      <button md-button *ngIf="!editable && loggedInUserIsAuthor()" class="edit-button" (click)="editChapter()">EDIT CHAPTER</button>
+      <button md-button *ngIf="editable && loggedInUserIsAuthor()" class="save-button" (click)="discardChanges()">DISCARD CHANGED</button>
+      <button md-raised-button *ngIf="editable && loggedInUserIsAuthor()" color="accent" class="save-button" (click)="saveChapter()">SAVE CHANGES</button>
+
       <div>By {{author.penName || author.fullName}}</div>
       <div class="likeStats">
-        <span class="number-of-likes content">
+        <span class="number-of-likes">
           <i class="fa fa-thumbs-o-up"></i> {{numberOfLikes}}
         </span>
-        <span class="number-of-dislikes content">
+        <span class="number-of-dislikes">
           <i class="fa fa-thumbs-o-down"></i> {{numberOfDislikes}}
         </span>
       </div>
-      <div class="content" *ngIf="chapter" [innerHtml]="chapter.body"></div>
+
+      <div class="content" id="chapter-content" *ngIf="chapter" [innerHtml]="chapter.body"></div>
 
       <div class="buttons">
         <button [disabled]="!isLoggedIn()" md-fab class="like" (click)="like()" alt="Like chapter">

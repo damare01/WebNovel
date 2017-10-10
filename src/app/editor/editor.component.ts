@@ -21,10 +21,15 @@ export class EditorComponent implements OnDestroy, AfterViewInit {
   ngAfterViewInit() {
     tinymce.init({
       selector: '#' + this.elementId,
-      plugins: ['link', 'paste'],
+      plugins: [
+        'advlist autolink lists link image charmap print preview anchor',
+        'searchreplace visualblocks code fullscreen',
+        'insertdatetime media table contextmenu paste'
+      ],
       height: 400,
       skin_url: '../assets/skins/lightgray',
       menubar: false,
+      toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
       browser_spellcheck: true,
       setup: editor => {
         this.editor = editor;

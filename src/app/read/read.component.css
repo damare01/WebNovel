@@ -54,8 +54,22 @@ button{
 .number-of-likes{
   color: #009688;
   margin-right: 10px;
+  font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  line-height: 25px;
 }
 
 .number-of-dislikes{
   color: #f44336;
+  font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  line-height: 25px;
+}
+
+.save-button{
+  float: right;
+}
+
+.edit-button{
+  float: right;
 }
