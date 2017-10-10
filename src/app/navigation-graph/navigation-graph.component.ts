@@ -111,7 +111,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
             chapter.children = [];
           }
           chapter.children.push(childChapter);
-          if (++counter >= childrenLength) {
+          if (++counter >= childrenLength && this.chapterTrail.indexOf(childChapter._id) === -1) {
             this.root = d3.hierarchy(chapter);
             this.root.x0 = this.height / 2;
             this.root.y0 = 0;
@@ -470,10 +470,12 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
         parent = parent.parent;
       }
       trailAppend.reverse();
-      let deleteIndex = this.chapterTrail.indexOf(parent.data._id);
-      this.chapterTrail.splice(deleteIndex + 1, this.chapterTrail.length);
+      let deleteIndex = this.chapterTrail.indexOf(parent.data._id) + 1;
+      this.chapterTrail.splice(deleteIndex, this.chapterTrail.length);
       this.chapterTrail = this.chapterTrail.concat(trailAppend);
       this.chapterTrail.push(d.data._id);
+    }else{
+      this.chapterTrail = [this.rootChapterId];
     }
     this.updateCurrentlyReading();
     this.update(d);
