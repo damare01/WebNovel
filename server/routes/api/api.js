@@ -14,9 +14,9 @@ const requireAuth = passport.authenticate('jwt', {session: false});
 
 db.once('open', () => {
   console.log('Connected to db');
-  router.use('/chapters', requireAuth, chapters);
-  router.use('/books', requireAuth, books);
-  router.use('/users', requireAuth, users);
+  router.use('/chapters', chapters);
+  router.use('/books', books);
+  router.use('/users', users);
 });
 
 var swaggerJSDoc = require('swagger-jsdoc');

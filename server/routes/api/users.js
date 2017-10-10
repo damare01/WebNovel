@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../../models/user');
 var CurrentlyReading = require('../../models/currentlyReading');
+const requireAuth = require('passport').authenticate('jwt', {session: false});
 
 /**
  * @swagger
@@ -64,7 +65,7 @@ var CurrentlyReading = require('../../models/currentlyReading');
  *          $ref: '#/definitions/CurrentlyReading'
  *
  */
-router.get('/currentlyreading/:bookId', (req, res)=>{
+router.get('/currentlyreading/:bookId', requireAuth, (req, res)=>{
   User.findOne(
     {
       _id: req.user._id, "currentlyReading.book": req.params.bookId
@@ -102,7 +103,7 @@ router.get('/currentlyreading/:bookId', (req, res)=>{
  *          $ref: '#/definitions/CurrentlyReading'
  *
  */
-router.get('/currentlyreading', (req, res)=>{
+router.get('/currentlyreading', requireAuth, (req, res)=>{
   User.findOne(
     {
       _id: req.user._id
@@ -125,7 +126,7 @@ router.get('/currentlyreading', (req, res)=>{
  * /users/{id}:
  *   get:
  *     tags:
- *       - currentlyreading
+ *       - user
  *     description:
  *       - Returns the user with the specified ID
  *     produces:
@@ -176,7 +177,7 @@ router.get('/:id', (req, res)=>{
  *      500:
  *        description: "500 when there was an error"
  */
-router.put('/currentlyreading', (req, res) => {
+router.put('/currentlyreading', requireAuth, (req, res) => {
   let currentlyReading = new CurrentlyReading(req.body);
   User.findOneAndUpdate(
     {

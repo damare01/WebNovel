@@ -42,12 +42,12 @@ import {AuthGuard} from "./auth.guard";
 
 
 const appRoutes: Routes = [
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  { path: 'home', component: HomeComponent},
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
-  { path: 'graph', component: NavigationGraphComponent, canActivate: [AuthGuard]},
+  { path: 'graph', component: NavigationGraphComponent},
   { path: 'browse', component: BrowseComponent, canActivate: [AuthGuard]},
-  { path: 'read/:chapterId', component: ReadComponent, canActivate: [AuthGuard]},
+  { path: 'read/:chapterId', component: ReadComponent},
   { path: 'write/:parentChapter', component: WriteComponent, canActivate: [AuthGuard]},
   { path: 'newbook', component: NewBookComponent, canActivate: [AuthGuard]},
   { path: 'mybooks', component: MyBooksPageComponent, canActivate: [AuthGuard]},

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MdSnackBar} from "@angular/material";
+import {UserService} from "../user.service";
+import {AuthenticationService} from "../authentication.service";
 
 @Component({
   selector: 'wn-home',
@@ -8,7 +10,8 @@ import {MdSnackBar} from "@angular/material";
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private snackBar: MdSnackBar) { }
+  constructor(private snackBar: MdSnackBar) {
+  }
 
   ngOnInit() {
   }
@@ -17,5 +20,9 @@ export class HomeComponent implements OnInit {
     this.snackBar.open("This doesn't work yet", ":(", {
       duration: 2000
     });
+  }
+
+  isLoggedIn() {
+    return AuthenticationService.isLoggedIn();
   }
 }

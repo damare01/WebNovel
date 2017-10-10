@@ -6,7 +6,7 @@ import {Router} from "@angular/router";
 import {BookService} from "../book.service";
 import {UserService} from "../user.service";
 import {CurrentlyReading} from "../../models/currentlyreading";
-import {tryCatch} from "rxjs/util/tryCatch";
+import {AuthenticationService} from "../authentication.service";
 
 @Component({
   selector: 'wn-navigation-graph',
@@ -48,24 +48,33 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
         this.getData();
       } else {
         this.bookService.getBook(chapter.book).subscribe(book => {
-          this.rootChapterId = book.startChapter;
-          this.bookId = book._id;
-          this.userService.getCurrentlyReading(book._id).subscribe(cr => {
-            if (cr) {
-              this.chapterTrail = cr.chapterTrail;
+            this.rootChapterId = book.startChapter;
+            this.bookId = book._id;
+            if (AuthenticationService.isLoggedIn()) {
+              this.userService.getCurrentlyReading(book._id).subscribe(cr => {
+                if (cr) {
+                  this.chapterTrail = cr.chapterTrail;
+                } else {
+                  this.chapterTrail.push(this.rootChapterId);
+                }
+                this.createGraph();
+                this.getData();
+              });
             } else {
               this.chapterTrail.push(this.rootChapterId);
+              this.createGraph();
+              this.getData();
             }
-            this.createGraph();
-            this.getData();
-          });
-        });
+          }
+        );
       }
-
     });
   }
 
   updateCurrentlyReading() {
+    if (!AuthenticationService.isLoggedIn()) {
+      return;
+    }
     let currentlyReading: CurrentlyReading = {
       book: this.bookId,
       chapterTrail: this.chapterTrail
@@ -78,9 +87,9 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     this.chapterService.getChapter(this.rootChapterId).subscribe(chapter => {
 
       this.rootChapter = chapter;
-      if(!this.rootChapter.childrenIds.length){
+      if (!this.rootChapter.childrenIds.length) {
         this.update(this.root);
-      }else{
+      } else {
         this.getChildren(chapter, 0, 20);
       }
     });
@@ -107,7 +116,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
             this.root.y0 = 0;
             this.update(this.root);
           }
-          if(this.chapterTrail.indexOf(childChapter._id) > -1){
+          if (this.chapterTrail.indexOf(childChapter._id) > -1) {
             this.getChildren(childChapter, currentDepth + 1, maxDepth);
           }
         })
@@ -179,11 +188,11 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     // Enter any new nodes at the parent's previous position.
     var nodeEnter = node.enter().append('g')
       .attr('class', 'node')
-      .attr("transform", (d)=> {
-        if(source){
+      .attr("transform", (d) => {
+        if (source) {
           return "translate(" + source.y0 + "," + source.x0 + ")";
-        }else{
-          return "translate(0," + this.height/2 + ")";
+        } else {
+          return "translate(0," + this.height / 2 + ")";
         }
       });
 
@@ -192,7 +201,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     nodeEnter.append('circle')
       .attr('class', 'node')
       .attr('r', 1e-6)
-      .style("fill", (d)=> {
+      .style("fill", (d) => {
         return this.colorNode(d);
       });
     //Add buttons
@@ -229,7 +238,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .on('click', click);
     expandButton
       .append('circle')
-      .attr('r', (d)=>{
+      .attr('r', (d) => {
         return (d.data.childrenIds.length && !d.children) || !d.parent ? 10 : 0;
       })
       .attr('transform', function (d) {
@@ -248,11 +257,11 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       })
       .attr('text-anchor', 'middle')
       .attr('dy', '0.4em')
-      .attr('visibility', (d)=>{
+      .attr('visibility', (d) => {
         return (d.data.childrenIds.length && !d.children) || !d.parent ? 'visible' : 'hidden';
       })
-      .text((d)=>{
-          return '\uf061';
+      .text((d) => {
+        return '\uf061';
       });
 
     var viewButton = nodeEnter
@@ -322,7 +331,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     // Update the node attributes and style
     nodeUpdate.select('circle.node')
       .attr('r', 20)
-      .style("fill", (d)=> {
+      .style("fill", (d) => {
         return this.colorNode(d);
       })
       .attr('cursor', 'pointer');
@@ -439,7 +448,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
   }
 
 
-  colorNode(d:any){
+  colorNode(d: any) {
     return d.data.childrenIds.length && !d.children ? "#bdbdbd" : "#f7f6f3";
   }
 

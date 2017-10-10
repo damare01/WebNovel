@@ -1,6 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var Chapter = require('../../models/chapter');
+const express = require('express');
+const router = express.Router();
+const Chapter = require('../../models/chapter');
+const requireAuth = require('passport').authenticate('jwt', {session: false});
 
 /**
  * @swagger
@@ -93,11 +94,9 @@ router.get('/id/:id', (req, res) => {
  *      500:
  *        description: "500 when there was an error"
  */
-router.post('/', (req, res) => {
+router.post('/', requireAuth, (req, res) => {
   let chapter = new Chapter(req.body);
-  if (!chapter.author) {
-    chapter.author = req.user._id;
-  }
+  chapter.author = req.user._id;
   chapter.save((err) => {
     if (err) {
       res.sendStatus(500);
@@ -107,14 +106,14 @@ router.post('/', (req, res) => {
   })
 });
 
-router.put('/', (req, res) =>{
+router.put('/', requireAuth, (req, res) => {
   let chapter = new Chapter(req.body);
   console.log(chapter);
   let id = chapter._id;
-  Chapter.findOneAndUpdate({_id: id}, chapter, (err, doc)=>{
-    if(err){
+  Chapter.findOneAndUpdate({_id: id}, chapter, (err, doc) => {
+    if (err) {
       res.sendStatus(500);
-    }else{
+    } else {
       res.sendStatus(200);
     }
   })
