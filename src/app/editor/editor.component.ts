@@ -12,7 +12,7 @@ import 'tinymce/plugins/link';
 export class EditorComponent implements OnDestroy, AfterViewInit {
   @Input() elementId: String;
   @Output() onEditorKeyup = new EventEmitter<any>();
-  @Input() content: string;
+  @Input() content: string = '';
 
   editor: any;
 

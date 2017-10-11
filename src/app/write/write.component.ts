@@ -30,7 +30,11 @@ export class WriteComponent implements OnInit {
           this.newChapter.parent = this.parentChapter._id;
           this.newChapter.book = this.parentChapter.book;
           this.loaded = true;
+        },err =>{
+          this.loaded = true;
         })
+      }else{
+        this.loaded = true;
       }
     })
   }

@@ -152,7 +152,7 @@ export class ReadComponent implements OnInit, AfterViewInit {
   }
 
   writeChapter(parentChapter: string) {
-    this.router.navigate(['write', parentChapter]);
+    this.router.navigate(['/write', parentChapter]);
   }
 
   like() {

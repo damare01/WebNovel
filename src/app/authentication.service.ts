@@ -45,6 +45,10 @@ export class AuthenticationService {
     let userInfo = jwtDecode(user.token);
     let expires = userInfo.exp;
     let now = new Date().valueOf()/1000;
+    let loggedIn: boolean = expires - now>0;
+    if(!loggedIn){
+      localStorage.removeItem('currentUser');
+    }
     return expires - now > 0;
   }
 

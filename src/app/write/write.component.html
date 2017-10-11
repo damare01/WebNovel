@@ -1,4 +1,5 @@
-<div class="writing-container">
+<wn-info-text [text]="'There was an error when adding a new chapter. Please try again later.'" *ngIf="!parentChapter._id"></wn-info-text>
+<div class="writing-container" *ngIf="parentChapter">
   <div class="flex-container">
     <form name="chapter">
       <md-form-field class="full-width">
