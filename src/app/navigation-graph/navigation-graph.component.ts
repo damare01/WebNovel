@@ -35,7 +35,8 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
   constructor(private chapterService: ChapterService,
               private bookService: BookService,
               private router: Router,
-              private userService: UserService) {
+              private userService: UserService,
+              private authService: AuthenticationService) {
     this.addChapterToNode = new EventEmitter();
   }
 
@@ -51,7 +52,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
         this.bookService.getBook(chapter.book).subscribe(book => {
             this.rootChapterId = book.startChapter;
             this.bookId = book._id;
-            if (AuthenticationService.isLoggedIn()) {
+            if (this.authService.isLoggedIn()) {
               this.userService.getCurrentlyReading(book._id).subscribe(cr => {
                 if (cr) {
                   this.chapterTrail = cr.chapterTrail;
@@ -73,7 +74,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
   }
 
   updateCurrentlyReading() {
-    if (!AuthenticationService.isLoggedIn()) {
+    if (!this.authService.isLoggedIn()) {
       return;
     }
     let currentlyReading: CurrentlyReading = {

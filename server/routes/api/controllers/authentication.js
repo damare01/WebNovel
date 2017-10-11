@@ -18,6 +18,13 @@ var setUserInfo = function(request) {
   };
 };
 
+exports.refresh = function(req,res,next){
+  let userInfo = setUserInfo(req.user);
+  res.status(200).json({
+    token: generateToken(userInfo)
+  });
+};
+
 //========================================
 // Login Route
 //========================================

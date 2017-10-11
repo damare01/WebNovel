@@ -22,6 +22,8 @@ module.exports = function(app) {
   // Login route
   authRoutes.post('/login', requireLogin, AuthenticationController.login);
 
+  authRoutes.post('/refreshToken', requireAuth, AuthenticationController.refresh)
+
   // Set auth routes as subgroup/middleware to apiRoutes
   app.use('/auth', authRoutes);
 

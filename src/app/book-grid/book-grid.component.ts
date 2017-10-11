@@ -17,7 +17,7 @@ export class BookGridComponent implements OnInit, OnChanges {
   allBooks: BookInfo[] = [];
   bookInfoLoaded: boolean = false;
 
-  constructor(private _userService: UserService, private router: Router, private _likeService: LikeService) {
+  constructor(private _userService: UserService, private router: Router, private _likeService: LikeService, private _authService: AuthenticationService) {
   }
 
 
@@ -42,7 +42,7 @@ export class BookGridComponent implements OnInit, OnChanges {
   }
 
   openBook(book: Book) {
-    if (!AuthenticationService.isLoggedIn()) {
+    if (!this._authService.isLoggedIn()) {
       this.router.navigate(['read', book.startChapter]);
     } else {
       this._userService.getCurrentlyReading(book._id).subscribe(cr => {

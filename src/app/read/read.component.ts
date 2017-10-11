@@ -38,7 +38,8 @@ export class ReadComponent implements OnInit, AfterViewInit {
               private route: ActivatedRoute,
               private router: Router,
               private _userService: UserService,
-              private _likeService: LikeService) {
+              private _likeService: LikeService,
+              private _authService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -181,6 +182,6 @@ export class ReadComponent implements OnInit, AfterViewInit {
   }
 
   isLoggedIn(): boolean {
-    return AuthenticationService.isLoggedIn();
+    return this._authService.isLoggedIn();
   }
 }

@@ -10,7 +10,7 @@ import {AuthenticationService} from "../authentication.service";
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private snackBar: MdSnackBar) {
+  constructor(private snackBar: MdSnackBar, private _authService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -23,6 +23,6 @@ export class HomeComponent implements OnInit {
   }
 
   isLoggedIn() {
-    return AuthenticationService.isLoggedIn();
+    return this._authService.isLoggedIn();
   }
 }

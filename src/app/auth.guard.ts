@@ -6,12 +6,12 @@ import {AuthenticationService} from "./authentication.service";
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
 
-  constructor(private router: Router){}
+  constructor(private router: Router, private _authService: AuthenticationService){}
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if(AuthenticationService.isLoggedIn()){
+    if(this._authService.isLoggedIn()){
       return true;
     }else{
       this.router.navigate(['/login']);
@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   canActivateChild(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if(AuthenticationService.isLoggedIn()){
+    if(this._authService.isLoggedIn()){
       return true;
     }else{
       this.router.navigate(['/login']);

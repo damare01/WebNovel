@@ -1,11 +1,13 @@
 import {Injectable} from '@angular/core';
-import {Http, Response} from "@angular/http";
+import {Http, RequestOptions, RequestOptionsArgs, Headers, Response} from "@angular/http";
 import 'rxjs/add/operator/map';
 import {Observable} from "rxjs/Observable";
 import * as jwtDecode from 'jwt-decode';
 
 @Injectable()
 export class AuthenticationService {
+
+  refreshing: boolean = false;
 
   constructor(private http: Http) {
   }
@@ -36,7 +38,28 @@ export class AuthenticationService {
       });
   }
 
-  static isLoggedIn():boolean{
+  refreshToken() {
+    this.refreshing = true;
+    // ensure request options and headers are not null
+    let options =  new RequestOptions();
+    options.headers = new Headers();
+
+    // add authorization header with jwt token
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser && currentUser.token) {
+      options.headers.append('Authorization', 'Bearer ' + currentUser.token);
+    }
+
+    this.http.post('/auth/refreshToken', {}, options).subscribe((response: Response)=>{
+      let user = response.json();
+      if(user && user.token){
+        localStorage.setItem('currentUser', JSON.stringify(user))
+      }
+      this.refreshing = false;
+    });
+  }
+
+  isLoggedIn():boolean{
     let currentUser = localStorage.getItem('currentUser');
     if(!currentUser){
       return false;
@@ -44,12 +67,18 @@ export class AuthenticationService {
     let user = JSON.parse(localStorage.getItem('currentUser'));
     let userInfo = jwtDecode(user.token);
     let expires = userInfo.exp;
+    let issued = userInfo.iat;
     let now = new Date().valueOf()/1000;
-    let loggedIn: boolean = expires - now>0;
+    let secondsSinceRefresh = now-issued;
+    if(secondsSinceRefresh > 60*60 && !this.refreshing){
+      this.refreshToken();
+    }
+
+    let loggedIn: boolean = expires - now >0;
     if(!loggedIn){
       localStorage.removeItem('currentUser');
     }
-    return expires - now > 0;
+    return loggedIn;
   }
 
 }
