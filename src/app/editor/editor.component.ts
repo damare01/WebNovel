@@ -12,6 +12,7 @@ import 'tinymce/plugins/link';
 export class EditorComponent implements OnDestroy, AfterViewInit {
   @Input() elementId: String;
   @Output() onEditorKeyup = new EventEmitter<any>();
+  @Input() content: string;
 
   editor: any;
 
@@ -34,6 +35,8 @@ export class EditorComponent implements OnDestroy, AfterViewInit {
         });
       },
     });
+
+    this.editor.setContent(this.content);
   }
 
   ngOnDestroy() {

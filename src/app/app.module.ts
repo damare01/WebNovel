@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
   MdButtonModule, MdCardModule, MdFormFieldModule, MdIconModule, MdInputModule, MdMenuModule, MdProgressSpinnerModule,
   MdSelectModule,
-  MdSnackBarModule,
+  MdSnackBarModule, MdTabsModule,
   MdToolbarModule
 } from "@angular/material";
 import { BookGridComponent } from './book-grid/book-grid.component';
@@ -42,6 +42,9 @@ import {AuthGuard} from "./auth.guard";
 import {LikeService} from "./like.service";
 import { CapitalizePipe } from './capitalize.pipe';
 import { TagInputModule } from 'ngx-chips';
+import { MyDraftsComponent } from './my-drafts/my-drafts.component';
+import { ChapterGridComponent } from './chapter-grid/chapter-grid.component';
+import { EditDraftComponent } from './edit-draft/edit-draft.component';
 
 
 const appRoutes: Routes = [
@@ -52,6 +55,7 @@ const appRoutes: Routes = [
   { path: 'browse', component: BrowseComponent, canActivate: [AuthGuard]},
   { path: 'read/:chapterId', component: ReadComponent},
   { path: 'write/:parentChapter', component: WriteComponent, canActivate: [AuthGuard]},
+  { path: 'edit/:chapterId', component: EditDraftComponent, canActivate: [AuthGuard]},
   { path: 'newbook', component: NewBookComponent, canActivate: [AuthGuard]},
   { path: 'mybooks', component: MyBooksPageComponent, canActivate: [AuthGuard]},
   { path: 'mychapters', component: MyChaptersPageComponent, canActivate: [AuthGuard]},
@@ -86,7 +90,10 @@ const appRoutes: Routes = [
     InfoTextComponent,
     MyChaptersComponent,
     MyChaptersPageComponent,
-    CapitalizePipe
+    CapitalizePipe,
+    MyDraftsComponent,
+    ChapterGridComponent,
+    EditDraftComponent
   ],
   imports: [
     BrowserModule,
@@ -105,7 +112,8 @@ const appRoutes: Routes = [
     MdMenuModule,
     MdProgressSpinnerModule,
     ReCaptchaModule,
-    TagInputModule
+    TagInputModule,
+    MdTabsModule
   ],
   providers: [
     AuthenticationService,

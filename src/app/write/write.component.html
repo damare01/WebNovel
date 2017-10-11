@@ -12,5 +12,6 @@
     <wn-editor [elementId]="'chapter-editor'" (onEditorKeyup)="newChapter.body = $event"></wn-editor>
   </div>
   <br>
-  <button md-raised-button color="accent" (click)="saveChapter()" [disabled]="!loaded" style="margin-left: 80%">Publish</button>
+  <button md-raised-button (click)="saveDraft()" [disabled]="!loaded" style="margin-left: 72%">Save as Draft</button>
+  <button md-raised-button color="accent" (click)="publishChapter()" [disabled]="!loaded" style="margin-left: 10px">Publish</button>
 </div>

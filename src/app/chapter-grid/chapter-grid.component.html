@@ -1,0 +1,19 @@
+<md-spinner *ngIf="!viewLoaded"></md-spinner>
+<div class="container" *ngIf="viewLoaded">
+  <div *ngFor="let chapterInfo of chapterInfos" class="chapter-card">
+    <md-card [routerLink]="editOnClick ? ['/edit', chapterInfo.chapter._id] : ['/read', chapterInfo.chapter._id]">
+      <md-card-title>{{chapterInfo.chapter.title}}</md-card-title>
+      <md-card-subtitle>{{chapterInfo.chapter.published ? 'Published' : 'Draft'}}</md-card-subtitle>
+      <md-card-content>
+        Book: {{getBookTitle(chapterInfo.chapter.book)}}
+        <br>
+        <span class="green">
+          <i *ngIf="getLikes" class="fa fa-thumbs-o-up"></i> {{chapterInfo.likes}}
+        </span>
+        <span class="red">
+          <i *ngIf="getLikes" class="fa fa-thumbs-o-down"></i> {{chapterInfo.dislikes}}
+        </span>
+      </md-card-content>
+    </md-card>
+  </div>
+</div>

@@ -14,6 +14,14 @@ let chapterSchema = mongoose.Schema({
   tags: {
     type: [String],
     default: []
+  },
+  published:{
+    type: Boolean,
+    default: true
+  },
+  deleted:{
+    type: Boolean,
+    default: false
   }
 })
 

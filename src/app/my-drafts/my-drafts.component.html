@@ -1,0 +1,7 @@
+<wn-chapter-grid *ngIf="myDrafts" [chapters]="myDrafts" [getLikes]="false" [editOnClick]="true"></wn-chapter-grid>
+<div *ngIf="myDrafts && !myDrafts.length">
+  <i class="fa fa-book" style="font-size: 64px; color: gray; margin: 15px auto 5px auto"></i>
+  <br>
+  <wn-info-text [text]="'You don\'t seem to have any drafts'"></wn-info-text>
+  <br>
+</div>

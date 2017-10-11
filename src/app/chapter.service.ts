@@ -31,8 +31,19 @@ export class ChapterService {
     return this.wnhttp.put('/chapters', chapter);
   }
 
-  addChildToChapter(chapterId: string, childId:string){
+  addChildToChapter(chapterId: string, childId:string): Observable<Chapter>{
     return this.wnhttp.post(`/chapters/${chapterId}/child/${childId}`, {});
   }
 
+  getMyDrafts():Observable<Chapter[]>{
+    return this.wnhttp.get('/chapters/drafts');
+  }
+
+  getMyDraft(chapterId:string):Observable<Chapter>{
+    return this.wnhttp.get(`/chapters/drafts/${chapterId}`);
+  }
+
+  getMyChapters():Observable<Chapter[]>{
+    return this.wnhttp.get('/chapters/mychapters');
+  }
 }

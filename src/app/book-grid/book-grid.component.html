@@ -1,4 +1,3 @@
-<md-spinner *ngIf="!bookInfoLoaded"></md-spinner>
 <div *ngIf="bookInfoLoaded" class="container">
   <div *ngFor="let bookInfo of allBooks" class="book-card">
     <md-card (click)="openBook(bookInfo.book)">

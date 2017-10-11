@@ -9,4 +9,5 @@ export class Chapter{
   childrenIds:string[];
   book:string;
   tags: string[];
+  published: boolean;
 }

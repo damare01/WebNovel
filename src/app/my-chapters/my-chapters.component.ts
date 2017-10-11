@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Chapter} from "../../models/chapter";
+import {ChapterService} from "../chapter.service";
 
 @Component({
   selector: 'wn-my-chapters',
@@ -8,11 +9,14 @@ import {Chapter} from "../../models/chapter";
 })
 export class MyChaptersComponent implements OnInit {
 
-  myChapters: Chapter;
+  myChapters: Chapter[];
 
-  constructor() { }
+  constructor(private _chapterService: ChapterService) { }
 
   ngOnInit() {
+    this._chapterService.getMyChapters().subscribe(chapters =>{
+      this.myChapters = chapters;
+    });
   }
 
 }

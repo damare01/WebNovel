@@ -12,3 +12,11 @@ body{
   justify-content: center;
 }
 
+.green{
+  color: #009688;
+}
+
+.red{
+  color: #f44336;
+}
+

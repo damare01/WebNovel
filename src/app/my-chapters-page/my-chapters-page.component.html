@@ -1,3 +1,15 @@
-<div class="container">
-  <wn-my-chapters></wn-my-chapters>
+<div style="margin: auto auto auto 20px">
+  <wn-section-header [title]="'My Chapters'"></wn-section-header>
 </div>
+<md-tab-group>
+  <md-tab label="Published">
+    <div class="container">
+      <wn-my-chapters></wn-my-chapters>
+    </div>
+  </md-tab>
+  <md-tab label="Drafts">
+    <div class="container">
+      <wn-my-drafts></wn-my-drafts>
+    </div>
+  </md-tab>
+</md-tab-group>

@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Chapter} from "../../models/chapter";
 import {UserService} from "../user.service";
 import {TagModel} from "ngx-chips/dist/modules/core";
+import {isString} from "util";
 
 @Component({
   selector: 'wn-write',
@@ -34,22 +35,41 @@ export class WriteComponent implements OnInit {
     })
   }
 
-  saveChapter(){
+  publishChapter(){
+    this.saveChapter(false);
+  }
+
+  saveDraft(){
+    this.saveChapter(true);
+  }
+
+  saveChapter(draft: boolean){
     this.addTagsToChapter();
     this.loaded = false;
+    if(draft){
+      this.newChapter.published = false;
+    }
     this.newChapter.author= this._userService.getCurrentUser()._id;
     this._chapterService.saveChapter(this.newChapter).subscribe((chapterId)=>{
       this._chapterService.addChildToChapter(this.parentChapter._id, chapterId).subscribe((response)=>{
         this.loaded = true;
-        this.router.navigate(['read', chapterId]);
+        if(draft){
+          this.router.navigate(['mychapters'])
+        }else {
+          this.router.navigate(['read', chapterId]);
+        }
       });
     })
   }
 
-  addTagsToChapter(){
+  addTagsToChapter() {
     this.newChapter.tags = [];
-    this.tags.forEach(tag =>{
-      this.newChapter.tags.push(tag.value);
+    this.tags.forEach(tag => {
+      if(tag.value){
+        this.newChapter.tags.push(tag.value);
+      }else if(isString(tag)){
+        this.newChapter.tags.push(tag);
+      }
     })
   }
 

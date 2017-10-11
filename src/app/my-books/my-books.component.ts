@@ -14,7 +14,11 @@ export class MyBooksComponent implements OnInit {
 
   ngOnInit() {
     this._bookService.getMyBooks().subscribe(books=>{
-      this.myBooks = books;
+      if(books){
+        this.myBooks = books;
+      }else{
+        this.myBooks = [];
+      }
     });
   }
 

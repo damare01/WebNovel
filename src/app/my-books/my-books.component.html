@@ -1,4 +1,3 @@
-<wn-section-header [title]="'My Books'"></wn-section-header>
 <md-spinner *ngIf="!myBooks"></md-spinner>
 <wn-book-grid *ngIf="myBooks" [books]="myBooks"></wn-book-grid>
 <div *ngIf="myBooks && !myBooks.length">

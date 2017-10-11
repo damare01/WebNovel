@@ -49,38 +49,95 @@ router.get('/', (req, res) => {
 
 /**
  * @swagger
- * /chapters/id/{id}:
+ * /chapters/myChapters:
  *   get:
  *     tags:
- *       - Chapters
- *     description: Returns the chapter with the provided id
+ *       - Chapters mychapters
+ *     description: Returns all published chapters belonging to the logged in user
  *     produces:
  *       - application/json
- *     parameters:
+ *     responses:
+ *       200:
+ *        description: An array of chapters
+ *        schema:
+ *          $ref: '#/definitions/Chapter'
+ */
+router.get('/myChapters', requireAuth, (req, res) => {
+  Chapter.find({author: req.user._id, deleted: false, published: true}, (err, chapters)=>{
+    if(err){
+      res.status(500).send({});
+    }else{
+      res.send(chapters);
+    }
+  });
+});
+
+/**
+ * @swagger
+ * /chapters/drafts:
+ *   get:
+ *     tags:
+ *       - Chapters drafts
+ *     description: Returns all drafts belonging to the logged in user
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *        description: An array of chapters
+ *        schema:
+ *          $ref: '#/definitions/Chapter'
+ */
+router.get('/drafts', requireAuth, (req, res) => {
+  Chapter.find(
+    {
+      author: req.user._id,
+      published: false
+    }, (err, chapters) => {
+      if (err) {
+        res.status(500).send({});
+      } else {
+        res.send(chapters);
+      }
+    })
+});
+
+/**
+ * @swagger
+ * /chapters/drafts/{id}:
+ *   get:
+ *    tags:
+ *      - chapters drafts
+ *    description: "Gets the chapter draft with the provided id if it belongs to the logged in user"
+ *    produces:
+ *      - application/json
+ *    parameters:
  *      -
  *        name: "id"
  *        in: "path"
- *        description: "Chapter id"
+ *        description: "chapter id"
  *        required: true
  *        type: "string"
- *     responses:
+ *    responses:
  *      200:
- *        description: A chapter object
+ *        description: "Returns a chapter saved as a draft with the provided id"
  *        schema:
  *          $ref: '#/definitions/Chapter'
- *
+ *      500:
+ *        description: "500 when there was an error"
  */
-router.get('/id/:id', (req, res) => {
-  let id = req.params.id;
-  Chapter.findOne({_id: id}, (err, chapter) => {
-    if (err) {
-      res.sendStatus(500);
-    } else if (!chapter) {
-      res.sendStatus(204);
-    } else {
-      res.send(chapter);
-    }
-  })
+router.get('/drafts/:id', requireAuth, (req, res) => {
+  Chapter.findOne(
+    {
+      _id: req.params['id'],
+      author: req.user._id,
+      published: false
+    }, (err, chapter) => {
+      if (err) {
+        res.status(500).send({});
+      } else {
+        res.send(chapter);
+      }
+    });
 });
 
 /**
@@ -182,6 +239,40 @@ router.post('/:parentId/child/:childId', requireAuth, (req, res) => {
           res.status(200).send(chapter);
         }
       });
+    }
+  })
+});
+
+/**
+ * @swagger
+ * /chapters/id/{id}:
+ *   get:
+ *     tags:
+ *       - Chapters
+ *     description: Returns the chapter with the provided id
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *      -
+ *        name: "id"
+ *        in: "path"
+ *        description: "Chapter id"
+ *        required: true
+ *        type: "string"
+ *     responses:
+ *      200:
+ *        description: A chapter object
+ *        schema:
+ *          $ref: '#/definitions/Chapter'
+ *
+ */
+router.get('/id/:id', (req, res) => {
+  let id = req.params.id;
+  Chapter.findOne({_id: id}, (err, chapter) => {
+    if (err) {
+      res.sendStatus(500);
+    } else {
+      res.send(chapter);
     }
   })
 });

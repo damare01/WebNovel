@@ -1,0 +1,18 @@
+<div class="writing-container" *ngIf="draft">
+  <div class="flex-container">
+    <wn-section-header [title]="'Edit draft'"></wn-section-header>
+    <form name="chapter">
+      <md-form-field class="full-width">
+        <input name="title" mdInput placeholder="Chapter title" [(ngModel)]="draft.title">
+      </md-form-field>
+    </form>
+    <br>
+    <tag-input [(ngModel)]="tags" [placeholder]="'Enter tags'"></tag-input>
+  </div>
+  <div class="flex-container">
+    <wn-editor [elementId]="'draft-editor'" [content]="draft.body" (onEditorKeyup)="draft.body = $event"></wn-editor>
+  </div>
+  <br>
+  <button md-raised-button (click)="saveDraft()" style="margin-left: 73%">Save draft</button>
+  <button md-raised-button color="accent" (click)="publishChapter()" style="margin-left: 10px">Publish</button>
+</div>
