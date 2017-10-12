@@ -91,7 +91,7 @@ router.get('/drafts', requireAuth, (req, res) => {
   Chapter.find(
     {
       author: req.user._id,
-      published: false
+      published: false,
     }, (err, chapters) => {
       if (err) {
         res.status(500).send({})
@@ -130,7 +130,7 @@ router.get('/drafts/:id', requireAuth, (req, res) => {
     {
       _id: req.params['id'],
       author: req.user._id,
-      published: false
+      published: false,
     }, (err, chapter) => {
       if (err) {
         res.status(500).send({})

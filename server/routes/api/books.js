@@ -1,6 +1,6 @@
-var express = require('express')
-var router = express.Router()
-var Book = require('../../models/book')
+let express = require('express')
+let router = express.Router()
+let Book = require('../../models/book')
 const requireAuth = require('passport').authenticate('jwt', {session: false})
 
 /**
@@ -67,7 +67,7 @@ router.get('/mybooks', requireAuth, (req, res) => {
   let user = req.user
   Book.find({
     'creator': user._id,
-    'deleted': false
+    'deleted': false,
   }, (err, books) => {
     if (err) {
       res.status(500).send({})
@@ -104,7 +104,7 @@ router.get('/:ids', (req, res) => {
   let ids = idsString.split(',')
   Book.find({
       '_id': {$in: ids},
-      'deleted': false
+      'deleted': false,
     },
     (err, books) => {
       if (err) {
@@ -139,7 +139,7 @@ router.get('/:ids', (req, res) => {
  */
 router.get('/id/:id', (req, res) => {
   let id = req.params.id
-  Book.findOne({_id: id, 'deleted': false}, (err, chapter) => {
+  Book.findOne({'_id': id, 'deleted': false}, (err, chapter) => {
     if (err) {
       res.sendStatus(500)
     } else if (!chapter) {

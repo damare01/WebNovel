@@ -1,6 +1,6 @@
-var express = require('express')
-var router = express.Router()
-var Like = require('../../models/like')
+let express = require('express')
+let router = express.Router()
+let Like = require('../../models/like')
 const requireAuth = require('passport').authenticate('jwt', {session: false})
 
 /**
@@ -91,13 +91,13 @@ router.post('/chapter/:id/like', requireAuth, (req, res) => {
   let user = req.user
   Like.update({
       'chapter': req.params['id'],
-      'user': user._id
+      'user': user._id,
     },
     {
-      'vote': 1
+      'vote': 1,
     },
     {
-      upsert: true
+      upsert: true,
     }, (err) => {
       if (err) {
         res.status(500).send({})
@@ -132,13 +132,13 @@ router.post('/chapter/:id/dislike', requireAuth, (req, res) => {
   let user = req.user
   Like.update({
       'chapter': req.params['id'],
-      'user': user._id
+      'user': user._id,
     },
     {
-      'vote': -1
+      'vote': -1,
     },
     {
-      upsert: true
+      upsert: true,
     }, (err) => {
       if (err) {
         res.status(500).send({})
@@ -175,7 +175,7 @@ router.get('/chapter/:id/mylike', requireAuth, (req, res) => {
   let user = req.user
   Like.findOne({
     'chapter': req.params['id'],
-    'user': user._id
+    'user': user._id,
   }, (err, like) => {
     if (err) {
       res.status(500).send({})
@@ -211,7 +211,7 @@ router.get('/chapter/:id/mylike', requireAuth, (req, res) => {
 router.get('/chapter/:id/numberOfLikes', (req, res) => {
   Like.count({
       'chapter': req.params['id'],
-      'vote': 1
+      'vote': 1,
     },
     (err, count) => {
       if (err) {
@@ -248,7 +248,7 @@ router.get('/chapter/:id/numberOfLikes', (req, res) => {
 router.get('/chapter/:id/numberOfDislikes', (req, res) => {
   Like.count({
       'chapter': req.params['id'],
-      'vote': -1
+      'vote': -1,
     },
     (err, count) => {
       if (err) {

@@ -22,7 +22,10 @@ const localLogin = new LocalStrategy(localOptions, function (email, password, do
         return done(err)
       }
       if (!isMatch) {
-        return done(null, false, {error: "Your login details could not be verified. Please try again."})
+        return done(null, false,
+          {
+            error: 'Your login details could not be verified. Please try again.',
+          })
       }
 
       return done(null, user)
@@ -34,12 +37,12 @@ const jwtOptions = {
   // Telling Passport to check authorization headers for JWT
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   // Telling Passport where to find the secret
-  secretOrKey: process.env.SECRET
+  secretOrKey: process.env.SECRET,
 }
 
 // Setting up JWT login strategy
 const jwtLogin = new JwtStrategy(jwtOptions, function (payload, done) {
-  /*User.findById(payload._id, function(err, user) {
+  /* User.findById(payload._id, function(err, user) {
     if (err) { return done(err, false); }
 
     if (user) {
@@ -48,7 +51,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, function (payload, done) {
       done(null, false);
     }
   });*/
-  /*console.log(payload);
+  /* console.log(payload);
   let secSinceSigned = ((new Date().getTime()/1000) - payload.iat);
   if(secSinceSigned > 2){
     let user = auth.setUserInfo(payload);

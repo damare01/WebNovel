@@ -1,7 +1,10 @@
 {
-    "extends": "google",
+
     "rules": {
       "semi": ["warn", "never"],
       "quotes": ["warn", "single"]
-    }
+    },
+  "parserOptions": {
+    "ecmaVersion":6
+  }
 }

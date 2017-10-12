@@ -1,28 +1,28 @@
-var mongoose = require('mongoose')
+let mongoose = require('mongoose')
 
 let chapterSchema = mongoose.Schema({
-  author: String, //author id
+  author: String, // author id
   title: String,
   body: String,
-  parent: String, //chapter id
-  childrenIds: [String], //chapter ids
+  parent: String, // chapter id
+  childrenIds: [String], // chapter ids
   book: String,
   created: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   tags: {
     type: [String],
-    default: []
+    default: [],
   },
   published: {
     type: Boolean,
-    default: true
+    default: true,
   },
   deleted: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 
 module.exports = mongoose.model('Chapter', chapterSchema)

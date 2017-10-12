@@ -1,41 +1,41 @@
-var mongoose = require('mongoose')
-var bcrypt = require('bcrypt-nodejs')
-var CurrentlyReading = require('./currentlyReading').schema
+let mongoose = require('mongoose')
+let bcrypt = require('bcrypt-nodejs')
+let CurrentlyReading = require('./currentlyReading').schema
 
-var userSchema = new mongoose.Schema({
+let userSchema = new mongoose.Schema({
   fullName: {
     type: String,
     trim: true,
-    required: true
+    required: true,
   },
   penName: {
     type: String,
-    trim: true
+    trim: true,
   },
   email: {
     type: String,
     unique: true,
     lowercase: true,
     trim: true,
-    required: true
+    required: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   created: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   resetPasswordToken: {type: String},
   resetPasswordExpires: {type: Date},
   currentlyReading: {
     type: [CurrentlyReading],
-    default: []
-  }
+    default: [],
+  },
 })
 
-userSchema.pre('save', function (next) {
+userSchema.pre('save', function(next) {
   const user = this,
     SALT_FACTOR = 5
 
@@ -43,11 +43,11 @@ userSchema.pre('save', function (next) {
     return next()
   }
 
-  bcrypt.genSalt(SALT_FACTOR, function (err, salt) {
+  bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
     if (err) {
       return next(err)
     }
-    bcrypt.hash(user.password, salt, null, function (err, hash) {
+    bcrypt.hash(user.password, salt, null, function(err, hash) {
       if (err) {
         return next(err)
       }
@@ -57,8 +57,8 @@ userSchema.pre('save', function (next) {
   })
 })
 
-userSchema.methods.comparePassword = function (candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+userSchema.methods.comparePassword = function(candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
     if (err) {
       return cb(err)
     }

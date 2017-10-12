@@ -1,24 +1,24 @@
-var mongoose = require('mongoose')
+let mongoose = require('mongoose')
 
 let bookSchema = mongoose.Schema({
   creator: {
     type: String,
-    required: true
-  }, //author id
+    required: true,
+  }, // author id
   title: {
     type: String,
-    required: true
+    required: true,
   },
   startChapter: {
     type: String,
-    required: true
-  }, //chapter id
-  coverImage: String, //img url
+    required: true,
+  }, // chapter id
+  coverImage: String, // img url
   language: {
     type: String,
     required: true,
-    default: 'en'
-  }, //language code
+    default: 'en',
+  }, // language code
   genre: {
     type: String,
     enum: [
@@ -41,17 +41,17 @@ let bookSchema = mongoose.Schema({
       'Werewolf',
       'Spiritual',
       'Non-Fiction',
-      'Other'
-    ]
+      'Other',
+    ],
   },
   deleted: {
     type: Boolean,
-    default: false
+    default: false,
   },
   created: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 })
 
 module.exports = mongoose.model('Book', bookSchema)

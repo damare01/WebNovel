@@ -7,14 +7,14 @@ const AuthenticationController = require('./api/controllers/authentication'),
 const requireAuth = passport.authenticate('jwt', {session: false})
 const requireLogin = passport.authenticate('local', {session: false})
 
-module.exports = function (app) {
+module.exports = function(app) {
   // Initializing route groups
   const authRoutes = express.Router()
-  var apiRoutes = express.Router()
-  var api = require('./api/api')
-  //=========================
+  let apiRoutes = express.Router()
+  let api = require('./api/api')
+  // =========================
   // Auth Routes
-  //=========================
+  // =========================
 
   // Registration route
   authRoutes.post('/register', AuthenticationController.register)
@@ -29,5 +29,4 @@ module.exports = function (app) {
 
   // Set url for API group routes
   app.use('/api', api)
-
 }

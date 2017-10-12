@@ -1,7 +1,7 @@
-var express = require('express')
-var router = express.Router()
-var User = require('../../models/user')
-var CurrentlyReading = require('../../models/currentlyReading')
+let express = require('express')
+let router = express.Router()
+let User = require('../../models/user')
+let CurrentlyReading = require('../../models/currentlyReading')
 const requireAuth = require('passport').authenticate('jwt', {session: false})
 
 /**
@@ -68,10 +68,10 @@ const requireAuth = require('passport').authenticate('jwt', {session: false})
 router.get('/currentlyreading/:bookId', requireAuth, (req, res) => {
   User.findOne(
     {
-      _id: req.user._id, "currentlyReading.book": req.params.bookId
+      '_id': req.user._id, 'currentlyReading.book': req.params.bookId,
     },
     {
-      currentlyReading: {$elemMatch: {book: req.params.bookId}}
+      currentlyReading: {$elemMatch: {book: req.params.bookId}},
     },
     (err, user) => {
       if (err) {
@@ -106,7 +106,7 @@ router.get('/currentlyreading/:bookId', requireAuth, (req, res) => {
 router.get('/currentlyreading', requireAuth, (req, res) => {
   User.findOne(
     {
-      _id: req.user._id
+      _id: req.user._id,
     },
     (err, user) => {
       if (err) {
@@ -148,7 +148,7 @@ router.get('/currentlyreading', requireAuth, (req, res) => {
 router.get('/:id', (req, res) => {
   User.findOne(
     {
-      _id: req.params['id']
+      _id: req.params['id'],
     },
     (err, user) => {
       if (err) {
@@ -181,20 +181,19 @@ router.put('/currentlyreading', requireAuth, (req, res) => {
   let currentlyReading = new CurrentlyReading(req.body)
   User.findOneAndUpdate(
     {
-      _id: req.user._id,
-      "currentlyReading.book": currentlyReading.book
+      '_id': req.user._id,
+      'currentlyReading.book': currentlyReading.book,
     },
     {
-      "$set": {
-        "currentlyReading.$": currentlyReading
-      }
+      '$set': {
+        'currentlyReading.$': currentlyReading,
+      },
     },
     {
-      upsert: true
+      upsert: true,
     },
     (err, user) => {
       if (err) {
-
         User.findOne({_id: req.user._id}, (err, user) => {
           if (err) {
             res.sendStatus(500)
@@ -204,7 +203,6 @@ router.put('/currentlyreading', requireAuth, (req, res) => {
             res.sendStatus(200)
           }
         })
-
       } else {
         res.sendStatus(200)
       }

@@ -3,45 +3,44 @@ const jwt = require('jsonwebtoken'),
   User = require('../../../models/user'),
   request = require('request')
 
-var generateToken = function (user) {
+let generateToken = function(user) {
   return jwt.sign(user, process.env.SECRET, {
-    expiresIn: 604800 // a week in seconds
+    expiresIn: 604800, // a week in seconds
   })
 }
 
-var setUserInfo = function (request) {
+let setUserInfo = function(request) {
   return {
     _id: request._id,
     fullName: request.fullName,
     email: request.email,
-    penName: request.penName
+    penName: request.penName,
   }
 }
 
-exports.refresh = function (req, res, next) {
+exports.refresh = function(req, res, next) {
   let userInfo = setUserInfo(req.user)
   res.status(200).json({
-    token: generateToken(userInfo)
+    token: generateToken(userInfo),
   })
 }
 
-//========================================
+// ========================================
 // Login Route
-//========================================
-exports.login = function (req, res, next) {
-
+// ========================================
+exports.login = function(req, res, next) {
   let userInfo = setUserInfo(req.user)
 
   res.status(200).json({
-    token: generateToken(userInfo)
+    token: generateToken(userInfo),
   })
 }
 
 
-//========================================
+// ========================================
 // Registration Route
-//========================================
-exports.register = function (req, res, next) {
+// ========================================
+exports.register = function(req, res, next) {
   // Check for registration errors
   const email = req.body.email
   const fullName = req.body.fullName
@@ -64,15 +63,14 @@ exports.register = function (req, res, next) {
     return res.status(422).send({error: 'You must enter a password.'})
   }
 
-  var options = {
+  let options = {
     url: 'https://www.google.com/recaptcha/api/siteverify',
-    form: {'secret': process.env.RECAPTCHA_SECRET, 'response': captchaResponse}
+    form: {'secret': process.env.RECAPTCHA_SECRET, 'response': captchaResponse},
   }
 
   request.post(options, (captchaErr, captchaRes, body) => {
     if (JSON.parse(body).success) {
-
-      User.findOne({email: email}, function (err, existingUser) {
+      User.findOne({email: email}, function(err, existingUser) {
         if (err) {
           return next(err)
         }
@@ -86,17 +84,17 @@ exports.register = function (req, res, next) {
           email: email,
           password: password,
           fullName: fullName,
-          penName: penName
+          penName: penName,
         })
 
-        user.save(function (err, user) {
+        user.save(function(err, user) {
           if (err) {
             res.status(500).send({})
           }
           // Respond with JWT if user was created
           let userInfo = setUserInfo(user)
           res.status(201).json({
-            token: generateToken(userInfo)
+            token: generateToken(userInfo),
           })
         })
       })
@@ -104,16 +102,14 @@ exports.register = function (req, res, next) {
       res.status(401).send({})
     }
   })
-
-
 }
 
-//========================================
+// ========================================
 // Authorization Middleware
-//========================================
+// ========================================
 
 // Role authorization check
-/*exports.roleAuthorization = function(role) {
+/* exports.roleAuthorization = function(role) {
   return function(req, res, next) {
     const user = req.user;
 

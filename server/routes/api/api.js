@@ -1,15 +1,15 @@
-var express = require('express')
-var router = express.Router()
-var mongoose = require('mongoose')
-var passport = require('passport')
+let express = require('express')
+let router = express.Router()
+let mongoose = require('mongoose')
+let passport = require('passport')
 
-var chapters = require('./chapters')
-var books = require('./books')
-var users = require('./users')
-var likes = require('./likes')
+let chapters = require('./chapters')
+let books = require('./books')
+let users = require('./users')
+let likes = require('./likes')
 
 mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true, promiseLibrary: global.Promise})
-var db = mongoose.connection
+let db = mongoose.connection
 
 const requireAuth = passport.authenticate('jwt', {session: false})
 
@@ -21,24 +21,24 @@ db.once('open', () => {
   router.use('/likes', likes)
 })
 
-var swaggerJSDoc = require('swagger-jsdoc')
-var swaggerDefinition = {
+let swaggerJSDoc = require('swagger-jsdoc')
+let swaggerDefinition = {
   info: {
     title: 'WebNovel API',
     version: '0.0.1',
-    description: 'APIs available for WebNovel'
+    description: 'APIs available for WebNovel',
   },
   host: 'localhost:8080',
-  basePath: '/api/'
+  basePath: '/api/',
 }
 
-var options = {
+let options = {
   swaggerDefinition: swaggerDefinition,
-  apis: ['./server/routes/api/*.js']
+  apis: ['./server/routes/api/*.js'],
 }
 
-var swaggerSpec = swaggerJSDoc(options)
-router.get('/swagger.json', function (req, res) {
+let swaggerSpec = swaggerJSDoc(options)
+router.get('/swagger.json', function(req, res) {
   res.setHeader('Content-Type', 'application/json')
   res.send(swaggerSpec)
 })
