@@ -1,6 +1,7 @@
 <wn-info-text [text]="'There was an error when adding a new chapter. Please try again later.'"
               *ngIf="parentChapter && !parentChapter._id"></wn-info-text>
-<div class="writing-container" *ngIf="parentChapter">
+<div class="writing-container"
+     *ngIf="parentChapter">
   <div class="flex-container">
     <form name="chapter">
       <md-form-field class="full-width">
@@ -13,9 +14,11 @@
   <div class="flex-container">
     <wn-editor [elementId]="'chapter-editor'" (onEditorKeyup)="newChapter.body = $event"></wn-editor>
   </div>
+  <div class="flex-container button-group">
+    <button md-button (click)="saveDraft()" [disabled]="!loaded">Save as Draft</button>
+    <button md-raised-button color="accent" (click)="publishChapter()" [disabled]="!loaded">
+      Publish
+    </button>
+  </div>
   <br>
-  <button md-raised-button (click)="saveDraft()" [disabled]="!loaded" style="margin-left: 72%">Save as Draft</button>
-  <button md-raised-button color="accent" (click)="publishChapter()" [disabled]="!loaded" style="margin-left: 10px">
-    Publish
-  </button>
 </div>

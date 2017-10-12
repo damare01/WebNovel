@@ -1,4 +1,10 @@
-<div *ngIf="bookInfoLoaded" class="container">
+<div *ngIf="bookInfoLoaded" class="container"
+     fxLayout="row"
+     fxLayoutWrap
+     fxLayout.xs="column"
+     fxLayoutAlign="start"
+     fxLayoutGap="10px"
+     fxLayoutGap.xs="5px">
   <div *ngFor="let bookInfo of allBooks" class="book-card">
     <md-card (click)="openBook(bookInfo.book)">
       <md-card-title>{{bookInfo.book.title}}</md-card-title>

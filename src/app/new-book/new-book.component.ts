@@ -20,9 +20,13 @@ export class NewBookComponent implements OnInit {
   newBook: Book = new Book()
   newChapter: Chapter = new Chapter()
 
-  saving: boolean = false
+  saving = false
 
-  constructor(private _bookService: BookService, private _chapterService: ChapterService, private snackBar: MdSnackBar, private router: Router, private _userService: UserService) {
+  constructor(private _bookService: BookService,
+              private _chapterService: ChapterService,
+              private snackBar: MdSnackBar,
+              private router: Router,
+              private _userService: UserService) {
     this.convertEnumToArray()
     this.addLanguages()
   }
@@ -31,7 +35,7 @@ export class NewBookComponent implements OnInit {
   }
 
   convertEnumToArray() {
-    for (let item in Genres) {
+    for (const item in Genres) {
       if (isNaN(Number(item))) {
         this.genres.push(item)
       }
@@ -39,8 +43,8 @@ export class NewBookComponent implements OnInit {
   }
 
   addLanguages() {
-    let english: Language = {code: 'en', name: 'English'}
-    let norwegian: Language = {code: 'no', name: 'Norsk'}
+    const english: Language = {code: 'en', name: 'English'}
+    const norwegian: Language = {code: 'no', name: 'Norsk'}
     this.languages.push(english)
     this.languages.push(norwegian)
   }
@@ -64,7 +68,7 @@ export class NewBookComponent implements OnInit {
         this._bookService.saveBook(this.newBook).subscribe(bookId => {
           this.newChapter.book = bookId
           this._chapterService.updateChapter(this.newChapter).subscribe(res => {
-            this.router.navigate(['/browse'])
+            this.router.navigate(['/home'])
           })
         })
       })

@@ -25,12 +25,12 @@ export class ChapterGridComponent implements OnInit {
 
   ngOnInit() {
     this.updateViewLoaded()
-    let bookIds: Set<string> = new Set()
+    const bookIds: Set<string> = new Set()
     this.chapters.forEach(chapter => {
       if (chapter.book) {
         bookIds.add(chapter.book)
       }
-      let chapterInfo = new ChapterInfo()
+      const chapterInfo = new ChapterInfo()
       chapterInfo.chapter = chapter
       if (this.getLikes) {
         this._likeService.getNumberOfChapterLikes(chapter._id).subscribe(likeCount => {
@@ -57,11 +57,11 @@ export class ChapterGridComponent implements OnInit {
   }
 
   getBookTitle(bookId: string) {
-    let book = this.bookMap.get(bookId)
+    const book = this.bookMap.get(bookId)
     if (book) {
       return book.title
     }
-    return 'Error'
+    return 'Book not found'
   }
 
 }

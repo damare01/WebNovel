@@ -42,21 +42,7 @@ const jwtOptions = {
 
 // Setting up JWT login strategy
 const jwtLogin = new JwtStrategy(jwtOptions, function (payload, done) {
-  /* User.findById(payload._id, function(err, user) {
-    if (err) { return done(err, false); }
 
-    if (user) {
-      done(null, user);
-    } else {
-      done(null, false);
-    }
-  });*/
-  /* console.log(payload);
-  let secSinceSigned = ((new Date().getTime()/1000) - payload.iat);
-  if(secSinceSigned > 2){
-    let user = auth.setUserInfo(payload);
-    auth.generateToken(user);
-  }*/
   if (payload._id) {
     done(null, payload)
   } else {

@@ -45,6 +45,7 @@ import {TagInputModule} from 'ngx-chips'
 import {MyDraftsComponent} from './my-drafts/my-drafts.component'
 import {ChapterGridComponent} from './chapter-grid/chapter-grid.component'
 import {EditDraftComponent} from './edit-draft/edit-draft.component'
+import {FlexLayoutModule} from '@angular/flex-layout'
 
 
 const appRoutes: Routes = [
@@ -114,7 +115,8 @@ const appRoutes: Routes = [
     MdProgressSpinnerModule,
     ReCaptchaModule,
     TagInputModule,
-    MdTabsModule
+    MdTabsModule,
+    FlexLayoutModule
   ],
   providers: [
     AuthenticationService,

@@ -3,6 +3,16 @@
   margin-right: 15%;
 }
 
+.button-group{
+  margin-top: 10px;
+  float: right;
+}
+
+
+.button-group>button{
+  margin-left: 10px;
+}
+
 tag-input {
   width: 50%;
   background-color: inherit;

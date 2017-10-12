@@ -13,6 +13,8 @@
     <wn-editor [elementId]="'draft-editor'" [content]="draft.body" (onEditorKeyup)="draft.body = $event"></wn-editor>
   </div>
   <br>
-  <button md-raised-button (click)="saveDraft()" style="margin-left: 73%">Save draft</button>
-  <button md-raised-button color="accent" (click)="publishChapter()" style="margin-left: 10px">Publish</button>
+  <div class="flex-container button-group">
+    <button md-button (click)="saveDraft()">Save draft</button>
+    <button md-raised-button color="accent" (click)="publishChapter()">Publish</button>
+  </div>
 </div>

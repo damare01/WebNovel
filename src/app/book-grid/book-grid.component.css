@@ -1,17 +1,4 @@
-.book-card {
-  width: 30%;
-  padding: 10px 10px 10px 0;
+.book-card{
+  margin-bottom: 10px;
   cursor: pointer;
 }
-
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-
-.fillerImage {
-  background-color: #ffd740;
-}
-
-

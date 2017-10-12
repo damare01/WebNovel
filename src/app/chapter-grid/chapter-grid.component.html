@@ -1,5 +1,12 @@
 <md-spinner *ngIf="!viewLoaded"></md-spinner>
-<div class="container" *ngIf="viewLoaded">
+<div class="container"
+     *ngIf="viewLoaded"
+     fxLayout="row"
+     fxLayoutWrap
+     fxLayout.xs="column"
+     fxLayoutAlign="start"
+     fxLayoutGap="10px"
+     fxLayoutGap.xs="5px">
   <div *ngFor="let chapterInfo of chapterInfos" class="chapter-card">
     <md-card [routerLink]="editOnClick ? ['/edit', chapterInfo.chapter._id] : ['/read', chapterInfo.chapter._id]">
       <md-card-title>{{chapterInfo.chapter.title}}</md-card-title>
