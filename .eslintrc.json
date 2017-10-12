@@ -1,3 +1,7 @@
 {
-    "extends": "google"
+    "extends": "google",
+    "rules": {
+      "semi": ["warn", "never"],
+      "quotes": ["warn", "single"]
+    }
 }

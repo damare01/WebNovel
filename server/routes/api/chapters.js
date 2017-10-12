@@ -1,7 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const Chapter = require('../../models/chapter');
-const requireAuth = require('passport').authenticate('jwt', {session: false});
+const express = require('express')
+const router = express.Router()
+const Chapter = require('../../models/chapter')
+const requireAuth = require('passport').authenticate('jwt', {session: false})
 
 /**
  * @swagger
@@ -43,9 +43,9 @@ const requireAuth = require('passport').authenticate('jwt', {session: false});
  */
 router.get('/', (req, res) => {
   Chapter.find((err, chapters) => {
-    res.send(chapters);
+    res.send(chapters)
   })
-});
+})
 
 /**
  * @swagger
@@ -65,12 +65,12 @@ router.get('/', (req, res) => {
 router.get('/myChapters', requireAuth, (req, res) => {
   Chapter.find({author: req.user._id, deleted: false, published: true}, (err, chapters) => {
     if (err) {
-      res.status(500).send({});
+      res.status(500).send({})
     } else {
-      res.send(chapters);
+      res.send(chapters)
     }
-  });
-});
+  })
+})
 
 /**
  * @swagger
@@ -94,12 +94,12 @@ router.get('/drafts', requireAuth, (req, res) => {
       published: false
     }, (err, chapters) => {
       if (err) {
-        res.status(500).send({});
+        res.status(500).send({})
       } else {
-        res.send(chapters);
+        res.send(chapters)
       }
     })
-});
+})
 
 /**
  * @swagger
@@ -133,12 +133,12 @@ router.get('/drafts/:id', requireAuth, (req, res) => {
       published: false
     }, (err, chapter) => {
       if (err) {
-        res.status(500).send({});
+        res.status(500).send({})
       } else {
-        res.send(chapter);
+        res.send(chapter)
       }
-    });
-});
+    })
+})
 
 /**
  * @swagger
@@ -156,16 +156,16 @@ router.get('/drafts/:id', requireAuth, (req, res) => {
  *        description: "500 when there was an error"
  */
 router.post('/', requireAuth, (req, res) => {
-  let chapter = new Chapter(req.body);
-  chapter.author = req.user._id;
+  let chapter = new Chapter(req.body)
+  chapter.author = req.user._id
   chapter.save((err) => {
     if (err) {
-      res.sendStatus(500);
+      res.sendStatus(500)
     } else {
-      res.status(201).send(chapter._id);
+      res.status(201).send(chapter._id)
     }
   })
-});
+})
 
 /**
  * @swagger
@@ -185,16 +185,16 @@ router.post('/', requireAuth, (req, res) => {
  *        description: "500 when there was an error"
  */
 router.put('/', requireAuth, (req, res) => {
-  let chapter = new Chapter(req.body);
-  let id = chapter._id;
+  let chapter = new Chapter(req.body)
+  let id = chapter._id
   Chapter.findOneAndUpdate({_id: id, author: req.user._id}, chapter, (err, doc) => {
     if (err) {
-      res.status(500).send({});
+      res.status(500).send({})
     } else {
-      res.status(200).send(doc);
+      res.status(200).send(doc)
     }
   })
-});
+})
 
 /**
  * @swagger
@@ -229,19 +229,19 @@ router.put('/', requireAuth, (req, res) => {
 router.post('/:parentId/child/:childId', requireAuth, (req, res) => {
   Chapter.findOne({_id: req.params['parentId']}, (err, chapter) => {
     if (err) {
-      res.status(500).send({});
+      res.status(500).send({})
     } else {
-      chapter.childrenIds.push(req.params['childId']);
+      chapter.childrenIds.push(req.params['childId'])
       chapter.save((err, done) => {
         if (err) {
-          res.status(500).send({});
+          res.status(500).send({})
         } else {
-          res.status(200).send(chapter);
+          res.status(200).send(chapter)
         }
-      });
+      })
     }
   })
-});
+})
 
 /**
  * @swagger
@@ -267,16 +267,16 @@ router.post('/:parentId/child/:childId', requireAuth, (req, res) => {
  *
  */
 router.get('/id/:id', (req, res) => {
-  let id = req.params.id;
+  let id = req.params.id
   Chapter.findOne({_id: id}, (err, chapter) => {
     if (err) {
-      res.sendStatus(500);
+      res.sendStatus(500)
     } else {
-      res.send(chapter);
+      res.send(chapter)
     }
   })
-});
+})
 
 
-module.exports = router;
+module.exports = router
 

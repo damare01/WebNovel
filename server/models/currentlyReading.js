@@ -1,14 +1,14 @@
-var mongoose = require('mongoose');
+let mongoose = require('mongoose')
 
-var currentlyReadingSchema = new mongoose.Schema({
+let currentlyReadingSchema = new mongoose.Schema({
   book: {
     type: String,
-    required: true
+    required: true,
   },
   chapterTrail: {
     type: [String],
-    required: true
-  }
-});
+    required: true,
+  },
+})
 
-module.exports = mongoose.model('CurrentlyReading', currentlyReadingSchema);
+module.exports = mongoose.model('CurrentlyReading', currentlyReadingSchema)

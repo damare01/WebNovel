@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var User = require('../../models/user');
-var CurrentlyReading = require('../../models/currentlyReading');
-const requireAuth = require('passport').authenticate('jwt', {session: false});
+var express = require('express')
+var router = express.Router()
+var User = require('../../models/user')
+var CurrentlyReading = require('../../models/currentlyReading')
+const requireAuth = require('passport').authenticate('jwt', {session: false})
 
 /**
  * @swagger
@@ -75,16 +75,16 @@ router.get('/currentlyreading/:bookId', requireAuth, (req, res) => {
     },
     (err, user) => {
       if (err) {
-        res.sendStatus(500);
+        res.sendStatus(500)
       } else {
         if (user && user.currentlyReading.length) {
-          res.send(user.currentlyReading[0]);
+          res.send(user.currentlyReading[0])
         } else {
-          res.sendStatus(204);
+          res.sendStatus(204)
         }
       }
     })
-});
+})
 
 /**
  * @swagger
@@ -110,16 +110,16 @@ router.get('/currentlyreading', requireAuth, (req, res) => {
     },
     (err, user) => {
       if (err) {
-        res.status(500).send({});
+        res.status(500).send({})
       } else {
         if (user && user.currentlyReading) {
-          res.send(user.currentlyReading);
+          res.send(user.currentlyReading)
         } else {
-          res.sendStatus(204);
+          res.sendStatus(204)
         }
       }
     })
-});
+})
 
 /**
  * @swagger
@@ -152,12 +152,12 @@ router.get('/:id', (req, res) => {
     },
     (err, user) => {
       if (err) {
-        res.status(500).send({});
+        res.status(500).send({})
       } else {
-        res.send(user);
+        res.send(user)
       }
     })
-});
+})
 
 /**
  * @swagger
@@ -178,7 +178,7 @@ router.get('/:id', (req, res) => {
  *        description: "500 when there was an error"
  */
 router.put('/currentlyreading', requireAuth, (req, res) => {
-  let currentlyReading = new CurrentlyReading(req.body);
+  let currentlyReading = new CurrentlyReading(req.body)
   User.findOneAndUpdate(
     {
       _id: req.user._id,
@@ -197,19 +197,19 @@ router.put('/currentlyreading', requireAuth, (req, res) => {
 
         User.findOne({_id: req.user._id}, (err, user) => {
           if (err) {
-            res.sendStatus(500);
+            res.sendStatus(500)
           } else {
-            user.currentlyReading.push(currentlyReading);
-            user.save();
-            res.sendStatus(200);
+            user.currentlyReading.push(currentlyReading)
+            user.save()
+            res.sendStatus(200)
           }
-        });
+        })
 
       } else {
-        res.sendStatus(200);
+        res.sendStatus(200)
       }
-    });
-});
+    })
+})
 
 
-module.exports = router;
+module.exports = router

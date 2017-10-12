@@ -1,27 +1,27 @@
-var express = require('express');
-var router = express.Router();
-var mongoose = require('mongoose');
-var passport = require('passport');
+var express = require('express')
+var router = express.Router()
+var mongoose = require('mongoose')
+var passport = require('passport')
 
-var chapters = require('./chapters');
-var books = require('./books');
-var users = require('./users');
-var likes = require('./likes');
+var chapters = require('./chapters')
+var books = require('./books')
+var users = require('./users')
+var likes = require('./likes')
 
-mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true, promiseLibrary: global.Promise});
-var db = mongoose.connection;
+mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true, promiseLibrary: global.Promise})
+var db = mongoose.connection
 
-const requireAuth = passport.authenticate('jwt', {session: false});
+const requireAuth = passport.authenticate('jwt', {session: false})
 
 db.once('open', () => {
-  console.log('Connected to db');
-  router.use('/chapters', chapters);
-  router.use('/books', books);
-  router.use('/users', users);
+  console.log('Connected to db')
+  router.use('/chapters', chapters)
+  router.use('/books', books)
+  router.use('/users', users)
   router.use('/likes', likes)
-});
+})
 
-var swaggerJSDoc = require('swagger-jsdoc');
+var swaggerJSDoc = require('swagger-jsdoc')
 var swaggerDefinition = {
   info: {
     title: 'WebNovel API',
@@ -30,21 +30,21 @@ var swaggerDefinition = {
   },
   host: 'localhost:8080',
   basePath: '/api/'
-};
+}
 
 var options = {
   swaggerDefinition: swaggerDefinition,
   apis: ['./server/routes/api/*.js']
-};
+}
 
-var swaggerSpec = swaggerJSDoc(options);
+var swaggerSpec = swaggerJSDoc(options)
 router.get('/swagger.json', function (req, res) {
-  res.setHeader('Content-Type', 'application/json');
-  res.send(swaggerSpec);
-});
+  res.setHeader('Content-Type', 'application/json')
+  res.send(swaggerSpec)
+})
 
 router.get('/', (req, res) => {
   res.send('Error: No parameters')
-});
+})
 
-module.exports = router;
+module.exports = router

@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose')
 
 let chapterSchema = mongoose.Schema({
   author: String, //author id
@@ -25,4 +25,4 @@ let chapterSchema = mongoose.Schema({
   }
 })
 
-module.exports = mongoose.model('Chapter', chapterSchema);
+module.exports = mongoose.model('Chapter', chapterSchema)

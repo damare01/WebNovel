@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var Like = require('../../models/like');
-const requireAuth = require('passport').authenticate('jwt', {session: false});
+var express = require('express')
+var router = express.Router()
+var Like = require('../../models/like')
+const requireAuth = require('passport').authenticate('jwt', {session: false})
 
 /**
  * @swagger
@@ -59,12 +59,12 @@ const requireAuth = require('passport').authenticate('jwt', {session: false});
 router.get('/chapter/:id', (req, res) => {
   Like.find({'deleted': false, 'chapter': req.params['id']}, (err, likes) => {
     if (err) {
-      res.sendStatus(500);
+      res.sendStatus(500)
     } else {
-      res.send(likes);
+      res.send(likes)
     }
   })
-});
+})
 
 /**
  * @swagger
@@ -88,7 +88,7 @@ router.get('/chapter/:id', (req, res) => {
  *
  */
 router.post('/chapter/:id/like', requireAuth, (req, res) => {
-  let user = req.user;
+  let user = req.user
   Like.update({
       'chapter': req.params['id'],
       'user': user._id
@@ -100,12 +100,12 @@ router.post('/chapter/:id/like', requireAuth, (req, res) => {
       upsert: true
     }, (err) => {
       if (err) {
-        res.status(500).send({});
+        res.status(500).send({})
       } else {
-        res.status(200).send({});
+        res.status(200).send({})
       }
     })
-});
+})
 
 /**
  * @swagger
@@ -129,7 +129,7 @@ router.post('/chapter/:id/like', requireAuth, (req, res) => {
  *
  */
 router.post('/chapter/:id/dislike', requireAuth, (req, res) => {
-  let user = req.user;
+  let user = req.user
   Like.update({
       'chapter': req.params['id'],
       'user': user._id
@@ -141,12 +141,12 @@ router.post('/chapter/:id/dislike', requireAuth, (req, res) => {
       upsert: true
     }, (err) => {
       if (err) {
-        res.status(500).send({});
+        res.status(500).send({})
       } else {
-        res.status(200).send({});
+        res.status(200).send({})
       }
     })
-});
+})
 
 /**
  * @swagger
@@ -172,18 +172,18 @@ router.post('/chapter/:id/dislike', requireAuth, (req, res) => {
  *
  */
 router.get('/chapter/:id/mylike', requireAuth, (req, res) => {
-  let user = req.user;
+  let user = req.user
   Like.findOne({
     'chapter': req.params['id'],
     'user': user._id
   }, (err, like) => {
     if (err) {
-      res.status(500).send({});
+      res.status(500).send({})
     } else {
-      res.send(like);
+      res.send(like)
     }
   })
-});
+})
 
 /**
  * @swagger
@@ -215,12 +215,12 @@ router.get('/chapter/:id/numberOfLikes', (req, res) => {
     },
     (err, count) => {
       if (err) {
-        res.status(500).send({});
+        res.status(500).send({})
       } else {
-        res.send({likes: count});
+        res.send({likes: count})
       }
-    });
-});
+    })
+})
 
 /**
  * @swagger
@@ -252,11 +252,11 @@ router.get('/chapter/:id/numberOfDislikes', (req, res) => {
     },
     (err, count) => {
       if (err) {
-        res.status(500).send({});
+        res.status(500).send({})
       } else {
-        res.send({dislikes: count});
+        res.send({dislikes: count})
       }
-    });
-});
+    })
+})
 
-module.exports = router;
+module.exports = router

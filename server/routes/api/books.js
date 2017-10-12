@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var Book = require('../../models/book');
-const requireAuth = require('passport').authenticate('jwt', {session: false});
+var express = require('express')
+var router = express.Router()
+var Book = require('../../models/book')
+const requireAuth = require('passport').authenticate('jwt', {session: false})
 
 /**
  * @swagger
@@ -42,12 +42,12 @@ const requireAuth = require('passport').authenticate('jwt', {session: false});
 router.get('/', (req, res) => {
   Book.find({'deleted': false}, (err, books) => {
     if (err) {
-      res.sendStatus(500);
+      res.sendStatus(500)
     } else {
-      res.send(books);
+      res.send(books)
     }
   })
-});
+})
 /**
  * @swagger
  * /books/mybooks:
@@ -64,18 +64,18 @@ router.get('/', (req, res) => {
  *           $ref: '#/definitions/Book'
  */
 router.get('/mybooks', requireAuth, (req, res) => {
-  let user = req.user;
+  let user = req.user
   Book.find({
     'creator': user._id,
     'deleted': false
   }, (err, books) => {
     if (err) {
-      res.status(500).send({});
+      res.status(500).send({})
     } else {
-      res.send(books);
+      res.send(books)
     }
   })
-});
+})
 
 /**
  * @swagger
@@ -100,19 +100,19 @@ router.get('/mybooks', requireAuth, (req, res) => {
  *           $ref: '#/definitions/Book'
  */
 router.get('/:ids', (req, res) => {
-  let idsString = req.params.ids;
-  let ids = idsString.split(',');
+  let idsString = req.params.ids
+  let ids = idsString.split(',')
   Book.find({
       '_id': {$in: ids},
       'deleted': false
     },
     (err, books) => {
       if (err) {
-        res.status(500).send({});
+        res.status(500).send({})
       }
-      res.send(books);
-    });
-});
+      res.send(books)
+    })
+})
 
 
 /**
@@ -138,17 +138,17 @@ router.get('/:ids', (req, res) => {
  *           $ref: '#/definitions/Book'
  */
 router.get('/id/:id', (req, res) => {
-  let id = req.params.id;
+  let id = req.params.id
   Book.findOne({_id: id, 'deleted': false}, (err, chapter) => {
     if (err) {
-      res.sendStatus(500);
+      res.sendStatus(500)
     } else if (!chapter) {
-      res.sendStatus(204);
+      res.sendStatus(204)
     } else {
-      res.send(chapter);
+      res.send(chapter)
     }
   })
-});
+})
 
 /**
  * @swagger
@@ -166,15 +166,15 @@ router.get('/id/:id', (req, res) => {
  *       description: "500 when there was an error"
  */
 router.post('/', requireAuth, (req, res) => {
-  let book = new Book(req.body);
-  book.creator = req.user._id;
+  let book = new Book(req.body)
+  book.creator = req.user._id
   book.save((err) => {
     if (err) {
-      res.sendStatus(500);
+      res.sendStatus(500)
     } else {
-      res.status(201).send(book._id);
+      res.status(201).send(book._id)
     }
   })
-});
+})
 
-module.exports = router;
+module.exports = router

@@ -1,4 +1,4 @@
-let mongoose = require('mongoose');
+let mongoose = require('mongoose')
 
 let likeSchema = mongoose.Schema({
   chapter: {
@@ -13,6 +13,6 @@ let likeSchema = mongoose.Schema({
     type: Number,
     default: 1
   }
-});
+})
 
-module.exports = mongoose.model('Like', likeSchema);
+module.exports = mongoose.model('Like', likeSchema)

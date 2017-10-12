@@ -2,40 +2,40 @@ const passport = require('passport'),
   User = require('../models/user'),
   JwtStrategy = require('passport-jwt').Strategy,
   ExtractJwt = require('passport-jwt').ExtractJwt,
-  LocalStrategy = require('passport-local');
-auth = require('../routes/api/controllers/authentication');
+  LocalStrategy = require('passport-local')
+auth = require('../routes/api/controllers/authentication')
 
-const localOptions = {usernameField: 'email'};
+const localOptions = {usernameField: 'email'}
 
 // Setting up local login strategy
 const localLogin = new LocalStrategy(localOptions, function (email, password, done) {
   User.findOne({email: email}, function (err, user) {
     if (err) {
-      return done(err);
+      return done(err)
     }
     if (!user) {
-      return done(null, false, {error: 'Your login details could not be verified. Please try again.'});
+      return done(null, false, {error: 'Your login details could not be verified. Please try again.'})
     }
 
     user.comparePassword(password, function (err, isMatch) {
       if (err) {
-        return done(err);
+        return done(err)
       }
       if (!isMatch) {
-        return done(null, false, {error: "Your login details could not be verified. Please try again."});
+        return done(null, false, {error: "Your login details could not be verified. Please try again."})
       }
 
-      return done(null, user);
-    });
-  });
-});
+      return done(null, user)
+    })
+  })
+})
 
 const jwtOptions = {
   // Telling Passport to check authorization headers for JWT
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   // Telling Passport where to find the secret
   secretOrKey: process.env.SECRET
-};
+}
 
 // Setting up JWT login strategy
 const jwtLogin = new JwtStrategy(jwtOptions, function (payload, done) {
@@ -55,11 +55,11 @@ const jwtLogin = new JwtStrategy(jwtOptions, function (payload, done) {
     auth.generateToken(user);
   }*/
   if (payload._id) {
-    done(null, payload);
+    done(null, payload)
   } else {
-    done(null, false);
+    done(null, false)
   }
-});
+})
 
-passport.use(jwtLogin);
-passport.use(localLogin);
+passport.use(jwtLogin)
+passport.use(localLogin)
