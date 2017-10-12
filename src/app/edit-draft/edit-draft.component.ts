@@ -19,7 +19,7 @@ export class EditDraftComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      let chapterId = params['chapterId']
+      const chapterId = params['chapterId']
       this._chapterService.getMyDraft(chapterId).subscribe(draft => {
         this.draft = draft
         if (draft.tags) {

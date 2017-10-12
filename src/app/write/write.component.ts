@@ -16,7 +16,7 @@ export class WriteComponent implements OnInit {
   parentChapter: Chapter
   newChapter: Chapter = new Chapter()
 
-  tags: any
+  tags: any = []
   loaded = false
 
   constructor(private _chapterService: ChapterService,
