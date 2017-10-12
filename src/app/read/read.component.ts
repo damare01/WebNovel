@@ -1,16 +1,16 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {ChapterService} from "../chapter.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Chapter} from "../../models/chapter";
-import {User} from "../../models/user";
-import {UserService} from "../user.service";
-import {LikeService} from "../like.service";
-import {AuthenticationService} from "../authentication.service";
+import {AfterViewInit, Component, OnInit} from '@angular/core'
+import {ChapterService} from '../chapter.service'
+import {ActivatedRoute, Router} from '@angular/router'
+import {Chapter} from '../../models/chapter'
+import {User} from '../../models/user'
+import {UserService} from '../user.service'
+import {LikeService} from '../like.service'
+import {AuthenticationService} from '../authentication.service'
 
-import 'tinymce';
-import 'tinymce/themes/modern';
-import 'tinymce/plugins/table';
-import 'tinymce/plugins/link';
+import 'tinymce'
+import 'tinymce/themes/modern'
+import 'tinymce/plugins/table'
+import 'tinymce/plugins/link'
 
 @Component({
   selector: 'wn-read',
@@ -19,20 +19,20 @@ import 'tinymce/plugins/link';
 })
 export class ReadComponent implements OnInit, AfterViewInit {
 
-  chapterId: string;
-  chapter: Chapter;
-  author: User;
-  liked: boolean = false;
-  disliked: boolean = false;
+  chapterId: string
+  chapter: Chapter
+  author: User
+  liked: boolean = false
+  disliked: boolean = false
 
-  newBody: string = "";
+  newBody: string = ''
 
-  numberOfLikes: number = 0;
-  numberOfDislikes: number = 0;
+  numberOfLikes: number = 0
+  numberOfDislikes: number = 0
 
-  editable: boolean = false;
+  editable: boolean = false
 
-  showGraph: boolean = true;
+  showGraph: boolean = true
 
   constructor(private _chapterService: ChapterService,
               private route: ActivatedRoute,
@@ -44,10 +44,10 @@ export class ReadComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.chapterId = params['chapterId'];
-      this.getChapterAndAuthor(this.chapterId);
-      this.getNumberOfLikes(this.chapterId);
-      this.getMyLike(this.chapterId);
+      this.chapterId = params['chapterId']
+      this.getChapterAndAuthor(this.chapterId)
+      this.getNumberOfLikes(this.chapterId)
+      this.getMyLike(this.chapterId)
     })
   }
 
@@ -65,70 +65,70 @@ export class ReadComponent implements OnInit, AfterViewInit {
       menubar: false,
       setup: editor => {
         editor.on('keyup change', () => {
-          const content = editor.getContent();
-          this.newBody = content;
-        });
+          const content = editor.getContent()
+          this.newBody = content
+        })
       }
-    });
+    })
   }
 
   removeInlineEditor() {
     if (tinymce) {
-      tinymce.remove();
+      tinymce.remove()
     }
   }
 
   editChapter() {
-    this.editable = true;
-    this.initInlineEditor();
+    this.editable = true
+    this.initInlineEditor()
   }
 
   saveChapter() {
-    this.editable = false;
-    this.removeInlineEditor();
+    this.editable = false
+    this.removeInlineEditor()
     if (this.newBody) {
-      this.chapter.body = this.newBody;
+      this.chapter.body = this.newBody
     }
     this._chapterService.updateChapter(this.chapter).subscribe(newChapter => {
-    });
+    })
   }
 
   discardChanges() {
-    this.editable = false;
-    this.removeInlineEditor();
-    let currentChapter = this.chapter;
-    this.chapter = null;
+    this.editable = false
+    this.removeInlineEditor()
+    let currentChapter = this.chapter
+    this.chapter = null
     setTimeout(() => {
-      this.chapter = currentChapter;
-    });
+      this.chapter = currentChapter
+    })
   }
 
   loggedInUserIsAuthor(): boolean {
-    return this._userService.getCurrentUser()._id === this.chapter.author;
+    return this._userService.getCurrentUser()._id === this.chapter.author
   }
 
   getNumberOfLikes(chapterId: string) {
     this._likeService.getNumberOfChapterLikes(chapterId).subscribe(likeCount => {
-      this.numberOfLikes = likeCount.likes;
+      this.numberOfLikes = likeCount.likes
     }, err => {
       //ignore
-    });
+    })
 
     this._likeService.getNumberOfChapterDislikes(chapterId).subscribe(dislikeCount => {
-      this.numberOfDislikes = dislikeCount.dislikes;
+      this.numberOfDislikes = dislikeCount.dislikes
     }, err => {
       //ignore
-    });
+    })
   }
 
   getMyLike(chapterId) {
     this._likeService.getMyChapterLike(chapterId).subscribe(like => {
       if (like.vote === 1) {
-        this.liked = true;
-        this.disliked = false;
+        this.liked = true
+        this.disliked = false
       } else {
-        this.disliked = true;
-        this.liked = false;
+        this.disliked = true
+        this.liked = false
       }
     }, err => {
       //ignore
@@ -137,51 +137,51 @@ export class ReadComponent implements OnInit, AfterViewInit {
 
   getChapterAndAuthor(chapterId: string) {
     this._chapterService.getChapter(this.chapterId).subscribe(chapter => {
-      this.chapter = chapter;
-      this.getUser(this.chapter.author);
-    });
+      this.chapter = chapter
+      this.getUser(this.chapter.author)
+    })
   }
 
   getUser(userId: string) {
     this._userService.getUser(userId).subscribe(user => {
-        this.author = user;
+        this.author = user
       },
       err => {
-        this.author = new User();
-        this.author.penName = 'Unknown';
-      });
+        this.author = new User()
+        this.author.penName = 'Unknown'
+      })
   }
 
   writeChapter(parentChapter: string) {
-    this.router.navigate(['/write', parentChapter]);
+    this.router.navigate(['/write', parentChapter])
   }
 
   like() {
-    this.disliked = false;
-    this.liked = true;
+    this.disliked = false
+    this.liked = true
     this._likeService.likeChapter(this.chapterId).subscribe(res => {
-      this.getNumberOfLikes(this.chapterId);
+      this.getNumberOfLikes(this.chapterId)
     }, err => {
-      this.liked = false;
-      console.log(err);
-    });
+      this.liked = false
+      console.log(err)
+    })
   }
 
   dislike() {
-    this.liked = false;
-    this.disliked = true;
+    this.liked = false
+    this.disliked = true
     this._likeService.dislikeChapter(this.chapterId).subscribe(res => {
-      this.getNumberOfLikes(this.chapterId);
+      this.getNumberOfLikes(this.chapterId)
     }, err => {
-      this.disliked = false;
+      this.disliked = false
     })
   }
 
   toggleGraph() {
-    this.showGraph = !this.showGraph;
+    this.showGraph = !this.showGraph
   }
 
   isLoggedIn(): boolean {
-    return this._authService.isLoggedIn();
+    return this._authService.isLoggedIn()
   }
 }

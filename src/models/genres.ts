@@ -1,4 +1,4 @@
-export enum Genres{
+export enum Genres {
   'Horror',
   'Romance',
   'Science Fiction',

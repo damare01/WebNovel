@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing'
 
-import { SectionHeaderComponent } from './section-header.component';
+import {SectionHeaderComponent} from './section-header.component'
 
 describe('SectionHeaderComponent', () => {
-  let component: SectionHeaderComponent;
-  let fixture: ComponentFixture<SectionHeaderComponent>;
+  let component: SectionHeaderComponent
+  let fixture: ComponentFixture<SectionHeaderComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SectionHeaderComponent ]
+      declarations: [SectionHeaderComponent]
     })
-    .compileComponents();
-  }));
+      .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SectionHeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(SectionHeaderComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

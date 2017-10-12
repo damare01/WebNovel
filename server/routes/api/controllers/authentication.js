@@ -3,13 +3,13 @@ const jwt = require('jsonwebtoken'),
   User = require('../../../models/user'),
   request = require('request');
 
-var generateToken = function(user) {
+var generateToken = function (user) {
   return jwt.sign(user, process.env.SECRET, {
     expiresIn: 604800 // a week in seconds
   });
 }
 
-var setUserInfo = function(request) {
+var setUserInfo = function (request) {
   return {
     _id: request._id,
     fullName: request.fullName,
@@ -18,7 +18,7 @@ var setUserInfo = function(request) {
   };
 };
 
-exports.refresh = function(req,res,next){
+exports.refresh = function (req, res, next) {
   let userInfo = setUserInfo(req.user);
   res.status(200).json({
     token: generateToken(userInfo)
@@ -28,7 +28,7 @@ exports.refresh = function(req,res,next){
 //========================================
 // Login Route
 //========================================
-exports.login = function(req, res, next) {
+exports.login = function (req, res, next) {
 
   let userInfo = setUserInfo(req.user);
 
@@ -41,7 +41,7 @@ exports.login = function(req, res, next) {
 //========================================
 // Registration Route
 //========================================
-exports.register = function(req, res, next) {
+exports.register = function (req, res, next) {
   // Check for registration errors
   const email = req.body.email;
   const fullName = req.body.fullName;
@@ -51,17 +51,17 @@ exports.register = function(req, res, next) {
 
   // Return error if no email provided
   if (!email) {
-    return res.status(422).send({ error: 'You must enter an email address.'});
+    return res.status(422).send({error: 'You must enter an email address.'});
   }
 
   // Return error if full name not provided
   if (!fullName) {
-    return res.status(422).send({ error: 'You must enter your full name.'});
+    return res.status(422).send({error: 'You must enter your full name.'});
   }
 
   // Return error if no password provided
   if (!password) {
-    return res.status(422).send({ error: 'You must enter a password.' });
+    return res.status(422).send({error: 'You must enter a password.'});
   }
 
   var options = {
@@ -69,15 +69,17 @@ exports.register = function(req, res, next) {
     form: {'secret': process.env.RECAPTCHA_SECRET, 'response': captchaResponse}
   };
 
-  request.post(options, (captchaErr, captchaRes, body)=>{
+  request.post(options, (captchaErr, captchaRes, body) => {
     if (JSON.parse(body).success) {
 
-      User.findOne({ email: email }, function(err, existingUser) {
-        if (err) { return next(err); }
+      User.findOne({email: email}, function (err, existingUser) {
+        if (err) {
+          return next(err);
+        }
 
         // If user is not unique, return error
         if (existingUser) {
-          return res.status(422).send({ error: 'That email address is already in use.' });
+          return res.status(422).send({error: 'That email address is already in use.'});
         }
         // If email is unique and password was provided, create account
         let user = new User({
@@ -87,7 +89,7 @@ exports.register = function(req, res, next) {
           penName: penName
         });
 
-        user.save(function(err, user) {
+        user.save(function (err, user) {
           if (err) {
             res.status(500).send({});
           }
@@ -98,7 +100,7 @@ exports.register = function(req, res, next) {
           });
         });
       });
-    }else{
+    } else {
       res.status(401).send({});
     }
   });

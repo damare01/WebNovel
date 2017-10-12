@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {AuthenticationService} from "../authentication.service";
-import {Router} from "@angular/router";
-import {MdSnackBar} from "@angular/material";
+import {Component, OnInit} from '@angular/core'
+import {AuthenticationService} from '../authentication.service'
+import {Router} from '@angular/router'
+import {MdSnackBar} from '@angular/material'
 
 @Component({
   selector: 'wn-login',
@@ -10,8 +10,8 @@ import {MdSnackBar} from "@angular/material";
 })
 export class LoginComponent implements OnInit {
 
-  email: string = "";
-  password: string = "";
+  email: string = ''
+  password: string = ''
 
   constructor(private authService: AuthenticationService, private router: Router, private snackBar: MdSnackBar) {
   }
@@ -21,17 +21,17 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.authService.login(this.email, this.password).subscribe(user => {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/home'])
       },
       err => {
-        this.openSnackBar("Login failed", "OK");
-      });
+        this.openSnackBar('Login failed', 'OK')
+      })
   }
 
-  openSnackBar(message:string, action:string){
+  openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 4000
-    });
+    })
   }
 
 }

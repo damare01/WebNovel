@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {AuthenticationService} from "./authentication.service";
-import {User} from "../models/user";
-import {UserService} from "./user.service";
+import {Component} from '@angular/core'
+import {AuthenticationService} from './authentication.service'
+import {User} from '../models/user'
+import {UserService} from './user.service'
 
 @Component({
   selector: 'app-root',
@@ -10,18 +10,18 @@ import {UserService} from "./user.service";
 })
 export class AppComponent {
 
-  currentUser: User;
+  currentUser: User
 
   constructor(private authenticationService: AuthenticationService, private userService: UserService) {
-    this.currentUser = this.userService.getCurrentUser();
+    this.currentUser = this.userService.getCurrentUser()
   }
 
   logout() {
-    this.authenticationService.logout();
+    this.authenticationService.logout()
   }
 
   isLoggedIn(): boolean {
-    return this.authenticationService.isLoggedIn();
+    return this.authenticationService.isLoggedIn()
   }
 
 

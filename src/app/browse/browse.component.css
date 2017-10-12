@@ -1,12 +1,12 @@
-.add-button{
+.add-button {
   position: absolute;
   left: 92%;
   top: 85%;
   font-size: large;
-  color:white;
+  color: white;
 }
 
-.container{
+.container {
   max-width: 1140px;
   margin: 0 auto;
 }

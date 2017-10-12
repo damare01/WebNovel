@@ -3,12 +3,12 @@ var bcrypt = require('bcrypt-nodejs');
 var CurrentlyReading = require('./currentlyReading').schema;
 
 var userSchema = new mongoose.Schema({
-  fullName:{
+  fullName: {
     type: String,
     trim: true,
     required: true
   },
-  penName:{
+  penName: {
     type: String,
     trim: true
   },
@@ -19,7 +19,7 @@ var userSchema = new mongoose.Schema({
     trim: true,
     required: true
   },
-  password:{
+  password: {
     type: String,
     required: true
   },
@@ -35,20 +35,20 @@ var userSchema = new mongoose.Schema({
   }
 });
 
-userSchema.pre('save', function(next){
+userSchema.pre('save', function (next) {
   const user = this,
     SALT_FACTOR = 5;
 
-  if(!user.isModified('password')){
+  if (!user.isModified('password')) {
     return next();
   }
 
-  bcrypt.genSalt(SALT_FACTOR, function(err, salt){
-    if(err){
+  bcrypt.genSalt(SALT_FACTOR, function (err, salt) {
+    if (err) {
       return next(err);
     }
-    bcrypt.hash(user.password, salt, null, function(err, hash){
-      if(err){
+    bcrypt.hash(user.password, salt, null, function (err, hash) {
+      if (err) {
         return next(err);
       }
       user.password = hash;
@@ -57,9 +57,9 @@ userSchema.pre('save', function(next){
   });
 });
 
-userSchema.methods.comparePassword = function(candidatePassword, cb){
-  bcrypt.compare(candidatePassword, this.password, function(err, isMatch){
-    if(err){
+userSchema.methods.comparePassword = function (candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+    if (err) {
       return cb(err);
     }
     cb(null, isMatch);

@@ -1,3 +1,3 @@
-export class DislikeCount{
-  dislikes: number;
+export class DislikeCount {
+  dislikes: number
 }

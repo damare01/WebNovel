@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {ChapterService} from "../chapter.service";
-import {Chapter} from "../../models/chapter";
+import {Component, OnInit} from '@angular/core'
+import {ChapterService} from '../chapter.service'
+import {Chapter} from '../../models/chapter'
 
 @Component({
   selector: 'wn-my-drafts',
@@ -9,18 +9,19 @@ import {Chapter} from "../../models/chapter";
 })
 export class MyDraftsComponent implements OnInit {
 
-  myDrafts: Chapter[];
+  myDrafts: Chapter[]
 
-  constructor(private _chapterService: ChapterService) { }
+  constructor(private _chapterService: ChapterService) {
+  }
 
   ngOnInit() {
-    this._chapterService.getMyDrafts().subscribe(chapters=>{
-      if(chapters){
-        this.myDrafts = chapters;
-      }else{
-        this.myDrafts = [];
+    this._chapterService.getMyDrafts().subscribe(chapters => {
+      if (chapters) {
+        this.myDrafts = chapters
+      } else {
+        this.myDrafts = []
       }
-    });
+    })
   }
 
 }

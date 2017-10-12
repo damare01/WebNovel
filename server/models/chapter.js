@@ -15,11 +15,11 @@ let chapterSchema = mongoose.Schema({
     type: [String],
     default: []
   },
-  published:{
+  published: {
     type: Boolean,
     default: true
   },
-  deleted:{
+  deleted: {
     type: Boolean,
     default: false
   }

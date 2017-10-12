@@ -1,4 +1,6 @@
 <wn-section-header [title]="'Continue Reading'"></wn-section-header>
 <md-spinner *ngIf="!currentlyReadingBooks"></md-spinner>
-<wn-book-grid *ngIf="currentlyReadingBooks && currentlyReadingBooks.length" [books]="currentlyReadingBooks"></wn-book-grid>
-<wn-info-text *ngIf="currentlyReadingBooks && !currentlyReadingBooks.length" [text]="'You haven\'t started on any book yet...'"></wn-info-text>
+<wn-book-grid *ngIf="currentlyReadingBooks && currentlyReadingBooks.length"
+              [books]="currentlyReadingBooks"></wn-book-grid>
+<wn-info-text *ngIf="currentlyReadingBooks && !currentlyReadingBooks.length"
+              [text]="'You haven\'t started on any book yet...'"></wn-info-text>

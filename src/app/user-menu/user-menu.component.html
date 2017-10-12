@@ -1,4 +1,5 @@
-<button md-button [mdMenuTriggerFor]="menu" class="user-button">{{currentUser.penName || currentUser.fullName}} <i class="fa fa-caret-down"></i></button>
+<button md-button [mdMenuTriggerFor]="menu" class="user-button">{{currentUser.penName || currentUser.fullName}} <i
+  class="fa fa-caret-down"></i></button>
 <md-menu #menu="mdMenu">
   <button md-menu-item [routerLink]="'/home'">Profile</button>
   <button md-menu-item [routerLink]="'/mybooks'">My books</button>

@@ -87,7 +87,7 @@
     "radix": true,
     "semicolon": [
       true,
-      "always"
+      "never"
     ],
     "triple-equals": [
       true,
@@ -117,13 +117,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "app",
+      "wn",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "app",
+      "wn",
       "kebab-case"
     ],
     "use-input-property-decorator": true,

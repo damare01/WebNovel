@@ -14,28 +14,29 @@
   left: 0;
 }*/
 
-.graph{
+.graph {
   width: 100%;
   height: 750px;
 }
 
-/deep/.title-text{
-  fill:#f7f6f3;
+/deep/ .title-text {
+  fill: #f7f6f3;
 }
 
-
-/deep/.link {
+/deep/ .link {
   fill: none;
   stroke: #292929;
   stroke-width: 2px;
 }
-/deep/circle{
+
+/deep/ circle {
   fill: #f7f6f3;
   stroke: #000;
   stroke-width: 1px;
   cursor: pointer;
 }
-/deep/.button{
+
+/deep/ .button {
   cursor: pointer;
 
 }

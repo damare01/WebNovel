@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core'
 
 @Component({
   selector: 'wn-info-text',
@@ -7,8 +7,10 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class InfoTextComponent implements OnInit {
 
-  @Input() text: string = '';
-  constructor() { }
+  @Input() text: string = ''
+
+  constructor() {
+  }
 
   ngOnInit() {
   }

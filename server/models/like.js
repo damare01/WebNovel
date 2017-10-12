@@ -5,11 +5,11 @@ let likeSchema = mongoose.Schema({
     type: String,
     require: true
   },
-  user:{
+  user: {
     type: String,
     require: true
   },
-  vote:{
+  vote: {
     type: Number,
     default: 1
   }

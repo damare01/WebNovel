@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core'
 
 @Component({
   selector: 'wn-section-header',
@@ -7,9 +7,10 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class SectionHeaderComponent implements OnInit {
 
-  @Input() title:string = "";
+  @Input() title: string = ''
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

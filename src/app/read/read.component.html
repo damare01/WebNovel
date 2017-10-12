@@ -3,9 +3,15 @@
     <div *ngIf="chapter && author">
 
       <h2 class="header" *ngIf="chapter">{{chapter.title}}</h2>
-      <button md-button *ngIf="!editable && loggedInUserIsAuthor()" class="edit-button" (click)="editChapter()">EDIT CHAPTER</button>
-      <button md-button *ngIf="editable && loggedInUserIsAuthor()" class="save-button" (click)="discardChanges()">DISCARD CHANGED</button>
-      <button md-raised-button *ngIf="editable && loggedInUserIsAuthor()" color="accent" class="save-button" (click)="saveChapter()">SAVE CHANGES</button>
+      <button md-button *ngIf="!editable && loggedInUserIsAuthor()" class="edit-button" (click)="editChapter()">EDIT
+        CHAPTER
+      </button>
+      <button md-button *ngIf="editable && loggedInUserIsAuthor()" class="save-button" (click)="discardChanges()">
+        DISCARD CHANGED
+      </button>
+      <button md-raised-button *ngIf="editable && loggedInUserIsAuthor()" color="accent" class="save-button"
+              (click)="saveChapter()">SAVE CHANGES
+      </button>
 
       <div>By {{author.penName || author.fullName}}</div>
       <div class="likeStats">
@@ -24,7 +30,8 @@
           <i class="fa" [ngClass]="{'fa-thumbs-o-up': !liked, 'fa-thumbs-up': liked}"></i>
         </button>
 
-        <button [disabled]="!isLoggedIn()" md-fab color="warn" class="dislike" (click)="dislike()" alt="Dislike chapter">
+        <button [disabled]="!isLoggedIn()" md-fab color="warn" class="dislike" (click)="dislike()"
+                alt="Dislike chapter">
           <i class="fa" [ngClass]="{'fa-thumbs-o-down': !disliked, 'fa-thumbs-down': disliked}"></i>
         </button>
         <wn-info-text *ngIf="!isLoggedIn()" [text]="'Login to vote'"></wn-info-text>

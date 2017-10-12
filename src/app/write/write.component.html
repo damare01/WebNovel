@@ -1,4 +1,5 @@
-<wn-info-text [text]="'There was an error when adding a new chapter. Please try again later.'" *ngIf="!parentChapter"></wn-info-text>
+<wn-info-text [text]="'There was an error when adding a new chapter. Please try again later.'"
+              *ngIf="parentChapter && !parentChapter._id"></wn-info-text>
 <div class="writing-container" *ngIf="parentChapter">
   <div class="flex-container">
     <form name="chapter">
@@ -14,5 +15,7 @@
   </div>
   <br>
   <button md-raised-button (click)="saveDraft()" [disabled]="!loaded" style="margin-left: 72%">Save as Draft</button>
-  <button md-raised-button color="accent" (click)="publishChapter()" [disabled]="!loaded" style="margin-left: 10px">Publish</button>
+  <button md-raised-button color="accent" (click)="publishChapter()" [disabled]="!loaded" style="margin-left: 10px">
+    Publish
+  </button>
 </div>

@@ -1,25 +1,25 @@
-.flex-container{
-  display:flex;
+.flex-container {
+  display: flex;
   margin-left: 25%;
   margin-right: 25%;
 }
 
-md-select{
+md-select {
   margin-bottom: 5px;
   width: 250px;
 }
 
-#chapter-title{
+#chapter-title {
   width: 250px;
 }
 
-.full-width{
+.full-width {
   width: 100%;
 }
 
-.book-properties{
+.book-properties {
 }
 
-wn-editor{
+wn-editor {
   width: 100%;
 }

@@ -1,7 +1,7 @@
 <md-spinner *ngIf="!myBooks"></md-spinner>
 <wn-book-grid *ngIf="myBooks" [books]="myBooks"></wn-book-grid>
 <div *ngIf="myBooks && !myBooks.length">
-    <i class="fa fa-book" style="font-size: 64px; color: gray; margin: 0 auto 5px auto"></i>
+  <i class="fa fa-book" style="font-size: 64px; color: gray; margin: 0 auto 5px auto"></i>
   <br>
   <wn-info-text [text]="'You don\'t seem to have created a book yet'"></wn-info-text>
   <br>

@@ -1,4 +1,4 @@
-export class CurrentlyReading{
-  book: string;
-  chapterTrail: string[];
+export class CurrentlyReading {
+  book: string
+  chapterTrail: string[]
 }

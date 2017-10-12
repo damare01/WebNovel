@@ -65,7 +65,7 @@ const requireAuth = require('passport').authenticate('jwt', {session: false});
  *          $ref: '#/definitions/CurrentlyReading'
  *
  */
-router.get('/currentlyreading/:bookId', requireAuth, (req, res)=>{
+router.get('/currentlyreading/:bookId', requireAuth, (req, res) => {
   User.findOne(
     {
       _id: req.user._id, "currentlyReading.book": req.params.bookId
@@ -73,17 +73,17 @@ router.get('/currentlyreading/:bookId', requireAuth, (req, res)=>{
     {
       currentlyReading: {$elemMatch: {book: req.params.bookId}}
     },
-    (err, user)=>{
-      if(err){
+    (err, user) => {
+      if (err) {
         res.sendStatus(500);
-      }else{
-        if(user && user.currentlyReading.length){
+      } else {
+        if (user && user.currentlyReading.length) {
           res.send(user.currentlyReading[0]);
-        }else{
+        } else {
           res.sendStatus(204);
         }
       }
-  })
+    })
 });
 
 /**
@@ -103,22 +103,22 @@ router.get('/currentlyreading/:bookId', requireAuth, (req, res)=>{
  *          $ref: '#/definitions/CurrentlyReading'
  *
  */
-router.get('/currentlyreading', requireAuth, (req, res)=>{
+router.get('/currentlyreading', requireAuth, (req, res) => {
   User.findOne(
     {
       _id: req.user._id
     },
-    (err, user)=>{
-      if(err){
+    (err, user) => {
+      if (err) {
         res.status(500).send({});
-      }else{
-        if(user && user.currentlyReading){
+      } else {
+        if (user && user.currentlyReading) {
           res.send(user.currentlyReading);
-        }else{
+        } else {
           res.sendStatus(204);
         }
       }
-  })
+    })
 });
 
 /**
@@ -145,16 +145,16 @@ router.get('/currentlyreading', requireAuth, (req, res)=>{
  *          $ref: '#/definitions/User'
  *
  */
-router.get('/:id', (req, res)=>{
+router.get('/:id', (req, res) => {
   User.findOne(
     {
       _id: req.params['id']
     },
-    (err, user)=>{
-      if(err){
+    (err, user) => {
+      if (err) {
         res.status(500).send({});
-      }else{
-       res.send(user);
+      } else {
+        res.send(user);
       }
     })
 });
@@ -190,22 +190,22 @@ router.put('/currentlyreading', requireAuth, (req, res) => {
       }
     },
     {
-      upsert:true
+      upsert: true
     },
     (err, user) => {
       if (err) {
 
-        User.findOne({_id: req.user._id}, (err, user)=>{
-          if(err){
+        User.findOne({_id: req.user._id}, (err, user) => {
+          if (err) {
             res.sendStatus(500);
-          }else{
+          } else {
             user.currentlyReading.push(currentlyReading);
             user.save();
             res.sendStatus(200);
           }
         });
 
-      }else{
+      } else {
         res.sendStatus(200);
       }
     });

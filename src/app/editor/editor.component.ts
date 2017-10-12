@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import 'tinymce';
-import 'tinymce/themes/modern';
-import 'tinymce/plugins/table';
-import 'tinymce/plugins/link';
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core'
+import 'tinymce'
+import 'tinymce/themes/modern'
+import 'tinymce/plugins/table'
+import 'tinymce/plugins/link'
 
 @Component({
   selector: 'wn-editor',
@@ -10,11 +10,11 @@ import 'tinymce/plugins/link';
   styleUrls: ['./editor.component.css']
 })
 export class EditorComponent implements OnDestroy, AfterViewInit {
-  @Input() elementId: String;
-  @Output() onEditorKeyup = new EventEmitter<any>();
-  @Input() content: string = '';
+  @Input() elementId: String
+  @Output() onEditorKeyup = new EventEmitter<any>()
+  @Input() content: string = ''
 
-  editor: any;
+  editor: any
 
   constructor() {
   }
@@ -28,18 +28,18 @@ export class EditorComponent implements OnDestroy, AfterViewInit {
       toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
       browser_spellcheck: true,
       setup: editor => {
-        this.editor = editor;
+        this.editor = editor
         editor.on('keyup change', () => {
-          const content = editor.getContent();
-          this.onEditorKeyup.emit(content);
-        });
+          const content = editor.getContent()
+          this.onEditorKeyup.emit(content)
+        })
       },
-    });
+    })
 
-    this.editor.setContent(this.content);
+    this.editor.setContent(this.content)
   }
 
   ngOnDestroy() {
-    tinymce.remove(this.editor);
+    tinymce.remove(this.editor)
   }
 }

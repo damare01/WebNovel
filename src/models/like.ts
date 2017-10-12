@@ -1,5 +1,5 @@
-export class Like{
-  user: string;
-  chapter: string;
-  vote: Number;
+export class Like {
+  user: string
+  chapter: string
+  vote: Number
 }

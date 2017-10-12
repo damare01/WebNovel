@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {User} from "../../models/user";
-import {UserService} from "../user.service";
-import {AuthenticationService} from "../authentication.service";
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core'
+import {User} from '../../models/user'
+import {UserService} from '../user.service'
+import {AuthenticationService} from '../authentication.service'
+import {Router} from '@angular/router'
 
 @Component({
   selector: 'wn-user-menu',
@@ -11,17 +11,17 @@ import {Router} from "@angular/router";
 })
 export class UserMenuComponent implements OnInit {
 
-  currentUser: User;
+  currentUser: User
 
   constructor(private _userService: UserService, private _authenticationService: AuthenticationService, private router: Router) {
   }
 
   ngOnInit() {
-    this.currentUser = this._userService.getCurrentUser();
+    this.currentUser = this._userService.getCurrentUser()
   }
 
-  logout(){
-    this._authenticationService.logout();
-    this.router.navigate(['/login']);
+  logout() {
+    this._authenticationService.logout()
+    this.router.navigate(['/login'])
   }
 }

@@ -63,10 +63,10 @@ router.get('/', (req, res) => {
  *          $ref: '#/definitions/Chapter'
  */
 router.get('/myChapters', requireAuth, (req, res) => {
-  Chapter.find({author: req.user._id, deleted: false, published: true}, (err, chapters)=>{
-    if(err){
+  Chapter.find({author: req.user._id, deleted: false, published: true}, (err, chapters) => {
+    if (err) {
       res.status(500).send({});
-    }else{
+    } else {
       res.send(chapters);
     }
   });

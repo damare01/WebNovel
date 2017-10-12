@@ -214,9 +214,9 @@ router.get('/chapter/:id/numberOfLikes', (req, res) => {
       'vote': 1
     },
     (err, count) => {
-      if(err){
+      if (err) {
         res.status(500).send({});
-      }else{
+      } else {
         res.send({likes: count});
       }
     });
@@ -251,9 +251,9 @@ router.get('/chapter/:id/numberOfDislikes', (req, res) => {
       'vote': -1
     },
     (err, count) => {
-      if(err){
+      if (err) {
         res.status(500).send({});
-      }else{
+      } else {
         res.send({dislikes: count});
       }
     });

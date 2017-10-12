@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {Book} from "../../models/book";
-import {BookService} from "../book.service";
+import {Component, OnInit} from '@angular/core'
+import {Book} from '../../models/book'
+import {BookService} from '../book.service'
 
 @Component({
   selector: 'wn-recommended',
@@ -9,14 +9,15 @@ import {BookService} from "../book.service";
 })
 export class RecommendedComponent implements OnInit {
 
-  recommendedBooks: Book[];
+  recommendedBooks: Book[]
 
-  constructor(private _bookService: BookService) { }
+  constructor(private _bookService: BookService) {
+  }
 
   ngOnInit() {
     //TODO Create an endpoint for getting reccomended books for the user
-    this._bookService.getAllBooks().subscribe(books=>{
-      this.recommendedBooks = books.reverse();
+    this._bookService.getAllBooks().subscribe(books => {
+      this.recommendedBooks = books.reverse()
     })
   }
 

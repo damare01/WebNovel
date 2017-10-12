@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing'
 
-import { InfoTextComponent } from './info-text.component';
+import {InfoTextComponent} from './info-text.component'
 
 describe('InfoTextComponent', () => {
-  let component: InfoTextComponent;
-  let fixture: ComponentFixture<InfoTextComponent>;
+  let component: InfoTextComponent
+  let fixture: ComponentFixture<InfoTextComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InfoTextComponent ]
+      declarations: [InfoTextComponent]
     })
-    .compileComponents();
-  }));
+      .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InfoTextComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(InfoTextComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

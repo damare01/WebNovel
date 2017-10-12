@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {BookService} from "../book.service";
-import {Book} from "../../models/book";
+import {Component, OnInit} from '@angular/core'
+import {BookService} from '../book.service'
+import {Book} from '../../models/book'
 
 @Component({
   selector: 'wn-browse',
@@ -9,13 +9,14 @@ import {Book} from "../../models/book";
 })
 export class BrowseComponent implements OnInit {
 
-  books:Book[];
+  books: Book[]
 
-  constructor(private _bookService: BookService) { }
+  constructor(private _bookService: BookService) {
+  }
 
   ngOnInit() {
-    this._bookService.getAllBooks().subscribe(books =>{
-      this.books = books;
+    this._bookService.getAllBooks().subscribe(books => {
+      this.books = books
     })
   }
 }

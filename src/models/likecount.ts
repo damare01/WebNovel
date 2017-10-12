@@ -1,3 +1,3 @@
-export class LikeCount{
-  likes: number;
+export class LikeCount {
+  likes: number
 }

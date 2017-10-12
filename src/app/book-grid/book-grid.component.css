@@ -1,15 +1,16 @@
-.book-card{
+.book-card {
   width: 30%;
   padding: 10px 10px 10px 0;
   cursor: pointer;
 }
 
-.container{
+.container {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
 }
-.fillerImage{
+
+.fillerImage {
   background-color: #ffd740;
 }
 

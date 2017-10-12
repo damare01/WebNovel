@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing'
 
-import { ChapterGridComponent } from './chapter-grid.component';
+import {ChapterGridComponent} from './chapter-grid.component'
 
 describe('ChapterGridComponent', () => {
-  let component: ChapterGridComponent;
-  let fixture: ComponentFixture<ChapterGridComponent>;
+  let component: ChapterGridComponent
+  let fixture: ComponentFixture<ChapterGridComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChapterGridComponent ]
+      declarations: [ChapterGridComponent]
     })
-    .compileComponents();
-  }));
+      .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChapterGridComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(ChapterGridComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})
