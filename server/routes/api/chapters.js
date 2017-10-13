@@ -268,7 +268,7 @@ router.post('/:parentId/child/:childId', requireAuth, (req, res) => {
  */
 router.get('/id/:id', (req, res) => {
   let id = req.params.id
-  Chapter.findOne({_id: id}, (err, chapter) => {
+  Chapter.findOne({_id: id, published: true}, (err, chapter) => {
     if (err) {
       res.sendStatus(500)
     } else {
