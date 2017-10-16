@@ -46,6 +46,7 @@ import {MyDraftsComponent} from './my-drafts/my-drafts.component'
 import {ChapterGridComponent} from './chapter-grid/chapter-grid.component'
 import {EditDraftComponent} from './edit-draft/edit-draft.component'
 import {FlexLayoutModule} from '@angular/flex-layout'
+import {Angulartics2, Angulartics2GoogleAnalytics, Angulartics2Module} from 'angulartics2'
 
 
 const appRoutes: Routes = [
@@ -116,7 +117,8 @@ const appRoutes: Routes = [
     ReCaptchaModule,
     TagInputModule,
     MdTabsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    Angulartics2Module.forRoot([Angulartics2GoogleAnalytics])
   ],
   providers: [
     AuthenticationService,
