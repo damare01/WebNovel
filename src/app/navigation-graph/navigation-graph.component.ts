@@ -373,7 +373,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     expandButton
       .append('circle')
       .attr('r', (d) => {
-        return (d.data.childrenIds.length && !d.children) || !d.parent ? 10 : 0
+        return (d.data.childrenIds.length && !d.children) || (!d.parent && d.children) ? 10 : 0
       })
       .attr('transform', function (d) {
         return `translate(35, 0)`
@@ -392,7 +392,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .attr('text-anchor', 'middle')
       .attr('dy', '0.4em')
       .attr('visibility', (d) => {
-        return (d.data.childrenIds.length && !d.children) || !d.parent ? 'visible' : 'hidden'
+        return (d.data.childrenIds.length && !d.children) || (!d.parent && d.children) ? 'visible' : 'hidden'
       })
       .text((d) => {
         return '\uf061'
