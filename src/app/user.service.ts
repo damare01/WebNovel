@@ -24,12 +24,12 @@ export class UserService {
   }
 
   getCurrentUser(): User {
-    let tokenString = localStorage.getItem('currentUser')
+    const tokenString = localStorage.getItem('currentUser')
     if (!tokenString) {
       return new User()
     }
-    let token = JSON.parse(tokenString).token
-    let user = jwtDecode(token)
+    const token = JSON.parse(tokenString).token
+    const user = jwtDecode(token)
     return user
   }
 

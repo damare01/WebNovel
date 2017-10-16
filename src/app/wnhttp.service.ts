@@ -6,7 +6,7 @@ import 'rxjs/add/operator/catch'
 @Injectable()
 export class WnHttp extends Http {
 
-  apiUrl: string = '/api'
+  apiUrl = '/api'
 
   constructor(private backend: ConnectionBackend, private defaulOptions: RequestOptions) {
     super(backend, defaulOptions)
@@ -34,7 +34,7 @@ export class WnHttp extends Http {
     options.headers = options.headers || new Headers()
 
     // add authorization header with jwt token
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
     if (currentUser && currentUser.token) {
       options.headers.append('Authorization', 'Bearer ' + currentUser.token)
     }

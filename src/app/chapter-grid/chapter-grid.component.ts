@@ -12,11 +12,11 @@ import {LikeService} from '../like.service'
 export class ChapterGridComponent implements OnInit {
 
   @Input() chapters: Chapter[] = []
-  @Input() getLikes: boolean = true
-  @Input() editOnClick: boolean = false
+  @Input() getLikes = true
+  @Input() editOnClick = false
   chapterInfos: ChapterInfo[] = []
 
-  viewLoaded: boolean = false
+  viewLoaded = false
 
   bookMap: Map<string, Book> = new Map()
 

@@ -10,8 +10,8 @@ import {MdSnackBar} from '@angular/material'
 })
 export class LoginComponent implements OnInit {
 
-  email: string = ''
-  password: string = ''
+  email = ''
+  password = ''
 
   constructor(private authService: AuthenticationService, private router: Router, private snackBar: MdSnackBar) {
   }

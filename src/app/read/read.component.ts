@@ -22,17 +22,17 @@ export class ReadComponent implements OnInit, AfterViewInit {
   chapterId: string
   chapter: Chapter
   author: User
-  liked: boolean = false
-  disliked: boolean = false
+  liked = false
+  disliked = false
 
-  newBody: string = ''
+  newBody = ''
 
-  numberOfLikes: number = 0
-  numberOfDislikes: number = 0
+  numberOfLikes = 0
+  numberOfDislikes = 0
 
-  editable: boolean = false
+  editable = false
 
-  showGraph: boolean = true
+  showGraph = true
 
   constructor(private _chapterService: ChapterService,
               private route: ActivatedRoute,
@@ -61,7 +61,8 @@ export class ReadComponent implements OnInit, AfterViewInit {
       inline: true,
 
       skin_url: '../assets/skins/lightgray',
-      toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+      toolbar: 'insertfile undo redo | styleselect | bold italic ' +
+      '| alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
       menubar: false,
       setup: editor => {
         editor.on('keyup change', () => {
@@ -96,7 +97,7 @@ export class ReadComponent implements OnInit, AfterViewInit {
   discardChanges() {
     this.editable = false
     this.removeInlineEditor()
-    let currentChapter = this.chapter
+    const currentChapter = this.chapter
     this.chapter = null
     setTimeout(() => {
       this.chapter = currentChapter
@@ -111,13 +112,13 @@ export class ReadComponent implements OnInit, AfterViewInit {
     this._likeService.getNumberOfChapterLikes(chapterId).subscribe(likeCount => {
       this.numberOfLikes = likeCount.likes
     }, err => {
-      //ignore
+      // ignore
     })
 
     this._likeService.getNumberOfChapterDislikes(chapterId).subscribe(dislikeCount => {
       this.numberOfDislikes = dislikeCount.dislikes
     }, err => {
-      //ignore
+      // ignore
     })
   }
 
@@ -131,7 +132,7 @@ export class ReadComponent implements OnInit, AfterViewInit {
         this.liked = false
       }
     }, err => {
-      //ignore
+      // ignore
     })
   }
 

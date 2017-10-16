@@ -28,7 +28,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
   private tree: any
   rootChapter: Chapter
   root: any
-  duration: number = 1000
+  duration = 1000
 
   chapterTrail: string[] = []
 
@@ -77,7 +77,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     if (!this.authService.isLoggedIn()) {
       return
     }
-    let currentlyReading: CurrentlyReading = {
+    const currentlyReading: CurrentlyReading = {
       book: this.bookId,
       chapterTrail: this.chapterTrail
     }
@@ -101,7 +101,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     if (currentDepth === maxDepth + 1) {
       return
     }
-    let childrenLength = chapter.childrenIds.length
+    const childrenLength = chapter.childrenIds.length
     let counter = 0
     if (!childrenLength) {
       chapter.children = null
@@ -134,10 +134,10 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
   }
 
   private createGraph() {
-    let element = this.graphContainer.nativeElement
+    const element = this.graphContainer.nativeElement
     this.width = element.offsetWidth - this.margin.left - this.margin.right
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom
-    let svg = d3.select(element)
+    const svg = d3.select(element)
       .append('svg')
       .attr('width', element.offsetWidth)
       .attr('height', element.offsetHeight)
@@ -161,7 +161,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
   }
 
   private update(source) {
-    let duration = this.duration
+    const duration = this.duration
     let nodes, links
     try {
       this.root = d3.hierarchy(this.rootChapter, (d) => {
@@ -180,9 +180,9 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       })
     } catch (e) {
       return
-      //Sometimes it complains about d.data not being set but it doesn't seem
-      //to affect anything
-      //console.log('Error when parsing hierarchy');
+      // Sometimes it complains about d.data not being set but it doesn't seem
+      // to affect anything
+      // console.log('Error when parsing hierarchy');
     }
     // ****************** Nodes section ***************************
     // Update the nodes...
@@ -242,7 +242,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     const linkEnter = link.enter().insert('path', 'g')
       .attr('class', 'link')
       .attr('d', function (d) {
-        var o = {x: source.x0, y: source.y0}
+        const o = {x: source.x0, y: source.y0}
         return diagonal(o, o)
       })
       .style('stroke', (d) => {
@@ -279,7 +279,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .duration(duration)
       .attr('d', function (d) {
         console.log('link exiting')
-        var o = {x: source.x, y: source.y}
+        const o = {x: source.x, y: source.y}
         return diagonal(o, o)
       })
       .remove()
@@ -434,7 +434,6 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
   expandNode(d: any) {
     if (d.data.childrenIds && !d.children) {
       console.log('first triggered')
-      //console.log(d);
       let counter = 0
       d.data.childrenIds.forEach((childId, i) => {
         this.chapterService.getChapter(childId).subscribe(childChapter => {
@@ -466,13 +465,13 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
   viewChapter(d: any) {
     if (d.parent) {
       let parent = d.parent
-      let trailAppend: string[] = []
+      const trailAppend: string[] = []
       while (this.chapterTrail.indexOf(parent.data._id) === -1 || !parent) {
         trailAppend.push(parent.data._id)
         parent = parent.parent
       }
       trailAppend.reverse()
-      let deleteIndex = this.chapterTrail.indexOf(parent.data._id) + 1
+      const deleteIndex = this.chapterTrail.indexOf(parent.data._id) + 1
       this.chapterTrail.splice(deleteIndex, this.chapterTrail.length)
       this.chapterTrail = this.chapterTrail.concat(trailAppend)
       this.chapterTrail.push(d.data._id)

@@ -7,7 +7,7 @@ import * as jwtDecode from 'jwt-decode'
 @Injectable()
 export class AuthenticationService {
 
-  refreshing: boolean = false
+  refreshing = false
 
   constructor(private http: Http) {
   }
@@ -15,7 +15,7 @@ export class AuthenticationService {
   login(email: string, password): Observable<any> {
     return this.http.post('/auth/login', {email: email, password: password})
       .map((response: Response) => {
-        let user = response.json()
+        const user = response.json()
         if (user && user.token) {
           localStorage.setItem('currentUser', JSON.stringify(user))
         }
@@ -36,7 +36,7 @@ export class AuthenticationService {
       captchaResponse: captchaResponse
     })
       .map((response: Response) => {
-        let user = response.json()
+        const user = response.json()
         if (user && user.token) {
           localStorage.setItem('currentUser', JSON.stringify(user))
         }
@@ -47,17 +47,17 @@ export class AuthenticationService {
   refreshToken() {
     this.refreshing = true
     // ensure request options and headers are not null
-    let options = new RequestOptions()
+    const options = new RequestOptions()
     options.headers = new Headers()
 
     // add authorization header with jwt token
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
     if (currentUser && currentUser.token) {
       options.headers.append('Authorization', 'Bearer ' + currentUser.token)
     }
 
     this.http.post('/auth/refreshToken', {}, options).subscribe((response: Response) => {
-      let user = response.json()
+      const user = response.json()
       if (user && user.token) {
         localStorage.setItem('currentUser', JSON.stringify(user))
       }
@@ -66,21 +66,21 @@ export class AuthenticationService {
   }
 
   isLoggedIn(): boolean {
-    let currentUser = localStorage.getItem('currentUser')
+    const currentUser = localStorage.getItem('currentUser')
     if (!currentUser) {
       return false
     }
-    let user = JSON.parse(localStorage.getItem('currentUser'))
-    let userInfo = jwtDecode(user.token)
-    let expires = userInfo.exp
-    let issued = userInfo.iat
-    let now = new Date().valueOf() / 1000
-    let secondsSinceRefresh = now - issued
+    const user = JSON.parse(localStorage.getItem('currentUser'))
+    const userInfo = jwtDecode(user.token)
+    const expires = userInfo.exp
+    const issued = userInfo.iat
+    const now = new Date().valueOf() / 1000
+    const secondsSinceRefresh = now - issued
     if (secondsSinceRefresh > 60 * 60 && !this.refreshing) {
       this.refreshToken()
     }
 
-    let loggedIn: boolean = expires - now > 0
+    const loggedIn: boolean = expires - now > 0
     if (!loggedIn) {
       localStorage.removeItem('currentUser')
     }

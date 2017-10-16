@@ -30,7 +30,7 @@ export class RegisterComponent implements OnInit {
       err => {
         console.log('error')
         console.log(err)
-        let errMsg = JSON.parse(err._body).error
+        const errMsg = JSON.parse(err._body).error
         console.log(errMsg)
         this.openSnackBar(errMsg, 'OK')
       })
