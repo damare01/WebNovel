@@ -4,7 +4,7 @@ import {User} from '../models/user'
 import {UserService} from './user.service'
 
 @Component({
-  selector: 'wn-root',
+  selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
