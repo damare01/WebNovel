@@ -5,4 +5,5 @@ export class User {
   penName: string
   iat: number
   exp: number
+  role: string
 }

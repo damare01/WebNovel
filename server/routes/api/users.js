@@ -30,6 +30,8 @@ const requireAuth = require('passport').authenticate('jwt', {session: false})
  *        type: "string"
  *      created:
  *        type: "Date"
+ *      role:
+ *        type: "string"
  *      resetPasswordToken:
  *        type: "string"
  *      resetPasswordExpires:
