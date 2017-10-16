@@ -2,11 +2,11 @@ let mongoose = require('mongoose')
 
 let currentlyReadingSchema = new mongoose.Schema({
   book: {
-    type: String,
+    type: ObjectId,
     required: true,
   },
   chapterTrail: {
-    type: [String],
+    type: [ObjectId],
     required: true,
   },
 })

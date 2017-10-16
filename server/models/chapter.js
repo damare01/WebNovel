@@ -1,12 +1,12 @@
 let mongoose = require('mongoose')
 
 let chapterSchema = mongoose.Schema({
-  author: String, // author id
+  author: ObjectId, // author id
   title: String,
   body: String,
-  parent: String, // chapter id
-  childrenIds: [String], // chapter ids
-  book: String,
+  parent: ObjectId, // chapter id
+  childrenIds: [ObjectId], // chapter ids
+  book: ObjectId,
   created: {
     type: Date,
     default: Date.now,

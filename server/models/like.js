@@ -2,11 +2,11 @@ let mongoose = require('mongoose')
 
 let likeSchema = mongoose.Schema({
   chapter: {
-    type: String,
+    type: ObjectId,
     require: true,
   },
   user: {
-    type: String,
+    type: ObjectId,
     require: true,
   },
   vote: {

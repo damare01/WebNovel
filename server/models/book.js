@@ -2,7 +2,7 @@ let mongoose = require('mongoose')
 
 let bookSchema = mongoose.Schema({
   creator: {
-    type: String,
+    type: ObjectId,
     required: true,
   }, // author id
   title: {
@@ -10,7 +10,7 @@ let bookSchema = mongoose.Schema({
     required: true,
   },
   startChapter: {
-    type: String,
+    type: ObjectId,
     required: true,
   }, // chapter id
   coverImage: String, // img url
