@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core'
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core'
 import 'tinymce'
 import 'tinymce/themes/modern'
 import 'tinymce/plugins/table'
@@ -12,7 +12,7 @@ import 'tinymce/plugins/link'
 export class EditorComponent implements OnDestroy, AfterViewInit {
   @Input() elementId: String
   @Output() onEditorKeyup = new EventEmitter<any>()
-  @Input() content: string = ''
+  @Input() content = ''
 
   editor: any
 
@@ -25,7 +25,8 @@ export class EditorComponent implements OnDestroy, AfterViewInit {
       height: 400,
       skin_url: '../assets/skins/lightgray',
       menubar: false,
-      toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+      toolbar: `insertfile undo redo | styleselect | bold italic
+      | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image`,
       browser_spellcheck: true,
       setup: editor => {
         this.editor = editor
