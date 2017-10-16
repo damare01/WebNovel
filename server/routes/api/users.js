@@ -30,10 +30,6 @@ const requireAuth = require('passport').authenticate('jwt', {session: false})
  *        type: "string"
  *      created:
  *        type: "Date"
- *      currentlyReading:
- *        type: "array"
- *        items:
- *          type: "CurrentlyReading"
  *      resetPasswordToken:
  *        type: "string"
  *      resetPasswordExpires:
