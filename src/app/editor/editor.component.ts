@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core'
 import 'tinymce'
 import 'tinymce/themes/modern'
-import 'tinymce/plugins/table'
-import 'tinymce/plugins/link'
+import 'tinymce/plugins/paste'
+import 'tinymce/plugins/wordcount'
 
 @Component({
   selector: 'wn-editor',
@@ -24,6 +24,7 @@ export class EditorComponent implements OnDestroy, AfterViewInit {
       selector: '#' + this.elementId,
       height: 400,
       skin_url: '../assets/skins/lightgray',
+      plugins: ['paste', 'wordcount'],
       menubar: false,
       toolbar: `insertfile undo redo | styleselect | bold italic
       | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image`,
@@ -37,7 +38,9 @@ export class EditorComponent implements OnDestroy, AfterViewInit {
       },
     })
 
-    this.editor.setContent(this.content)
+    if (this.editor) {
+      this.editor.setContent(this.content)
+    }
   }
 
   ngOnDestroy() {
