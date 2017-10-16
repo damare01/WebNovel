@@ -123,6 +123,7 @@ export class ReadComponent implements OnInit, AfterViewInit {
   }
 
   getMyLike(chapterId) {
+    this.liked = this.disliked = false
     this._likeService.getMyChapterLike(chapterId).subscribe(like => {
       if (like.vote === 1) {
         this.liked = true
