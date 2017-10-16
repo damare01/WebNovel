@@ -150,6 +150,7 @@ router.get('/:id', (req, res) => {
     {
       _id: req.params['id'],
     },
+    '-currentlyReading',
     (err, user) => {
       if (err) {
         res.status(500).send({})
