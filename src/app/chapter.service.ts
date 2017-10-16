@@ -28,7 +28,7 @@ export class ChapterService {
     return this.wnhttp.post('/chapters', chapter)
   }
 
-  updateChapter(chapter: Chapter): Observable<any> {
+  updateChapter(chapter: Chapter): Observable<Chapter> {
     return this.wnhttp.put('/chapters', chapter)
   }
 

@@ -40,7 +40,9 @@ export class EditDraftComponent implements OnInit {
     this.addTagsToChapter()
     this.draft.published = true
     this._chapterService.updateChapter(this.draft).subscribe(oldChapter => {
-      this.router.navigate(['/read', this.draft._id])
+      this._chapterService.addChildToChapter(oldChapter.parent, oldChapter._id).subscribe(res => {
+        this.router.navigate(['/read', this.draft._id])
+      })
     })
   }
 

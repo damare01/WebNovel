@@ -270,7 +270,7 @@ router.get('/id/:id', (req, res) => {
   let id = req.params.id
   Chapter.findOne({_id: id, published: true}, (err, chapter) => {
     if (err) {
-      res.sendStatus(500)
+      res.status(500).send({})
     } else {
       res.send(chapter)
     }

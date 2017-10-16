@@ -1,7 +1,8 @@
 <div style="text-align:center">
   <md-toolbar color="primary">
     <span [routerLink]="['/home']" style="cursor: pointer; color: white; margin-right: 10px">WebNovel</span>
-    <span style="color:white; font-size: 16px">Alpha</span>
+    <span style="color:white; font-size: 16px; margin-right: 10px">Alpha</span>
+    <a md-button [routerLink]="['/home']" style="color:white">Home</a>
     <span class="fill-remaining-space"></span>
     <span>
       <button color="accent" md-raised-button [routerLink]="['/login']" *ngIf="!isLoggedIn()">LOGIN</button>

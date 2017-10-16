@@ -13,19 +13,19 @@ export class WnHttp extends Http {
   }
 
   get(url: string, options?: RequestOptionsArgs): Observable<any> {
-    return super.get(this.apiUrl + url, this.addJwt(options)).map(response => response.json()).catch(this.handleError)
+    return super.get(this.apiUrl + url, this.addJwt(options)).map(response => response.json())
   }
 
   post(url: string, body: any, options?: RequestOptionsArgs): Observable<any> {
-    return super.post(this.apiUrl + url, body, this.addJwt(options)).map(response => response.json()).catch(this.handleError)
+    return super.post(this.apiUrl + url, body, this.addJwt(options)).map(response => response.json())
   }
 
-  put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
-    return super.put(this.apiUrl + url, body, this.addJwt(options)).catch(this.handleError)
+  put(url: string, body: any, options?: RequestOptionsArgs): Observable<any> {
+    return super.put(this.apiUrl + url, body, this.addJwt(options)).map(response => response.json())
   }
 
   delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
-    return super.delete(this.apiUrl + url, this.addJwt(options)).catch(this.handleError)
+    return super.delete(this.apiUrl + url, this.addJwt(options))
   }
 
   private addJwt(options?: RequestOptionsArgs): RequestOptionsArgs {

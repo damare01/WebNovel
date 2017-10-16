@@ -195,15 +195,15 @@ router.put('/currentlyreading', requireAuth, (req, res) => {
       if (err) {
         User.findOne({_id: req.user._id}, (err, user) => {
           if (err) {
-            res.sendStatus(500)
+            res.status(500).send({})
           } else {
             user.currentlyReading.push(currentlyReading)
             user.save()
-            res.sendStatus(200)
+            res.status(200).send({})
           }
         })
       } else {
-        res.sendStatus(200)
+        res.status(200).send({})
       }
     })
 })
