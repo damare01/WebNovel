@@ -177,8 +177,10 @@ router.get('/id/:id', (req, res) => {
  */
 router.post('/', requireAuth, (req, res) => {
   let book = new Book(req.body)
-  book.author.id= req.user._id
-  book.author.penName = req.user.penName || req.user.fullName;
+  book.author = {
+   id: req.user._id,
+   penName:  req.user.penName || req.user.fullName
+  }
   book.save((err) => {
     if (err) {
       res.sendStatus(500)

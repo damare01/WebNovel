@@ -8,6 +8,7 @@ let books = require('./books')
 let users = require('./users')
 let likes = require('./likes')
 
+mongoose.Promise = global.Promise
 mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true, promiseLibrary: global.Promise})
 let db = mongoose.connection
 
