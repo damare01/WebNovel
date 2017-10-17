@@ -10,7 +10,7 @@ import {BookService} from '../book.service'
 })
 export class CurrentlyReadingComponent implements OnInit {
 
-  currentlyReadingBooks: Book[]
+  currentlyReadingBooks: Book[] = []
 
   constructor(private _userService: UserService, private _bookService: BookService) {
   }

@@ -1,16 +1,17 @@
 let mongoose = require('mongoose')
+let authorSchema = require('./author').schema
 
 let bookSchema = mongoose.Schema({
-  creator: {
-    type: ObjectId,
-    required: true,
-  }, // author id
+  author: {
+    type: authorSchema,
+    required: true
+  },
   title: {
     type: String,
     required: true,
   },
   startChapter: {
-    type: ObjectId,
+    type: String,
     required: true,
   }, // chapter id
   coverImage: String, // img url

@@ -14,7 +14,6 @@ import {LikeService} from '../like.service'
 export class BookGridComponent implements OnInit, OnChanges {
 
   @Input('books') books: Book[] = []
-  allBooks: BookInfo[] = []
   bookInfoLoaded = false
 
   constructor(private _userService: UserService,
@@ -28,22 +27,6 @@ export class BookGridComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    this.allBooks = []
-    if (this.books) {
-      this.books.forEach(book => {
-        const bookInfo = new BookInfo()
-        bookInfo.book = book
-        this._userService.getUser(book.creator).subscribe(user => {
-          bookInfo.creator = user
-          this.allBooks.push(bookInfo)
-          this.updateBookInfoLoaded()
-        })
-      })
-    }
-  }
-
-  updateBookInfoLoaded() {
-    this.bookInfoLoaded = (this.allBooks.length === this.books.length)
   }
 
   openBook(book: Book) {
@@ -61,9 +44,4 @@ export class BookGridComponent implements OnInit, OnChanges {
 
   }
 
-}
-
-class BookInfo {
-  book: Book
-  creator: User
 }

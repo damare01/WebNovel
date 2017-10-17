@@ -6,9 +6,19 @@ const requireAuth = require('passport').authenticate('jwt', {session: false})
 /**
  * @swagger
  * definition:
+ *  Author:
+ *    id:
+ *      type: string
+ *    penName:
+ *      type: string
+ */
+
+/**
+ * @swagger
+ * definition:
  *    Book:
  *     properties:
- *       creator:
+ *       author:
  *         type: "string"
  *       title:
  *         type: "string"
@@ -167,7 +177,8 @@ router.get('/id/:id', (req, res) => {
  */
 router.post('/', requireAuth, (req, res) => {
   let book = new Book(req.body)
-  book.creator = req.user._id
+  book.author.id= req.user._id
+  book.author.penName = req.user.penName || req.user.fullName;
   book.save((err) => {
     if (err) {
       res.sendStatus(500)

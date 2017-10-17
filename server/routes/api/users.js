@@ -110,10 +110,10 @@ router.get('/currentlyreading', requireAuth, (req, res) => {
       if (err) {
         res.status(500).send({})
       } else {
-        if (user && user.currentlyReading) {
+        if(user){
           res.send(user.currentlyReading)
-        } else {
-          res.sendStatus(204)
+        }else{
+          res.send([])
         }
       }
     })

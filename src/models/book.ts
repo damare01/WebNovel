@@ -6,4 +6,10 @@ export class Book {
   coverImage: string // img url
   language: string // language code
   genre: string[]
+  author: Author
+}
+
+export class Author {
+  id: string
+  penName: string
 }

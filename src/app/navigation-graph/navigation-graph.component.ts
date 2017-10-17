@@ -278,7 +278,6 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     const linkExit = link.exit().transition()
       .duration(duration)
       .attr('d', function (d) {
-        console.log('link exiting')
         const o = {x: source.x, y: source.y}
         return diagonal(o, o)
       })
