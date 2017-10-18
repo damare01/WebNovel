@@ -24,7 +24,7 @@ export class ChapterService {
     })
   }
 
-  saveChapter(chapter: Chapter): Observable<any> {
+  saveChapter(chapter: Chapter): Observable<string> {
     return this.wnhttp.post('/chapters', chapter)
   }
 
