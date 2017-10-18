@@ -96,6 +96,45 @@ router.get('/discussions/:discussionId', (req, res) => {
 
 /**
  * @swagger
+ * /comments/discussions/{discussionId}/rootcomments:
+ *   get:
+ *     tags:
+ *       - comment discussion root
+ *     description:
+ *      - Returns all rootcomments (comments with no parents)
+ *        belonging to the provided discussionId
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *      -
+ *        name: "discussionId"
+ *        in: "path"
+ *        description: "The id of the desired discussion"
+ *        required: true
+ *        type: "string"
+ *     responses:
+ *       200:
+ *         description: An array of comment objects
+ *         schema:
+ *           $ref: '#/definitions/Comment'
+ */
+router.get('/discussions/:discussionId/rootcomments', (req, res) => {
+  Comment.find({
+      deleted: false,
+      discussion_id: req.params['discussionId'],
+      parent_id: ''
+    }, (err, comments) => {
+      if (err) {
+        res.status(500).send([])
+      } else {
+        res.send(comments)
+      }
+    }
+  )
+})
+
+/**
+ * @swagger
  * /comments:
  *  post:
  *    tags:

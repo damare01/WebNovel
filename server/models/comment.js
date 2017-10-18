@@ -11,7 +11,10 @@ let commentSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  parent_id: String,
+  parent_id: {
+    type: String,
+    default: ''
+  },
   text: String,
   deleted: {
     type: Boolean,
