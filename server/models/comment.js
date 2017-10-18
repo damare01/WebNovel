@@ -21,3 +21,5 @@ let commentSchema = mongoose.Schema({
     default: false
   }
 })
+
+module.exports = mongoose.model('Comment', commentSchema)

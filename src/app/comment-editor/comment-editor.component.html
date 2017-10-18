@@ -1,0 +1,11 @@
+<div class="new-comment">
+  <div class="editor comment"
+       [textContent]="newComment.text"
+       contenteditable="true"
+       (input)="updateText($event.target.textContent)">
+  </div>
+  <div class="button-group">
+    <button md-button color="accent" (click)="postComment()">Publish</button>
+    <button style="margin-left: 5px" md-button>Cancel</button>
+  </div>
+</div>

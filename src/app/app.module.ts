@@ -46,7 +46,12 @@ import {MyDraftsComponent} from './my-drafts/my-drafts.component'
 import {ChapterGridComponent} from './chapter-grid/chapter-grid.component'
 import {EditDraftComponent} from './edit-draft/edit-draft.component'
 import {FlexLayoutModule} from '@angular/flex-layout'
-import {Angulartics2, Angulartics2GoogleAnalytics, Angulartics2Module} from 'angulartics2'
+import {Angulartics2, Angulartics2GoogleAnalytics, Angulartics2Module} from 'angulartics2';
+import { CommentComponent } from './comment/comment.component';
+import { CommentEditorComponent } from './comment-editor/comment-editor.component'
+import {CommentService} from './comment.service';
+import { DiscussionComponent } from './discussion/discussion.component';
+import { ChapterDiscussionComponent } from './chapter-discussion/chapter-discussion.component'
 
 
 const appRoutes: Routes = [
@@ -96,7 +101,11 @@ const appRoutes: Routes = [
     CapitalizePipe,
     MyDraftsComponent,
     ChapterGridComponent,
-    EditDraftComponent
+    EditDraftComponent,
+    CommentComponent,
+    CommentEditorComponent,
+    DiscussionComponent,
+    ChapterDiscussionComponent
   ],
   imports: [
     BrowserModule,
@@ -127,7 +136,8 @@ const appRoutes: Routes = [
     BookService,
     UserService,
     AuthGuard,
-    LikeService
+    LikeService,
+    CommentService
   ],
   bootstrap: [AppComponent]
 })

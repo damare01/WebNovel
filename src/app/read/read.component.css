@@ -74,3 +74,10 @@ button {
 .edit-button {
   float: right;
 }
+
+.comment-section {
+  margin-top: 10px;
+}
+
+.comment-editor {
+}

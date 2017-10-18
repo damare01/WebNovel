@@ -38,6 +38,10 @@
 
       </div>
     </div>
+
+    <div class="comment-section">
+      <wn-chapter-discussion [chapterId]="chapterId"></wn-chapter-discussion>
+    </div>
     <md-spinner style="margin:auto" *ngIf="!chapter || !author"></md-spinner>
   </div>
   <div class="graph-container">
