@@ -1,8 +1,8 @@
 <div class="new-comment">
-  <div class="editor comment"
-       [textContent]="newComment.text"
+  <div #editor
+       class="editor comment"
        contenteditable="true"
-       (input)="updateText($event.target.textContent)">
+       (input)="updateText($event.target.innerHTML)">
   </div>
   <div class="button-group">
     <button md-button color="accent" (click)="postComment()">Publish</button>
