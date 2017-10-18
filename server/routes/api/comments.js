@@ -61,6 +61,44 @@ router.get('/:commentId', (req, res) => {
 
 /**
  * @swagger
+ * /comments/{commentId}/children:
+ *   get:
+ *     tags:
+ *       - comment children
+ *     description:
+ *      - Returns all comments having the comment with commentId as parent
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *      -
+ *        name: "commentId"
+ *        in: "path"
+ *        description: "The id of the parent comment"
+ *        required: true
+ *        type: "string"
+ *     responses:
+ *       200:
+ *         description: An array of comment objects
+ *         schema:
+ *           $ref: '#/definitions/Comment'
+ */
+router.get('/:commentId/children', (req, res) => {
+  let id = req.params['commentId']
+  Comment.find({
+    deleted: false,
+    parent_id: id
+  }, (err, comments) => {
+    if (err) {
+      res.status(500).send([])
+    } else {
+      res.send(comments)
+    }
+  })
+})
+
+
+/**
+ * @swagger
  * /comments/discussions/{discussionId}:
  *   get:
  *     tags:
@@ -93,6 +131,7 @@ router.get('/discussions/:discussionId', (req, res) => {
     }
   })
 })
+
 
 /**
  * @swagger
