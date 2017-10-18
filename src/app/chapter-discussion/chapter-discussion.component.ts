@@ -10,7 +10,7 @@ import {Comment} from '../../models/comment'
 export class ChapterDiscussionComponent implements OnInit {
 
   @Input() chapterId: string
-  comments: Comment[]
+  comments: Comment[] = []
 
   isExpanded = false
 

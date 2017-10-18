@@ -2,5 +2,5 @@
 <wn-comment-editor [discussionId]="chapterId"
                    class="comment-editor"
                    (postedComment)="addNewComment($event)"></wn-comment-editor>
-<md-card style="cursor: pointer" (click)="toggleExpand()" *ngIf="!isExpanded">Show comments</md-card>
+<md-card *ngIf="comments.length" style="cursor: pointer" (click)="toggleExpand()" *ngIf="!isExpanded">Show comments</md-card>
 <wn-discussion *ngIf="isExpanded" [comments]="comments"></wn-discussion>
