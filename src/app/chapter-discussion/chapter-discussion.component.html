@@ -1,6 +1,10 @@
 <wn-section-header [title]="'Discuss this chapter'"></wn-section-header>
-<wn-comment-editor [discussionId]="chapterId"
+<wn-comment-editor *ngIf="isLoggedIn()"
+                   [discussionId]="chapterId"
                    class="comment-editor"
                    (postedComment)="addNewComment($event)"></wn-comment-editor>
-<md-card *ngIf="comments.length && !isExpanded" style="cursor: pointer" (click)="toggleExpand()">Show comments</md-card>
+<md-card *ngIf="comments.length && !isExpanded"
+         style="cursor: pointer"
+         (click)="toggleExpand()">Show comments
+</md-card>
 <wn-discussion *ngIf="isExpanded" [comments]="comments"></wn-discussion>
