@@ -9,8 +9,13 @@ let commentSchema = mongoose.Schema({
     default: Date.now
   },
   discussion_id: {
-    type: String
+    type: String,
+    required: true
   },
   parent_id: String,
-  text: String
+  text: String,
+  deleted: {
+    type: Boolean,
+    default: false
+  }
 })

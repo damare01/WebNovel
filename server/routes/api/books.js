@@ -151,9 +151,9 @@ router.get('/id/:id', (req, res) => {
   let id = req.params.id
   Book.findOne({'_id': id, 'deleted': false}, (err, chapter) => {
     if (err) {
-      res.sendStatus(500)
+      res.status(500).send({})
     } else if (!chapter) {
-      res.sendStatus(204)
+      res.status(204).send({})
     } else {
       res.send(chapter)
     }
@@ -183,7 +183,7 @@ router.post('/', requireAuth, (req, res) => {
   }
   book.save((err) => {
     if (err) {
-      res.sendStatus(500)
+      res.status(500).send({})
     } else {
       res.status(201).send(book._id)
     }

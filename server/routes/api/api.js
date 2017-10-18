@@ -7,6 +7,7 @@ let chapters = require('./chapters')
 let books = require('./books')
 let users = require('./users')
 let likes = require('./likes')
+let comments = require('./comments')
 
 mongoose.Promise = global.Promise
 mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true, promiseLibrary: global.Promise})
@@ -20,6 +21,7 @@ db.once('open', () => {
   router.use('/books', books)
   router.use('/users', users)
   router.use('/likes', likes)
+  router.user('/comments', comments)
 })
 
 let swaggerJSDoc = require('swagger-jsdoc')
