@@ -37,9 +37,9 @@
         <wn-info-text *ngIf="!isLoggedIn()" [text]="'Login to vote'"></wn-info-text>
 
       </div>
-    </div>
+    </div>ß
 
-    <div class="comment-section">
+    <div class="comment-section" *ngIf="chapter && author">
       <wn-chapter-discussion [chapterId]="chapterId"></wn-chapter-discussion>
     </div>
     <md-spinner style="margin:auto" *ngIf="!chapter || !author"></md-spinner>

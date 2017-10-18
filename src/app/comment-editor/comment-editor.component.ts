@@ -1,7 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core'
 import {CommentService} from '../comment.service'
 import {Comment} from '../../models/comment'
-import {AuthenticationService} from '../authentication.service'
 import {UserService} from '../user.service'
 
 @Component({
