@@ -1,6 +1,5 @@
 let mongoose = require('mongoose')
-let User = require('user')
-let authorSchema = require('authorSchema')
+let authorSchema = require('./author').schema
 
 let commentSchema = mongoose.Schema({
   author: authorSchema,

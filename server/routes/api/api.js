@@ -21,7 +21,7 @@ db.once('open', () => {
   router.use('/books', books)
   router.use('/users', users)
   router.use('/likes', likes)
-  router.user('/comments', comments)
+  router.use('/comments', comments)
 })
 
 let swaggerJSDoc = require('swagger-jsdoc')
