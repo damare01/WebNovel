@@ -30,6 +30,8 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
   root: any
   duration = 1000
 
+  multipleParentNodes: any[] = []
+
   chapterTrail: string[] = []
 
   constructor(private chapterService: ChapterService,
@@ -175,8 +177,13 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       nodes = treeData.descendants(),
         links = treeData.descendants().slice(1)
       // Normalize for fixed-depth.
-      nodes.forEach(function (d) {
+
+      this.multipleParentNodes = []
+      nodes.forEach((d) => {
         d.y = d.depth * 180
+        if (d.data.alternative_parent_ids) {
+          this.multipleParentNodes.push(d)
+        }
       })
     } catch (e) {
       return
@@ -190,6 +197,9 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .data(nodes, function (d) {
         return d.data._id
       })
+
+    this.createMultipleParentLinks(nodes)
+
     // Enter any new nodes at the parent's previous position.
     const nodeEnter = node.enter().append('g')
       .attr('class', 'node')
@@ -207,6 +217,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .style('fill', (d) => {
         return this.colorNode(d)
       })
+
 
     this.createButtons(nodeEnter)
 
@@ -288,6 +299,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       d.y0 = d.y
     })
 
+
     // Creates a curved (diagonal) path from parent to the child nodes
     function diagonal(s, d) {
       return `M ${s.y} ${s.x}
@@ -295,6 +307,34 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
               ${(s.y + d.y) / 2} ${d.x},
               ${d.y} ${d.x}`
     }
+  }
+
+  diagonal(s, d): string {
+    return `M ${s.y} ${s.x}
+            C ${(s.y + d.y) / 2} ${s.x},
+              ${(s.y + d.y) / 2} ${d.x},
+              ${d.y} ${d.x}`
+  }
+
+  createMultipleParentLinks(allNodes: any) {
+    this.graph.selectAll('path.alternative-link')
+      .remove()
+    console.log('removed')
+    this.multipleParentNodes.forEach(childNode => {
+      allNodes.forEach(n => {
+        if (n.data._id === childNode.data.alternative_parent_ids[0]) {
+          console.log('added')
+          const path = this.graph
+            .append('path')
+            .attr('class', 'alternative-link')
+            .transition()
+            .duration(this.duration)
+            .attr('d', () => {
+              return this.diagonal(childNode, n)
+            })
+        }
+      })
+    })
   }
 
   updateNodes(nodeUpdate: any) {

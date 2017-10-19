@@ -29,6 +29,14 @@
   stroke-width: 2px;
 }
 
+/deep/ .alternative-link {
+  fill: none;
+  stroke-width: 2px;
+  stroke: rgba(0, 0, 255, 1);
+  animation-name: fade-in;
+  animation-duration: 1.5s;
+}
+
 /deep/ circle {
   fill: #f7f6f3;
   stroke: #000;
@@ -41,4 +49,11 @@
 
 }
 
-
+@keyframes fade-in {
+  from {
+    stroke: rgba(0, 0, 255, 0)
+  }
+  to {
+    stroke: rgba(0, 0, 255, 1)
+  }
+}
