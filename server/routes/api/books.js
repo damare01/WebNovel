@@ -166,7 +166,7 @@ router.get('/id/:id', (req, res) => {
  *  post:
  *    tags:
  *      - Books
- *    description: "Adds a new chapter to the db"
+ *    description: "Adds a new book (from body) to the db"
  *    produces:
  *      - application/json
  *    responses:
