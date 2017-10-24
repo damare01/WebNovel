@@ -181,9 +181,6 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       this.multipleParentNodes = []
       nodes.forEach((d) => {
         d.y = d.depth * 180
-        if (d.data.alternative_parent_ids) {
-          this.multipleParentNodes.push(d)
-        }
       })
     } catch (e) {
       return
@@ -197,8 +194,6 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .data(nodes, function (d) {
         return d.data._id
       })
-
-    this.createMultipleParentLinks(nodes)
 
     // Enter any new nodes at the parent's previous position.
     const nodeEnter = node.enter().append('g')
@@ -216,6 +211,12 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .attr('r', 1e-6)
       .style('fill', (d) => {
         return this.colorNode(d)
+      })
+      .on('click', (d) => {
+        this.viewChapter(d)
+        if (!d.children) {
+          this.expandNode(d)
+        }
       })
 
 
@@ -250,7 +251,8 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
         return d.data._id
       })
     // Enter any new links at the parent's previous position.
-    const linkEnter = link.enter().insert('path', 'g')
+    const enteringLinks = link.enter()
+    const linkEnter = enteringLinks.insert('path', 'g')
       .attr('class', 'link')
       .attr('d', function (d) {
         const o = {x: source.x0, y: source.y0}
@@ -285,8 +287,34 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
           return '6px'
         }
       })
+    // Add links pointing back to existing path
+    const altLinks = enteringLinks
+      .filter(d => d.data.existingChildId)
+      .insert('path', 'g')
+
+    altLinks
+      .attr('class', 'link')
+      .attr('d', function (d) {
+        const o = {x: source.x0, y: source.y0}
+        return diagonal(o, o)
+      })
+
+    altLinks
+      .transition()
+      .duration(duration)
+      .attr('d', function (d) {
+        let existingNode
+        nodes.forEach(n => {
+          if (n.data._id === d.data.existingChildId) {
+            existingNode = n
+            return
+          }
+        })
+        return diagonal(d, existingNode)
+      })
+
     // Remove any exiting links
-    const linkExit = link.exit().transition()
+    const linkExit = link.exit().filter(d => !d.data.isInAltPath).transition()
       .duration(duration)
       .attr('d', function (d) {
         const o = {x: source.x, y: source.y}
@@ -307,6 +335,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
               ${(s.y + d.y) / 2} ${d.x},
               ${d.y} ${d.x}`
     }
+
   }
 
   diagonal(s, d): string {
@@ -370,7 +399,43 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
   createButtons(nodeEnter: any) {
     this.createAddChapterButton(nodeEnter)
     this.createExpandButton(nodeEnter)
-    this.createViewButton(nodeEnter)
+    this.createAlternativePathButton(nodeEnter)
+  }
+
+  createAlternativePathButton(nodeEnter: any) {
+    const altPathButton = nodeEnter.append('g')
+      .attr('class', 'button alt-path')
+      .on('click', (d) => {
+        this.toggleAlternativePaths(d)
+      })
+
+    altPathButton
+      .append('circle')
+      .attr('r', (d) => {
+        return d.data.altChildrenIds && d.data.altChildrenIds.length ? 10 : 0
+      })
+      .attr('transform', (d) => {
+        return 'translate(25,25)'
+      })
+      .style('fill', '#1010bb')
+
+
+    altPathButton
+      .append('text')
+      .style('fill', 'white')
+      .attr('font-family', 'FontAwesome')
+      .attr('font-size', function (d) {
+        return '0.8em'
+      })
+      .attr('transform', function (d) {
+        return `translate(25, 25)`
+      })
+      .attr('text-anchor', 'middle')
+      .attr('visibility', (d) => {
+        return d.data.altChildrenIds && d.data.altChildrenIds.length ? 'visible' : 'hidden'
+      })
+      .attr('dy', '0.4em')
+      .text('\uf0b2')
   }
 
   createAddChapterButton(nodeEnter: any) {
@@ -438,38 +503,6 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       })
   }
 
-  createViewButton(nodeEnter: any) {
-    const viewButton = nodeEnter
-      .append('g')
-      .attr('class', 'button view')
-      .on('click', (d) => {
-        this.viewChapter(d)
-        if (!d.children) {
-          this.expandNode(d)
-        }
-      })
-    viewButton
-      .append('circle')
-      .attr('r', 10)
-      .attr('transform', function (d) {
-        return `translate(25, 25)`
-      })
-      .style('fill', 'rgb(19, 70, 123)')
-    viewButton
-      .append('text')
-      .style('fill', 'white')
-      .attr('font-family', 'FontAwesome')
-      .attr('font-size', function (d) {
-        return '0.8em'
-      })
-      .attr('transform', function (d) {
-        return `translate(25, 25)`
-      })
-      .attr('text-anchor', 'middle')
-      .attr('dy', '0.4em')
-      .text('\uf06e')
-  }
-
   expandNode(d: any) {
     if (d.data.childrenIds && !d.children) {
       console.log('first triggered')
@@ -483,17 +516,44 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
             d.data.children = []
           }
           d.data.children[i] = childChapter
-          if (++counter >= d.children.length) {
+          if (++counter >= d.data.childrenIds.length) {
             this.update(d)
           }
         })
       })
     } else {
       console.log('second triggered')
-      d._children = d.children
       d.data.children = null
       d.children = null
       this.update(d)
+    }
+  }
+
+  toggleAlternativePaths(d: any) {
+    if (d.data.children.length > 0 && d.data.children.length > d.data.childrenIds.length) {
+      const newChildren = []
+      d.data.children.forEach(child => {
+        if (!child.isInAltPath) {
+          newChildren.push(child)
+        }
+      })
+      d.data.children = newChildren
+      this.update(d)
+    } else if (d.data.altChildrenIds) {
+      let counter = 0
+      const childrenLength = d.data.children.length
+      d.data.altChildrenIds.forEach((childId, i) => {
+        this.chapterService.getChapter(childId).subscribe(childChapter => {
+          childChapter.isInAltPath = true
+          if (!d.data.children) {
+            d.data.children = []
+          }
+          d.data.children[childrenLength + i] = childChapter
+          if (++counter >= d.data.altChildrenIds.length) {
+            this.update(d)
+          }
+        })
+      })
     }
   }
 

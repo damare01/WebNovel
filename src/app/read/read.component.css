@@ -6,7 +6,7 @@
 .graph-container {
   width: 100%;
   border-top: 1px solid darkgray;
-  height: 5%;
+  height: 75%;
   position: fixed;
   bottom: 0;
   overflow-y: hidden;
