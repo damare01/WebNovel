@@ -48,12 +48,16 @@ export class ReadComponent implements OnInit, AfterViewInit {
       this.getChapterAndAuthor(this.chapterId)
       this.getNumberOfLikes(this.chapterId)
       this.getMyLike(this.chapterId)
+      this.addOneView()
     })
   }
 
   ngAfterViewInit() {
   }
 
+  addOneView() {
+    this._chapterService.increaseViewsByOne(this.chapterId).subscribe()
+  }
 
   initInlineEditor() {
     tinymce.init({

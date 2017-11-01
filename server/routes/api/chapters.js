@@ -245,6 +245,41 @@ router.post('/:parentId/child/:childId', requireAuth, (req, res) => {
 
 /**
  * @swagger
+ * /chapters/{id}/increaseviews:
+ *   get:
+ *     tags:
+ *       - Chapters
+ *     description: Increases the number of views a chapter has by one
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *      -
+ *        name: "id"
+ *        in: "path"
+ *        description: "Chapter id"
+ *        required: true
+ *        type: "string"
+ *     responses:
+ *      200:
+ *        description: A chapter object
+ *        schema:
+ *          $ref: '#/definitions/Chapter'
+ *
+ */
+router.post('/:id/increaseviews', (req, res) => {
+  Chapter.findOne({_id: req.params['id']}, (err, chapter) => {
+    if (err) {
+      res.status(500).send({})
+    } else {
+      chapter.views = chapter.views + 1
+      chapter.save()
+      res.send({})
+    }
+  })
+})
+
+/**
+ * @swagger
  * /chapters/id/{id}:
  *   get:
  *     tags:

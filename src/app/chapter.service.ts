@@ -24,6 +24,10 @@ export class ChapterService {
     })
   }
 
+  increaseViewsByOne(id: string): Observable<string> {
+    return this.wnhttp.post(`/chapters/${id}/increaseviews`, {})
+  }
+
   saveChapter(chapter: Chapter): Observable<string> {
     return this.wnhttp.post('/chapters', chapter)
   }

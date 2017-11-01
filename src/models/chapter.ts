@@ -10,4 +10,5 @@ export class Chapter {
   book: string
   tags: string[]
   published: boolean
+  views: number
 }

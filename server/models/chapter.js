@@ -19,10 +19,14 @@ let chapterSchema = mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  views:{
+    type: Number,
+    default: 0
+  },
   deleted: {
     type: Boolean,
     default: false,
-  },
+  }
 })
 
 module.exports = mongoose.model('Chapter', chapterSchema)

@@ -21,6 +21,9 @@
         <span class="number-of-dislikes">
           <i class="fa fa-thumbs-o-down"></i> {{numberOfDislikes}}
         </span>
+        <span style="color: darkgrey">
+          <i class="fa fa-eye"></i> {{chapter.views}}
+        </span>
       </div>
 
       <div class="content" id="chapter-content" *ngIf="chapter" [innerHtml]="chapter.body"></div>
