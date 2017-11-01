@@ -110,6 +110,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     } else if (chapter.childrenIds) {
       chapter.childrenIds.forEach((childId) => {
         this.chapterService.getChapter(childId).subscribe(childChapter => {
+          childChapter.isInAltPath = chapter.isInAltPath
           if (!chapter.children) {
             chapter.children = []
           }
@@ -181,6 +182,9 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       this.multipleParentNodes = []
       nodes.forEach((d) => {
         d.y = d.depth * 180
+        if (d.data.isInAltPath) {
+          d.x -= d.x / 4
+        }
       })
     } catch (e) {
       return
@@ -253,7 +257,13 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     // Enter any new links at the parent's previous position.
     const enteringLinks = link.enter()
     const linkEnter = enteringLinks.insert('path', 'g')
-      .attr('class', 'link')
+      .attr('class', (d) => {
+        if (d.data.isInAltPath) {
+          return 'link alt-link'
+        } else {
+          return 'link'
+        }
+      })
       .attr('d', function (d) {
         const o = {x: source.x0, y: source.y0}
         return diagonal(o, o)
@@ -287,13 +297,22 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
           return '6px'
         }
       })
+
+    link
+      .filter(d => d.data.existingChildId)
+      .transition()
+      .duration(duration)
+      .attr('d', function (d) {
+        return diagonal(d, d.parent)
+      })
     // Add links pointing back to existing path
     const altLinks = enteringLinks
       .filter(d => d.data.existingChildId)
       .insert('path', 'g')
 
+    // altLinks = altLinks.merge(link).filter(d => d.data.existingChildId)
     altLinks
-      .attr('class', 'link')
+      .attr('class', 'link alt-link')
       .attr('d', function (d) {
         const o = {x: source.x0, y: source.y0}
         return diagonal(o, o)
@@ -477,7 +496,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
     expandButton
       .append('circle')
       .attr('r', (d) => {
-        return (d.data.childrenIds.length && !d.children) || (!d.parent && d.children) ? 10 : 0
+        return ((d.data.childrenIds.length && !d.children) || (!d.parent && d.children)) && (!d.data.isInAltPath) ? 10 : 0
       })
       .attr('transform', function (d) {
         return `translate(35, 0)`
@@ -496,7 +515,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
       .attr('text-anchor', 'middle')
       .attr('dy', '0.4em')
       .attr('visibility', (d) => {
-        return (d.data.childrenIds.length && !d.children) || (!d.parent && d.children) ? 'visible' : 'hidden'
+        return ((d.data.childrenIds.length && !d.children) || (!d.parent && d.children)) && (!d.data.isInAltPath) ? 'visible' : 'hidden'
       })
       .text((d) => {
         return '\uf061'
@@ -515,6 +534,8 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
           if (!d.data.children) {
             d.data.children = []
           }
+          childChapter.isInAltPath = d.data.isInAltPath
+
           d.data.children[i] = childChapter
           if (++counter >= d.data.childrenIds.length) {
             this.update(d)
@@ -538,12 +559,14 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
         }
       })
       d.data.children = newChildren
+      d3.selectAll('path.link.alt-link').remove()
       this.update(d)
     } else if (d.data.altChildrenIds) {
       let counter = 0
       const childrenLength = d.data.children.length
       d.data.altChildrenIds.forEach((childId, i) => {
         this.chapterService.getChapter(childId).subscribe(childChapter => {
+
           childChapter.isInAltPath = true
           if (!d.data.children) {
             d.data.children = []
@@ -552,6 +575,7 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
           if (++counter >= d.data.altChildrenIds.length) {
             this.update(d)
           }
+          this.getChildren(childChapter, 0, 100)
         })
       })
     }
