@@ -21,6 +21,18 @@ If you want live updates, meaning the website updates as you write code, run `ng
 
 Then you need to start the node server by running `node server.js`.
 
+## Environment variables
+In order for the server code to run you need to have the following environment variables set:
+
+MONGODB_URI: `mongo://<username>:<password>@<localhost>:<port>/<collection>`
+
+SECRET: `<any string>` (This is used the local login)
+
+### Optional
+RECAPTCHA_SECRET: `<secret from recaptcha>` (This is only needed if you want recaptcha to work)
+
+NODE_ENV: `development | production`
+
 # License
 MIT
 
