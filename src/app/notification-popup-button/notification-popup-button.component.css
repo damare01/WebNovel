@@ -1,0 +1,20 @@
+.notification-list {
+  position: absolute;
+  top: 49px;
+  right: 75px;
+  max-width: 375px;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 1;
+}
+
+.notification-list:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 12px solid #bfbfbf;
+  margin-left: 177px;
+}

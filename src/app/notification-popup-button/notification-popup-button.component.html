@@ -1,0 +1,5 @@
+<button (click)="toggleShowNotifications()" md-icon-button class="fa fa-bell-o" style="color: white"></button>
+<wn-notification-list *ngIf="showNotifications"
+                      [notifications]="notifications"
+                      class="notification-list"
+                      (click)="toggleShowNotifications()"></wn-notification-list>

@@ -20,7 +20,7 @@
         <span class="red">
           <i *ngIf="getLikes" class="fa fa-thumbs-o-down"></i> {{chapterInfo.dislikes}}
         </span>
-        <span style="color: #2f4f4f">
+        <span *ngIf="getLikes" style="color: #2f4f4f">
           <i class="fa fa-eye"></i> {{chapterInfo.chapter.views}}
         </span>
       </md-card-content>

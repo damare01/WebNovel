@@ -1,0 +1,5 @@
+<md-card [routerLink]="getNotificationLink()">
+  <md-card-content>
+    {{actorUser.penName || actorUser.fullName}} has {{notification.verb}} on your {{notification.objectType}}.
+  </md-card-content>
+</md-card>

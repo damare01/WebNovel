@@ -270,9 +270,11 @@ router.post('/:id/increaseviews', (req, res) => {
   Chapter.findOne({_id: req.params['id']}, (err, chapter) => {
     if (err) {
       res.status(500).send({})
-    } else {
+    } else if (chapter) {
       chapter.views = chapter.views + 1
       chapter.save()
+      res.send({})
+    } else {
       res.send({})
     }
   })

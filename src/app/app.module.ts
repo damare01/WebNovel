@@ -51,7 +51,11 @@ import { CommentComponent } from './comment/comment.component';
 import { CommentEditorComponent } from './comment-editor/comment-editor.component'
 import {CommentService} from './comment.service';
 import { DiscussionComponent } from './discussion/discussion.component';
-import { ChapterDiscussionComponent } from './chapter-discussion/chapter-discussion.component'
+import { ChapterDiscussionComponent } from './chapter-discussion/chapter-discussion.component';
+import { NotificationCardComponent } from './notification-card/notification-card.component';
+import { NotificationListComponent } from './notification-list/notification-list.component';
+import { NotificationPopupButtonComponent } from './notification-popup-button/notification-popup-button.component'
+import {NotificationService} from './notification.service'
 
 
 const appRoutes: Routes = [
@@ -105,7 +109,10 @@ const appRoutes: Routes = [
     CommentComponent,
     CommentEditorComponent,
     DiscussionComponent,
-    ChapterDiscussionComponent
+    ChapterDiscussionComponent,
+    NotificationCardComponent,
+    NotificationListComponent,
+    NotificationPopupButtonComponent
   ],
   imports: [
     BrowserModule,
@@ -137,7 +144,8 @@ const appRoutes: Routes = [
     UserService,
     AuthGuard,
     LikeService,
-    CommentService
+    CommentService,
+    NotificationService
   ],
   bootstrap: [AppComponent]
 })

@@ -2,6 +2,7 @@ import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} f
 import {CommentService} from '../comment.service'
 import {Comment} from '../../models/comment'
 import {UserService} from '../user.service'
+import {NotificationService} from '../notification.service'
 
 @Component({
   selector: 'wn-comment-editor',
@@ -18,7 +19,8 @@ export class CommentEditorComponent implements OnInit {
   @ViewChild('editor') editorDiv: ElementRef
 
   constructor(private _commentService: CommentService,
-              private _userService: UserService) {
+              private _userService: UserService,
+              private _notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -35,6 +37,7 @@ export class CommentEditorComponent implements OnInit {
         id: user._id,
         penName: user.penName || user.fullName
       }
+      this._notificationService.postCommentNotification(this.newComment)
       this.postedComment.emit(this.newComment)
       this.text = ''
       this.editorDiv.nativeElement.innerHTML = ''
