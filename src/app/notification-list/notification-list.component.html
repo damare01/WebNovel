@@ -1,6 +1,7 @@
 <div class="background">
-  <div class="notification" *ngFor="let notifcation of notifications">
-    <wn-notification-card [notification]="notifcation"></wn-notification-card>
+  <div class="notification" *ngFor="let notification of notifications">
+    <wn-notification-card (click)="emitCardClick()" [notification]="notification"></wn-notification-card>
   </div>
+  <button *ngIf="showLoadMore" (click)="emitLoadMore()" md-button>Load More</button>
 </div>
 

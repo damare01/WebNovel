@@ -9,8 +9,10 @@ import {Notification} from '../../models/notification'
 })
 export class NotificationPopupButtonComponent implements OnInit {
 
-  notifications: Notification[]
-  showNotifications: boolean
+  notifications: Notification[] = []
+  showNotifications = false
+  loadedAllNotifications = false
+  latestIndexLoaded = 0
 
   numberOfUnreadNotifications: number
 
@@ -18,9 +20,13 @@ export class NotificationPopupButtonComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._notificationService.getLatestNotifications(0, 10).subscribe(notifications => {
+    const from = 0
+    const to = 10
+    this._notificationService.getLatestNotifications(from, to).subscribe(notifications => {
       this.notifications = notifications
       this.numberOfUnreadNotifications = this.notifications.filter(not => !not.read).length
+      this.latestIndexLoaded = to
+      this.loadedAllNotifications = notifications.length < to - from
     })
 
     this.subscribeToNewNotifications()
@@ -28,13 +34,21 @@ export class NotificationPopupButtonComponent implements OnInit {
 
   subscribeToNewNotifications() {
     this._notificationService.getContinousNewNotifications().subscribe(newNotifications => {
-      if (newNotifications.length) {
-        this.numberOfUnreadNotifications = newNotifications.length
-        this._notificationService.getLatestNotifications(newNotifications.length, 10 - newNotifications.length)
-          .subscribe(readNotifications => {
-            this.notifications = newNotifications.concat(readNotifications)
-          })
+        if (newNotifications.length) {
+          this.numberOfUnreadNotifications = newNotifications.length
+          this.notifications = newNotifications.concat(this.notifications)
+
+          this.latestIndexLoaded = this.notifications.length
+        }
       }
+    )
+  }
+
+  loadMoreNotifications() {
+    this._notificationService.getLatestNotifications(this.latestIndexLoaded, this.latestIndexLoaded + 5).subscribe(not => {
+      this.latestIndexLoaded += 5
+      this.notifications = this.notifications.concat(not);
+      this.loadedAllNotifications = this.latestIndexLoaded === this.notifications.length
     })
   }
 

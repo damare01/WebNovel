@@ -9,6 +9,8 @@
     </md-card>
     <wn-notification-list *ngIf="notifications"
                           [notifications]="notifications"
-                          (click)="toggleShowNotifications()"></wn-notification-list>
+                          (cardClick)="toggleShowNotifications()"
+                          (loadMore)="loadMoreNotifications()"
+                          [showLoadMore]="!loadedAllNotifications"></wn-notification-list>
   </div>
 </div>
