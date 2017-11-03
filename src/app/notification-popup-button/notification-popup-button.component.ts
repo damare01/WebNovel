@@ -48,8 +48,6 @@ export class NotificationPopupButtonComponent implements OnInit {
       this.latestIndexLoaded += 5
       this.notifications = this.notifications.concat(not)
       this.loadedAllNotifications = this.latestIndexLoaded > this.notifications.length
-      console.log(this.latestIndexLoaded)
-      console.log(this.notifications.length)
     })
   }
 
