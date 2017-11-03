@@ -43,11 +43,16 @@ export class NotificationService {
     })
   }
 
-  readNotification(notification: Notification): void {
-    const notificationClone = new Notification()
-    notificationClone._id = notification._id
-    notificationClone.read = true
-    this.updateNotification(notificationClone).subscribe()
+  postChapterNotification(oldChapterId: string, newChapterId: string) {
+    const notification = new Notification()
+    notification.verb = 'added a chapter to'
+    notification.actorId = this._userService.getCurrentUser()._id
+    notification.objectType = 'chapter'
+    notification.objectId = newChapterId
+    this._chapterService.getChapter(oldChapterId).subscribe(chapter => {
+      notification.subjectId = chapter.author
+      this.saveNotification(notification).subscribe()
+    })
   }
 
   postLikeNotification(chapterId: string, liked: boolean): void {
@@ -61,6 +66,13 @@ export class NotificationService {
 
       this.saveNotification(notification).subscribe()
     })
+  }
+
+  readNotification(notification: Notification): void {
+    const notificationClone = new Notification()
+    notificationClone._id = notification._id
+    notificationClone.read = true
+    this.updateNotification(notificationClone).subscribe()
   }
 
   getContinousNewNotifications(): Observable<Notification[]> {

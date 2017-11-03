@@ -3,8 +3,8 @@ import {ChapterService} from '../chapter.service'
 import {ActivatedRoute, Router} from '@angular/router'
 import {Chapter} from '../../models/chapter'
 import {UserService} from '../user.service'
-import {TagModel} from 'ngx-chips/dist/modules/core'
 import {isString} from 'util'
+import {NotificationService} from '../notification.service'
 
 @Component({
   selector: 'wn-write',
@@ -22,7 +22,8 @@ export class WriteComponent implements OnInit {
   constructor(private _chapterService: ChapterService,
               private route: ActivatedRoute,
               private router: Router,
-              private _userService: UserService) {
+              private _userService: UserService,
+              private _notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -62,6 +63,7 @@ export class WriteComponent implements OnInit {
       if (!draft) {
         this._chapterService.addChildToChapter(this.parentChapter._id, chapterId).subscribe((response) => {
           this.loaded = true
+          this._notificationService.postChapterNotification(this.parentChapter._id, chapterId)
           this.router.navigate(['read', chapterId])
         })
       } else {

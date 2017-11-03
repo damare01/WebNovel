@@ -3,6 +3,7 @@ import {Chapter} from '../../models/chapter'
 import {ChapterService} from '../chapter.service'
 import {ActivatedRoute, Router} from '@angular/router'
 import {isString} from 'util'
+import {NotificationService} from '../notification.service'
 
 @Component({
   selector: 'wn-edit-draft',
@@ -14,7 +15,10 @@ export class EditDraftComponent implements OnInit {
   draft: Chapter
   tags: any = []
 
-  constructor(private _chapterService: ChapterService, private route: ActivatedRoute, private router: Router) {
+  constructor(private _chapterService: ChapterService,
+              private route: ActivatedRoute,
+              private router: Router,
+              private _notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -41,6 +45,7 @@ export class EditDraftComponent implements OnInit {
     this.draft.published = true
     this._chapterService.updateChapter(this.draft).subscribe(oldChapter => {
       this._chapterService.addChildToChapter(oldChapter.parent, oldChapter._id).subscribe(res => {
+        this._notificationService.postChapterNotification(oldChapter.parent, this.draft._id)
         this.router.navigate(['/read', this.draft._id])
       })
     })
