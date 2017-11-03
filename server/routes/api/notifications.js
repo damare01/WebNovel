@@ -77,9 +77,39 @@ router.post('/', requireAuth, (req, res) => {
   newNotification.actorId = req.user._id
   newNotification.save(err => {
     if (err) {
+      console.log(err)
       res.status(500).send({})
     } else {
       res.status(201).send(newNotification._id)
+    }
+  })
+})
+
+/**
+ * @swagger
+ * /notifications:
+ *   put:
+ *    tags:
+ *      - notifications
+ *    description: "Modifies an existing notification if the logged in user is the receiver of the notification (subject)"
+ *    produces:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: "The old notification object"
+ *        schema:
+ *          $ref: '#/definitions/Notification'
+ *      500:
+ *        description: "500 when there was an error"
+ */
+router.put('/', requireAuth, (req, res) => {
+  let notification = new Notification(req.body)
+  let id = notification._id
+  Notification.findOneAndUpdate({_id: id, subjectId: req.user._id}, notification, (err, doc) => {
+    if (err) {
+      res.status(500).send({})
+    } else {
+      res.status(200).send(doc)
     }
   })
 })
@@ -116,21 +146,12 @@ router.post('/', requireAuth, (req, res) => {
  *           $ref: '#/definitions/Notification'
  */
 router.get('/range/:from/:to', requireAuth, (req, res) => {
-  let from = req.params['from']
-  let to = req.params['to']
+  let from = Number(req.params['from'])
+  let to = Number(req.params['to'])
   let userId = req.user['_id']
-  Notification.find({
-      subjectId: userId
-    },
-    null,
-    {
-      $skip: from,
-      $limit: to,
-      $sort: {
-        created: -1
-      }
-    },
-    (err, notifications) => {
+  let query = Notification.find({subjectId: userId}).skip(from).limit(to-from).sort({'created': -1})
+
+    query.exec((err, notifications) => {
       if(err){
         console.log(err)
         res.status(500).send({})

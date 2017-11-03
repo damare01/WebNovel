@@ -1,4 +1,5 @@
 export class Notification {
+  _id: string
   created: Date
   actorId: string
   subjectId: string
@@ -6,4 +7,5 @@ export class Notification {
   verb: string
   objectType: string
   read: boolean
+
 }

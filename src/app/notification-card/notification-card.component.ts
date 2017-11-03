@@ -41,4 +41,8 @@ export class NotificationCardComponent implements OnInit {
     }
   }
 
+  readNotification() {
+    this.notification.read = true
+  }
+
 }

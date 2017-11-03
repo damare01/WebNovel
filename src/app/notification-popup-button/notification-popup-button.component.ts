@@ -12,17 +12,40 @@ export class NotificationPopupButtonComponent implements OnInit {
   notifications: Notification[]
   showNotifications: boolean
 
+  numberOfUnreadNotifications: number
+
   constructor(private _notificationService: NotificationService) {
   }
 
   ngOnInit() {
     this._notificationService.getLatestNotifications(0, 10).subscribe(notifications => {
       this.notifications = notifications
+      this.numberOfUnreadNotifications = this.notifications.filter(not => !not.read).length
+    })
+
+    this.subscribeToNewNotifications()
+  }
+
+  subscribeToNewNotifications() {
+    this._notificationService.getContinousNewNotifications().subscribe(newNotifications => {
+      if (newNotifications.length) {
+        this.numberOfUnreadNotifications = newNotifications.length
+        this._notificationService.getLatestNotifications(newNotifications.length, 10 - newNotifications.length)
+          .subscribe(readNotifications => {
+            this.notifications = newNotifications.concat(readNotifications)
+          })
+      }
     })
   }
 
   toggleShowNotifications() {
     this.showNotifications = !this.showNotifications
+    this.numberOfUnreadNotifications = 0
+    this.notifications.forEach(notification => {
+      if (!notification.read) {
+        this._notificationService.readNotification(notification)
+      }
+    })
   }
 
 }

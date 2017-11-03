@@ -18,10 +18,17 @@ let notificationSchema = new mongoose.Schema({
   },
   verb:{
     type: String,
-    require: true
+    require: true,
+    enum: [
+      'commented on',
+      'liked',
+      'disliked',
+      'added a chapter to'
+    ]
   },
   objectType:{
     type: String,
+    require: true,
     enum: [
       'comment',
       'chapter',

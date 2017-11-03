@@ -1,15 +1,17 @@
 import {Injectable} from '@angular/core'
 import {WnHttp} from './wnhttp.service'
-import {Observable} from 'rxjs/Observable'
+import {Observable} from 'rxjs/Rx'
 import {Notification} from '../models/notification'
 import {Comment} from '../models/comment'
 import {ChapterService} from './chapter.service'
+import {UserService} from './user.service'
 
 @Injectable()
 export class NotificationService {
 
   constructor(private _wnhttp: WnHttp,
-              private _chapterService: ChapterService) {
+              private _chapterService: ChapterService,
+              private _userService: UserService) {
   }
 
   getNewNotifications(): Observable<Notification[]> {
@@ -17,8 +19,11 @@ export class NotificationService {
   }
 
   saveNotification(notification: Notification): Observable<string> {
-    console.log('posting that notification boii')
     return this._wnhttp.post('/notifications', notification)
+  }
+
+  updateNotification(notification: Notification): Observable<Notification> {
+    return this._wnhttp.put('/notifications', notification)
   }
 
   getLatestNotifications(from: number, to: number): Observable<Notification[]> {
@@ -36,5 +41,31 @@ export class NotificationService {
 
       this.saveNotification(notification).subscribe()
     })
+  }
+
+  readNotification(notification: Notification): void {
+    const notificationClone = new Notification()
+    notificationClone._id = notification._id
+    notificationClone.read = true
+    this.updateNotification(notificationClone).subscribe()
+  }
+
+  postLikeNotification(chapterId: string, liked: boolean): void {
+    const notification = new Notification()
+    notification.verb = liked ? 'liked' : 'disliked'
+    notification.actorId = this._userService.getCurrentUser()._id
+    notification.objectType = 'chapter'
+    notification.objectId = chapterId
+    this._chapterService.getChapter(chapterId).subscribe(chapter => {
+      notification.subjectId = chapter.author
+
+      this.saveNotification(notification).subscribe()
+    })
+  }
+
+  getContinousNewNotifications(): Observable<Notification[]> {
+    return Observable
+      .interval(0.5 * 60 * 1000)
+      .flatMap(() => this.getNewNotifications())
   }
 }

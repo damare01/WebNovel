@@ -3,13 +3,13 @@
     <span [routerLink]="['/home']" style="cursor: pointer; color: white; margin-right: 10px">WebNovel</span>
     <span style="color:white; font-size: 16px; margin-right: 10px">Alpha</span>
     <a md-button [routerLink]="['/home']" style="color:white">Home</a>
+    <button md-raised-button color="accent" [routerLink]="'/newbook'" *ngIf="isLoggedIn()">Start a Book</button>
     <span class="fill-remaining-space"></span>
     <span>
       <button color="accent" md-raised-button [routerLink]="['/login']" *ngIf="!isLoggedIn()">LOGIN</button>
       <button color="accent" md-raised-button [routerLink]="['/register']" *ngIf="!isLoggedIn()">REGISTER</button>
-      <wn-notification-popup-button *ngIf="isLoggedIn()"></wn-notification-popup-button>
       <wn-user-menu *ngIf="isLoggedIn()"></wn-user-menu>
-      <button md-raised-button color="accent" [routerLink]="'/newbook'" *ngIf="isLoggedIn()">Start a Book</button>
+      <wn-notification-popup-button *ngIf="isLoggedIn()"></wn-notification-popup-button>
     </span>
   </md-toolbar>
 </div>

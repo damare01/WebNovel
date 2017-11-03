@@ -1,20 +1,46 @@
-.notification-list {
+.notification-list-wrapper {
   position: absolute;
-  top: 49px;
-  right: 75px;
+  top: 65px;
+  right: 13px;
+  z-index: 1;
+  overflow-y: hidden;
+}
+
+.arrow {
+  position: absolute;
+  top: 42px;
+  right: 28px;
+  font-size: 33px;
+  color: #bfbfbf;
+}
+
+.notification-list {
+  min-width: 375px;
   max-width: 375px;
   max-height: 400px;
   overflow-y: auto;
-  z-index: 1;
+  background-color: #bfbfbf;
+  border: 5px solid #bfbfbf;
 }
 
-.notification-list:before {
-  content: "";
-  display: block;
-  width: 0;
-  height: 0;
-  border-left: 12px solid transparent;
-  border-right: 12px solid transparent;
-  border-bottom: 12px solid #bfbfbf;
-  margin-left: 177px;
+.hidden {
+  display: none;
+}
+
+mark {
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  border: 2px solid #FFF;
+  width: 20px;
+  height: 20px;
+  background-color: #FF6B6B;
+  position: absolute;
+  top: -1px;
+  left: 20px;
+  font-size: 10px;
+  line-height: 20px;
+  font-family: 'Roboto', sans-serif;
+  color: #FFF;
+  font-weight: 700;
 }

@@ -1,5 +1,6 @@
-<md-card [routerLink]="getNotificationLink()">
+<md-card [routerLink]="getNotificationLink()" (click)="readNotification()">
   <md-card-content>
-    {{actorUser.penName || actorUser.fullName}} has {{notification.verb}} on your {{notification.objectType}}.
+    <span *ngIf="!notification.read" class="unread"><i class="fa fa-circle" aria-hidden="true"></i></span>
+    <span>{{actorUser.penName || actorUser.fullName}} has {{notification.verb}} your {{notification.objectType}}.</span>
   </md-card-content>
 </md-card>

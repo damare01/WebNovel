@@ -11,6 +11,7 @@ import 'tinymce'
 import 'tinymce/themes/modern'
 import 'tinymce/plugins/table'
 import 'tinymce/plugins/link'
+import {NotificationService} from '../notification.service'
 
 @Component({
   selector: 'wn-read',
@@ -39,7 +40,8 @@ export class ReadComponent implements OnInit, AfterViewInit {
               private router: Router,
               private _userService: UserService,
               private _likeService: LikeService,
-              private _authService: AuthenticationService) {
+              private _authService: AuthenticationService,
+              private _notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -167,6 +169,7 @@ export class ReadComponent implements OnInit, AfterViewInit {
     this.liked = true
     this._likeService.likeChapter(this.chapterId).subscribe(res => {
       this.getNumberOfLikes(this.chapterId)
+      this._notificationService.postLikeNotification(this.chapterId, true)
     }, err => {
       this.liked = false
       console.log(err)
@@ -178,6 +181,7 @@ export class ReadComponent implements OnInit, AfterViewInit {
     this.disliked = true
     this._likeService.dislikeChapter(this.chapterId).subscribe(res => {
       this.getNumberOfLikes(this.chapterId)
+      this._notificationService.postLikeNotification(this.chapterId, false)
     }, err => {
       this.disliked = false
     })
