@@ -46,8 +46,10 @@ export class NotificationPopupButtonComponent implements OnInit {
   loadMoreNotifications() {
     this._notificationService.getLatestNotifications(this.latestIndexLoaded, this.latestIndexLoaded + 5).subscribe(not => {
       this.latestIndexLoaded += 5
-      this.notifications = this.notifications.concat(not);
-      this.loadedAllNotifications = this.latestIndexLoaded === this.notifications.length
+      this.notifications = this.notifications.concat(not)
+      this.loadedAllNotifications = this.latestIndexLoaded > this.notifications.length
+      console.log(this.latestIndexLoaded)
+      console.log(this.notifications.length)
     })
   }
 
@@ -57,7 +59,7 @@ export class NotificationPopupButtonComponent implements OnInit {
     this.notifications.forEach(notification => {
       if (!notification.read) {
         this._notificationService.readNotification(notification)
-        if(!this.showNotifications) {
+        if (!this.showNotifications) {
           notification.read = true
         }
       }
