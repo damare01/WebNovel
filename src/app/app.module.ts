@@ -140,7 +140,8 @@ const appRoutes: Routes = [
     MdTabsModule,
     FlexLayoutModule,
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
-    FileUploadModule
+    FileUploadModule,
+    MdToolbarModule
   ],
   providers: [
     AuthenticationService,

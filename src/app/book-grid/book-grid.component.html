@@ -15,7 +15,9 @@
              angularticsEvent="ReadClick"
              angularticsCategory="{{book.title}}">
       <md-card-title>{{book.title}}</md-card-title>
-      <md-card-content>{{book.description || 'No description...'}}</md-card-content>
+      <md-card-content>
+        <span title="{{book.description}}">{{book.description ? book.description.substring(0,60) + (book.description.length>60 ? '...' : '') : 'No description...'}}</span>
+      </md-card-content>
       <md-card-subtitle>By {{book.author.penName}}</md-card-subtitle>
       <md-card-subtitle>{{book.genre | capitalize}}</md-card-subtitle>
     </md-card>

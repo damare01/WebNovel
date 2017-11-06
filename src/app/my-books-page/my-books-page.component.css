@@ -1,4 +1,14 @@
 .container {
   max-width: 1140px;
-  margin: 0 auto;
+  margin: 0 auto 10px auto;
+}
+
+.container.header {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/deep/ h2 {
+  display: inline;
+  margin: 20px 10px 20px 0;
 }

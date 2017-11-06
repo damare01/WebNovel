@@ -15,6 +15,9 @@
   width: 45%;
   height: 67%;
   flex-grow: 1;
+  max-height: 190px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .image-filler {
