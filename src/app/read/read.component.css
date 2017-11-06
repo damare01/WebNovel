@@ -1,6 +1,20 @@
 .reading-container {
   max-width: 750px;
   margin: 10px auto 7% auto;
+  padding: 5px;
+}
+
+.author-container {
+  position: fixed;
+  top: 15%;
+  left: 17%;
+  z-index: -1;
+}
+
+.next-chapter-container {
+  position: fixed;
+  top: 13%;
+  right: 13%;
 }
 
 .graph-container {

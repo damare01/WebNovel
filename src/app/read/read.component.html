@@ -1,4 +1,10 @@
 <div class="page-container">
+  <div class="author-container">
+    <wn-author-card [author]="author"></wn-author-card>
+  </div>
+  <!--div class="next-chapter-container">
+    <wn-select-next-chapter *ngIf="chapter" [chapterId]="chapter._id"></wn-select-next-chapter>
+  </div-->
   <div class="reading-container">
     <div *ngIf="chapter && author">
 
@@ -13,7 +19,6 @@
               (click)="saveChapter()">SAVE CHANGES
       </button>
 
-      <div>By {{author.penName || author.fullName}}</div>
       <div class="likeStats">
         <span class="number-of-likes">
           <i class="fa fa-thumbs-o-up"></i> {{numberOfLikes}}

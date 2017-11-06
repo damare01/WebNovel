@@ -59,6 +59,8 @@ import {NotificationService} from './notification.service'
 import {ProfilePageComponent} from './profile-page/profile-page.component'
 import { PhotoUploadComponent } from './photo-upload/photo-upload.component'
 import {FileUploadModule} from 'ng2-file-upload'
+import {AuthorCardComponent} from './author-card/author-card.component'
+import {SelectNextChapterComponent} from './select-next-chapter/select-next-chapter.component'
 
 
 const appRoutes: Routes = [
@@ -117,7 +119,9 @@ const appRoutes: Routes = [
     NotificationListComponent,
     NotificationPopupButtonComponent,
     ProfilePageComponent,
-    PhotoUploadComponent
+    PhotoUploadComponent,
+    AuthorCardComponent,
+    SelectNextChapterComponent
   ],
   imports: [
     BrowserModule,
