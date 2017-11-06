@@ -1,0 +1,18 @@
+.image-filler {
+  border-radius: 50%;
+  text-align: center;
+  height: 100px;
+  width: 100px;
+  display: flex;
+  margin: 5px 0 10px 0;
+}
+
+.initials {
+  color: white;
+  font-weight: 600;
+  margin: auto;
+}
+
+md-card {
+  text-align: center;
+}

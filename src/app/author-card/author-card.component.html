@@ -1,0 +1,8 @@
+<md-card *ngIf="author">
+  <md-card-title>By</md-card-title>
+  <div class="image-filler" [style.background-color]="color">
+    <span class="initials book-title">{{getInitials()}}</span>
+  </div>
+  <md-card-content>{{author.penName || author.fullName}}</md-card-content>
+</md-card>
+
