@@ -46,17 +46,19 @@ import {MyDraftsComponent} from './my-drafts/my-drafts.component'
 import {ChapterGridComponent} from './chapter-grid/chapter-grid.component'
 import {EditDraftComponent} from './edit-draft/edit-draft.component'
 import {FlexLayoutModule} from '@angular/flex-layout'
-import {Angulartics2, Angulartics2GoogleAnalytics, Angulartics2Module} from 'angulartics2';
-import { CommentComponent } from './comment/comment.component';
-import { CommentEditorComponent } from './comment-editor/comment-editor.component'
-import {CommentService} from './comment.service';
-import { DiscussionComponent } from './discussion/discussion.component';
-import { ChapterDiscussionComponent } from './chapter-discussion/chapter-discussion.component';
-import { NotificationCardComponent } from './notification-card/notification-card.component';
-import { NotificationListComponent } from './notification-list/notification-list.component';
-import { NotificationPopupButtonComponent } from './notification-popup-button/notification-popup-button.component'
+import {Angulartics2, Angulartics2GoogleAnalytics, Angulartics2Module} from 'angulartics2'
+import {CommentComponent} from './comment/comment.component'
+import {CommentEditorComponent} from './comment-editor/comment-editor.component'
+import {CommentService} from './comment.service'
+import {DiscussionComponent} from './discussion/discussion.component'
+import {ChapterDiscussionComponent} from './chapter-discussion/chapter-discussion.component'
+import {NotificationCardComponent} from './notification-card/notification-card.component'
+import {NotificationListComponent} from './notification-list/notification-list.component'
+import {NotificationPopupButtonComponent} from './notification-popup-button/notification-popup-button.component'
 import {NotificationService} from './notification.service'
 import {ProfilePageComponent} from './profile-page/profile-page.component'
+import { PhotoUploadComponent } from './photo-upload/photo-upload.component'
+import {FileUploadModule} from 'ng2-file-upload'
 
 
 const appRoutes: Routes = [
@@ -114,7 +116,8 @@ const appRoutes: Routes = [
     NotificationCardComponent,
     NotificationListComponent,
     NotificationPopupButtonComponent,
-    ProfilePageComponent
+    ProfilePageComponent,
+    PhotoUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -136,7 +139,8 @@ const appRoutes: Routes = [
     TagInputModule,
     MdTabsModule,
     FlexLayoutModule,
-    Angulartics2Module.forRoot([Angulartics2GoogleAnalytics])
+    Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
+    FileUploadModule
   ],
   providers: [
     AuthenticationService,
@@ -147,7 +151,7 @@ const appRoutes: Routes = [
     AuthGuard,
     LikeService,
     CommentService,
-    NotificationService
+    NotificationService,
   ],
   bootstrap: [AppComponent]
 })
