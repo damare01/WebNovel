@@ -20,6 +20,10 @@ let bookSchema = mongoose.Schema({
     required: true,
     default: 'en',
   }, // language code
+  description: {
+    type: String,
+    maxlength: 256
+  },
   genre: {
     type: String,
     enum: [

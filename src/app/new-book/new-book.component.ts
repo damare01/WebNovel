@@ -50,8 +50,6 @@ export class NewBookComponent implements OnInit {
   }
 
   saveBook() {
-    this.saving = true
-
     if (!this.newChapter.title || !this.newChapter.body) {
       this.snackBar.open('Please write the first chapter', 'Dismiss', {
         duration: 3000
@@ -61,6 +59,7 @@ export class NewBookComponent implements OnInit {
         duration: 3000
       })
     } else {
+      this.saving = true
       this.newChapter.author = this._userService.getCurrentUser()._id
       this._chapterService.saveChapter(this.newChapter).subscribe(chapterId => {
         this.newBook.startChapter = chapterId

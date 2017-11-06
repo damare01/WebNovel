@@ -7,6 +7,7 @@ export class Book {
   language: string // language code
   genre: string[]
   author: Author
+  description: string
 }
 
 export class Author {

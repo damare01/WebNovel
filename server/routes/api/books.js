@@ -187,6 +187,7 @@ router.post('/', requireAuth, (req, res) => {
     id: req.user._id,
     penName: req.user.penName || req.user.fullName
   }
+  console.log(book.description)
   book.save((err) => {
     if (err) {
       res.status(500).send({})

@@ -15,6 +15,12 @@
         {{ language.name }}
       </md-option>
     </md-select>
+    <br>
+    <md-form-field class="description">
+      <textarea mdInput name="description" maxlength="256" placeholder="Description" rows="5"
+                [(ngModel)]="newBook.description"></textarea>
+      <md-hint align="start"><strong>Write a short description to intrigue new readers</strong></md-hint>
+    </md-form-field>
   </form>
 </div>
 
@@ -36,7 +42,7 @@
   </div>
   <br>
   <div class="flex-container" style="justify-content: flex-end">
-    <button md-raised-button color="accent" (click)="saveBook()" [disabled]="saving">Save
+    <button md-raised-button color="accent" (click)="saveBook()" [disabled]="saving">Publish
     </button>
   </div>
 </div>
