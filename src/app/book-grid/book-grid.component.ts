@@ -16,6 +16,15 @@ export class BookGridComponent implements OnInit, OnChanges {
   @Input('books') books: Book[] = []
   bookInfoLoaded = false
 
+  colors = [
+    '#e67e22',
+    '#d35400',
+    '#f39c12',
+    '#34495e',
+    '#2980b9',
+    '#16a085'
+  ]
+
   constructor(private _userService: UserService,
               private router: Router,
               private _likeService: LikeService,

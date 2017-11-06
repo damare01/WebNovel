@@ -1,5 +1,48 @@
-.book-card{
-  margin-bottom: 10px;
+.book-card {
   cursor: pointer;
   width: 30%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.book-card > img {
+  width: 130px;
+  height: 190px;
+  margin: 0 5px 10px 0;
+}
+
+.book-card > md-card {
+  width: 45%;
+  height: 67%;
+  flex-grow: 1;
+}
+
+.image-filler {
+  width: 130px;
+  height: 190px;
+  margin: 0 5px 10px 0;
+  background-color: #fff;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.image-filler > h3 {
+  color: white;
+  padding-top: 10px;
+}
+
+/deep/ .mat-card-title {
+  font-size: 18px;
+}
+
+@media screen and (max-width: 1040px) {
+  .book-card {
+    width: 45%;
+  }
+}
+
+@media screen and (max-width: 730px) {
+  .book-card {
+    width: 100%;
+  }
 }

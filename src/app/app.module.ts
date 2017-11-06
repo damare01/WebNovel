@@ -56,6 +56,7 @@ import { NotificationCardComponent } from './notification-card/notification-card
 import { NotificationListComponent } from './notification-list/notification-list.component';
 import { NotificationPopupButtonComponent } from './notification-popup-button/notification-popup-button.component'
 import {NotificationService} from './notification.service'
+import {ProfilePageComponent} from './profile-page/profile-page.component'
 
 
 const appRoutes: Routes = [
@@ -112,7 +113,8 @@ const appRoutes: Routes = [
     ChapterDiscussionComponent,
     NotificationCardComponent,
     NotificationListComponent,
-    NotificationPopupButtonComponent
+    NotificationPopupButtonComponent,
+    ProfilePageComponent
   ],
   imports: [
     BrowserModule,

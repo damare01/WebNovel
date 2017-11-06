@@ -5,9 +5,13 @@
      fxLayoutAlign="start"
      fxLayoutGap="10px"
      fxLayoutGap.xs="5px">
-  <div *ngFor="let book of books" class="book-card">
-    <md-card (click)="openBook(book)"
-             angulartics2On="click"
+  <div *ngFor="let book of books; let i = index" (click)="openBook(book)" class="book-card">
+    <img *ngIf="book.coverImage"
+         src="https://about.canva.com/wp-content/uploads/sites/3/2015/01/business_bookcover.png">
+    <div class="image-filler" [style.background-color]="colors[i%colors.length]" *ngIf="!book.coverImage">
+      <h3 class="book-title">{{book.title}}</h3>
+    </div>
+    <md-card angulartics2On="click"
              angularticsEvent="ReadClick"
              angularticsCategory="{{book.title}}">
       <md-card-title>{{book.title}}</md-card-title>
