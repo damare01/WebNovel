@@ -76,8 +76,14 @@ router.get('/', (req, res) => {
 router.get('/mybooks', requireAuth, (req, res) => {
   let user = req.user
   Book.find({
-    'creator': user._id,
-    'deleted': false,
+    $or: [{
+      'creator': user._id,
+      'deleted': false,
+    },
+      {
+        'author.id': user._id,
+        'deleted': false
+      }]
   }, (err, books) => {
     if (err) {
       res.status(500).send({})
@@ -178,8 +184,8 @@ router.get('/id/:id', (req, res) => {
 router.post('/', requireAuth, (req, res) => {
   let book = new Book(req.body)
   book.author = {
-   id: req.user._id,
-   penName:  req.user.penName || req.user.fullName
+    id: req.user._id,
+    penName: req.user.penName || req.user.fullName
   }
   book.save((err) => {
     if (err) {

@@ -34,3 +34,8 @@ body {
   font-size: 20px;
   line-height: 1.4;
 }
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
