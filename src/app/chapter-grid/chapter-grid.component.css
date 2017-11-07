@@ -1,4 +1,17 @@
 .chapter-card {
   cursor: pointer;
   margin: 0 0 10px 0;
+  width: 30%;
+}
+
+@media screen and (max-width: 1040px) {
+  .chapter-card {
+    width: 45%;
+  }
+}
+
+@media screen and (max-width: 730px) {
+  .chapter-card {
+    width: 100%;
+  }
 }

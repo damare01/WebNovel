@@ -1,3 +1,44 @@
-<p>
-  profile-page works!
-</p>
+<md-spinner *ngIf="!user"></md-spinner>
+<div *ngIf="user">
+  <div class="user-header" [style.background-color]="color">{{user.penName || user.fullName}}</div>
+  <div class="container">
+    <div class="bio-container">
+      <div class="bio-text comment"
+           #bio
+           contentEditable="{{canEdit() && bioEditable}}"
+           (input)="updateBio($event.target.innerText)">
+        {{user.bio || 'There doesn\'t seem to be a bio here...'}}
+      </div>
+      <div class="button-group">
+        <button md-button
+                class="edit-button"
+                (click)="toggleBioEditable()"
+                *ngIf="canEdit() && !bioEditable">EDIT BIO
+        </button>
+        <button md-raised-button
+                color="accent"
+                class="save-button"
+                (click)="saveBio()"
+                *ngIf="canEdit() && bioEditable">Save
+        </button>
+        <button md-button
+                class="cancel-button"
+                (click)="cancel()"
+                *ngIf="canEdit() && bioEditable">Cancel
+        </button>
+      </div>
+    </div>
+    <div class="content-container">
+      <md-tab-group>
+
+        <md-tab label="{{(user.penName || user.fullName) + '\'s books'}}">
+          <wn-book-grid [books]="userBooks"></wn-book-grid>
+        </md-tab>
+        <md-tab label="{{(user.penName || user.fullName) + '\'s chapters'}}">
+          <wn-chapter-grid [chapters]="userChapters"
+                           [editOnClick]="false"></wn-chapter-grid>
+        </md-tab>
+      </md-tab-group>
+    </div>
+  </div>
+</div>

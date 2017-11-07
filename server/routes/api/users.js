@@ -1,6 +1,8 @@
 let express = require('express')
 let router = express.Router()
 let User = require('../../models/user')
+let Chapter = require('../../models/chapter')
+let Book = require('../../models/book')
 let CurrentlyReading = require('../../models/currentlyReading')
 const requireAuth = require('passport').authenticate('jwt', {session: false})
 
@@ -110,9 +112,9 @@ router.get('/currentlyreading', requireAuth, (req, res) => {
       if (err) {
         res.status(500).send({})
       } else {
-        if(user){
+        if (user) {
           res.send(user.currentlyReading)
-        }else{
+        } else {
           res.send([])
         }
       }
@@ -160,7 +162,95 @@ router.get('/:id', (req, res) => {
 
 /**
  * @swagger
- * /currentlyreading:
+ * /users/{id}/chapters:
+ *   get:
+ *     tags:
+ *       - user chapters
+ *     description:
+ *       - Returns the chapters written by the user with the given id
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       -
+ *        name: "id"
+ *        in: "path"
+ *        description: "User Id"
+ *        required: true
+ *        type: "string"
+ *     responses:
+ *      200:
+ *        description: An array of chapter objects
+ *        schema:
+ *          $ref: '#/definitions/Chapter'
+ *
+ */
+router.get('/:id/chapters', (req, res) => {
+  let userId = req.params['id']
+  Chapter.find(
+    {
+      deleted: false,
+      author: userId,
+      published: true
+    },
+    (err, chapters) => {
+      if (err) {
+        res.status(500).send([])
+      } else {
+        res.send(chapters)
+      }
+    }
+  )
+})
+
+/**
+ * @swagger
+ * /users/{id}/books:
+ *   get:
+ *     tags:
+ *       - user books
+ *     description:
+ *       - Returns the books written by the user with the given id
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       -
+ *        name: "id"
+ *        in: "path"
+ *        description: "User Id"
+ *        required: true
+ *        type: "string"
+ *     responses:
+ *      200:
+ *        description: An array of book objects
+ *        schema:
+ *          $ref: '#/definitions/Book'
+ *
+ */
+router.get('/:id/books', (req, res) => {
+  let userId = req.params['id']
+  Book.find({
+      $or: [{
+        'creator': userId,
+        'deleted': false,
+      },
+        {
+          'author.id': userId,
+          'deleted': false
+        }]
+    },
+    (err, books) => {
+      if (err) {
+        res.status(500).send([])
+      } else {
+        res.send(books)
+      }
+    }
+  )
+})
+
+/**
+ * @swagger
+ * /users/currentlyreading:
  *   put:
  *    tags:
  *      - CurrentlyReading
@@ -206,6 +296,40 @@ router.put('/currentlyreading', requireAuth, (req, res) => {
         res.status(200).send({})
       }
     })
+})
+
+/**
+ * @swagger
+ * /users:
+ *   put:
+ *    tags:
+ *      - users
+ *    description: "Modifies the logged in user"
+ *    produces:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: "The old user object"
+ *        schema:
+ *          $ref: '#/definitions/User'
+ *      500:
+ *        description: "500 when there was an error"
+ */
+router.put('/', requireAuth, (req, res) => {
+  let loggedInUser = req.user
+  let updatedUser = new User(req.body)
+  if (loggedInUser._id != updatedUser._id) {
+    res.status(403).send({})
+  } else {
+    User.findOneAndUpdate({_id: loggedInUser._id}, updatedUser, (err, oldUser) => {
+        if (err) {
+          res.status(500).send({})
+        } else {
+          res.send(oldUser)
+        }
+      }
+    )
+  }
 })
 
 

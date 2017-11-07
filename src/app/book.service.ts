@@ -31,4 +31,7 @@ export class BookService {
     return this.wnhttp.get('/books/mybooks')
   }
 
+  getUserBooks(userId: string) {
+    return this.wnhttp.get(`/users/${userId}/books`)
+  }
 }

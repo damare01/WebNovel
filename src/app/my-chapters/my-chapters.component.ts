@@ -16,7 +16,11 @@ export class MyChaptersComponent implements OnInit {
 
   ngOnInit() {
     this._chapterService.getMyChapters().subscribe(chapters => {
-      this.myChapters = chapters
+      if (chapters) {
+        this.myChapters = chapters
+      } else {
+        this.myChapters = []
+      }
     })
   }
 

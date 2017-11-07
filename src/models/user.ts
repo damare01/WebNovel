@@ -6,4 +6,5 @@ export class User {
   iat: number
   exp: number
   role: string
+  bio: string
 }

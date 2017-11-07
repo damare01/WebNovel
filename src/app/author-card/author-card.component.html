@@ -3,6 +3,8 @@
   <div class="image-filler" [style.background-color]="color">
     <span class="initials book-title">{{getInitials()}}</span>
   </div>
-  <md-card-content>{{author.penName || author.fullName}}</md-card-content>
+  <md-card-content>
+    {{author.penName || author.fullName}}
+  </md-card-content>
 </md-card>
 

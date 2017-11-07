@@ -51,4 +51,9 @@ export class ChapterService {
   getMyChapters(): Observable<Chapter[]> {
     return this.wnhttp.get('/chapters/mychapters')
   }
+
+  getUserChapters(userId: string) {
+    return this.wnhttp.get(`/users/${userId}/chapters`)
+  }
+
 }

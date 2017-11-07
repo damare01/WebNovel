@@ -36,4 +36,8 @@ export class UserService {
   getUser(id: string): Observable<User> {
     return this._wnhttp.get('/users/' + id)
   }
+
+  updateUser(user: User) {
+    return this._wnhttp.put('/users', user)
+  }
 }

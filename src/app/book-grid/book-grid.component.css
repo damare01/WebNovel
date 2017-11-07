@@ -1,6 +1,6 @@
 .book-card {
   cursor: pointer;
-  width: 30%;
+  width: 45%;
   display: flex;
   justify-content: space-between;
 }

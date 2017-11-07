@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core'
+import {Component, Input, OnChanges, OnInit} from '@angular/core'
 import {Chapter} from '../../models/chapter'
 import {Book} from '../../models/book'
 import {BookService} from '../book.service'
@@ -9,7 +9,7 @@ import {LikeService} from '../like.service'
   templateUrl: './chapter-grid.component.html',
   styleUrls: ['./chapter-grid.component.css']
 })
-export class ChapterGridComponent implements OnInit {
+export class ChapterGridComponent implements OnInit, OnChanges {
 
   @Input() chapters: Chapter[] = []
   @Input() getLikes = true
@@ -24,6 +24,7 @@ export class ChapterGridComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.chapterInfos = []
     this.updateViewLoaded()
     const bookIds: Set<string> = new Set()
     this.chapters.forEach(chapter => {
@@ -50,6 +51,10 @@ export class ChapterGridComponent implements OnInit {
     })
 
 
+  }
+
+  ngOnChanges() {
+    this.ngOnInit()
   }
 
   updateViewLoaded() {

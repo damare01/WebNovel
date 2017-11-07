@@ -1,5 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core'
 import {User} from '../../models/user'
+import {ColorService} from '../color.service'
 
 @Component({
   selector: 'wn-author-card',
@@ -13,19 +14,11 @@ export class AuthorCardComponent implements OnInit {
 
   color: string
 
-  constructor(private element: ElementRef) {
+  constructor(private _colorService: ColorService) {
   }
 
   ngOnInit() {
-    const colors = [
-      '#e67e22',
-      '#d35400',
-      '#f39c12',
-      '#34495e',
-      '#2980b9',
-      '#16a085'
-    ]
-    this.color = colors[Math.floor(Math.random() * colors.length)]
+    this.color = this._colorService.getColorFromName(name)
   }
 
   getInitials() {

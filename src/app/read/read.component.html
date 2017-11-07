@@ -1,8 +1,10 @@
 <div class="page-container">
 
   <div class="reading-container">
-    <div class="author-container">
-      <wn-author-card [author]="author"></wn-author-card>
+    <div *ngIf="author" class="author-container clickable"
+         [routerLink]="['/user', author._id]">
+      <wn-author-card [author]="author">
+      </wn-author-card>
     </div>
 
     <div class="next-chapter-container">

@@ -57,10 +57,11 @@ import {NotificationListComponent} from './notification-list/notification-list.c
 import {NotificationPopupButtonComponent} from './notification-popup-button/notification-popup-button.component'
 import {NotificationService} from './notification.service'
 import {ProfilePageComponent} from './profile-page/profile-page.component'
-import { PhotoUploadComponent } from './photo-upload/photo-upload.component'
+import {PhotoUploadComponent} from './photo-upload/photo-upload.component'
 import {FileUploadModule} from 'ng2-file-upload'
 import {AuthorCardComponent} from './author-card/author-card.component'
 import {SelectNextChapterComponent} from './select-next-chapter/select-next-chapter.component'
+import {ColorService} from './color.service'
 
 
 const appRoutes: Routes = [
@@ -72,6 +73,7 @@ const appRoutes: Routes = [
   {path: 'read/:chapterId', component: ReadComponent},
   {path: 'write/:parentChapter', component: WriteComponent, canActivate: [AuthGuard]},
   {path: 'edit/:chapterId', component: EditDraftComponent, canActivate: [AuthGuard]},
+  {path: 'user/:userId', component: ProfilePageComponent, canActivate: [AuthGuard]},
   {path: 'newbook', component: NewBookComponent, canActivate: [AuthGuard]},
   {path: 'mybooks', component: MyBooksPageComponent, canActivate: [AuthGuard]},
   {path: 'mychapters', component: MyChaptersPageComponent, canActivate: [AuthGuard]},
@@ -157,6 +159,7 @@ const appRoutes: Routes = [
     LikeService,
     CommentService,
     NotificationService,
+    ColorService
   ],
   bootstrap: [AppComponent]
 })
