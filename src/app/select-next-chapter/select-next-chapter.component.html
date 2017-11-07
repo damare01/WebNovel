@@ -1,6 +1,6 @@
 <div class="chapter-choice">
   <md-card>
-    <md-card-title>Navigation</md-card-title>
+    <md-card-title>Choose next chapter</md-card-title>
     <md-card-content>
       <a [routerLink]="['/read', childChapter._id]" *ngFor="let childChapter of children" md-button>{{childChapter.title}}</a>
       <span *ngIf="!children.length" style="color: darkgrey">There is no new chapters. Why don't you create one?</span>
