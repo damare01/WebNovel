@@ -1,6 +1,13 @@
-<h2>Choose next chapter</h2>
-<div class="chapter-choice" *ngFor="let childChapter of children">
+<div class="chapter-choice">
   <md-card>
-    <md-card-title>{{childChapter.title}}</md-card-title>
+    <md-card-title>Navigation</md-card-title>
+    <md-card-content>
+      <a [routerLink]="['/read', childChapter._id]" *ngFor="let childChapter of children" md-button>{{childChapter.title}}</a>
+      <span *ngIf="!children.length" style="color: darkgrey">There is no new chapters. Why don't you create one?</span>
+    </md-card-content>
+    <md-card-actions>
+      <button md-button [routerLink]="['/read', parentChapter.parent]"><i class="fa fa-arrow-left"></i> Last Chapter</button>
+      <button md-raised-button color="accent" [routerLink]="['/write', chapterId]"><i class="fa fa-plus"></i> Create chapter</button>
+    </md-card-actions>
   </md-card>
 </div>
