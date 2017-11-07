@@ -3,10 +3,11 @@
     <md-card-title>Choose next chapter</md-card-title>
     <md-card-content>
       <a [routerLink]="['/read', childChapter._id]" *ngFor="let childChapter of children" md-button>{{childChapter.title}}</a>
-      <span *ngIf="!children.length" style="color: darkgrey">There is no new chapters. Why don't you create one?</span>
+      <span *ngIf="!children.length && loaded" style="color: darkgrey">There is no new chapters. Why don't you create one?</span>
+      <md-spinner *ngIf="!loaded"></md-spinner>
     </md-card-content>
     <md-card-actions>
-      <button md-button [routerLink]="['/read', parentChapter.parent]"><i class="fa fa-arrow-left"></i> Last Chapter</button>
+      <button md-button [disabled]="!parentChapter.parent" [routerLink]="['/read', parentChapter.parent]"><i class="fa fa-arrow-left"></i> Last Chapter</button>
       <button md-raised-button color="accent" [routerLink]="['/write', chapterId]"><i class="fa fa-plus"></i> Create chapter</button>
     </md-card-actions>
   </md-card>

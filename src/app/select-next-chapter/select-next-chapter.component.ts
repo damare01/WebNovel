@@ -13,21 +13,28 @@ export class SelectNextChapterComponent implements OnInit, OnChanges {
   parentChapter: Chapter = new Chapter()
   children: Chapter[] = []
 
+  loaded = false
+
   constructor(private _chapterService: ChapterService) {
   }
 
   ngOnInit() {
     this.children = []
+    this.loaded = false
     this._chapterService.getChapter(this.chapterId).subscribe(parentChapter => {
       this.parentChapter = parentChapter
       let counter = 0
       const tmpChildren = []
       const childrenLength = parentChapter.childrenIds.length
+      if(childrenLength === 0){
+        this.loaded = true
+      }
       parentChapter.childrenIds.forEach(childId => {
         this._chapterService.getChapter(childId).subscribe(child => {
           tmpChildren.push(child)
           if (++counter >= childrenLength) {
             this.children = tmpChildren
+            this.loaded = true
           }
         })
       })
