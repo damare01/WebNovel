@@ -321,7 +321,7 @@ router.put('/', requireAuth, (req, res) => {
   if (loggedInUser._id != updatedUser._id) {
     res.status(403).send({})
   } else {
-    User.findOneAndUpdate({_id: loggedInUser._id}, updatedUser, (err, oldUser) => {
+    User.findOneAndUpdate({_id: loggedInUser._id}, {bio: updatedUser.bio}, (err, oldUser) => {
         if (err) {
           res.status(500).send({})
         } else {
