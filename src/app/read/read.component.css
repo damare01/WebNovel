@@ -101,7 +101,7 @@ button {
 .comment-editor {
 }
 
-@media screen and (max-width: 1460px){
+@media screen and (max-width: 1350px){
   .byline{
     display: block;
   }

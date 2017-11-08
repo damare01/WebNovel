@@ -34,7 +34,10 @@
           <i class="fa fa-eye"></i> {{chapter.views}}
         </span>
       </div>
-      <div class="byline">By {{author.penName || author.fullName}}</div>
+      <div class="byline clickable"
+           *ngIf="author"
+           [routerLink]="['/user', author._id]">By {{author.penName || author.fullName}}
+      </div>
 
       <div class="content" id="chapter-content" *ngIf="chapter" [innerHtml]="chapter.body"></div>
 
