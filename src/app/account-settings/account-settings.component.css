@@ -10,6 +10,12 @@
   padding: 10px 0 10px 0;
 }
 
+.password-container{
+  display: flex;
+  border-bottom: 1px solid #c7c7c7;
+  padding: 10px 0 10px 0;
+}
+
 .profile-info{
   width: 25%;
   font-size: 18px;

@@ -76,10 +76,11 @@ router.get('/', (req, res) => {
 router.get('/mybooks', requireAuth, (req, res) => {
   let user = req.user
   Book.find({
-    $or: [{
-      'creator': user._id,
-      'deleted': false,
-    },
+    $or: [
+      {
+        'creator': user._id,
+        'deleted': false,
+      },
       {
         'author.id': user._id,
         'deleted': false

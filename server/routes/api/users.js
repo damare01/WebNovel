@@ -342,7 +342,10 @@ router.put('/', requireAuth, (req, res) => {
         if (err) {
           res.status(500).send({})
         } else {
-          res.send(oldUser)
+          let penName = updatedUser.penName || updatedUser.fullName
+          Book.update({'author.id': loggedInUser._id}, {'author.penName': penName}, (err, books)=>{
+            res.send(oldUser)
+          })
         }
       }
     )
