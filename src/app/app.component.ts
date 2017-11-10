@@ -1,4 +1,4 @@
-import {Component} from '@angular/core'
+import {Component, OnInit} from '@angular/core'
 import {AuthenticationService} from './authentication.service'
 import {User} from '../models/user'
 import {UserService} from './user.service'
@@ -8,11 +8,15 @@ import {UserService} from './user.service'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   currentUser: User = new User()
 
   constructor(private authenticationService: AuthenticationService, private _userService: UserService) {
+
+  }
+
+  ngOnInit() {
     this._userService.getCurrentUser().subscribe(user => {
       this.currentUser = user
     })
