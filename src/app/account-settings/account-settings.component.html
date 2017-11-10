@@ -26,14 +26,14 @@
       <br>
       <md-form-field>
       <span class="input">
-        <input mdInput [disabled]="true" name="email" placeholder="Email Address">
+        <input mdInput [disabled]="true" name="email" placeholder="Email Address" value="{{user.email}}">
       </span>
       </md-form-field>
     </form>
   </div>
 
-  <div class="profile-container">
-    <div class="profile-info">
+  <div class="password-container">
+    <div class="password-info">
       Change Password
     </div>
     <form name="password" class="profile-form">

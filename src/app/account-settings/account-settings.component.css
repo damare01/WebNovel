@@ -19,7 +19,11 @@
 .profile-info{
   width: 25%;
   font-size: 18px;
+}
 
+.password-info{
+  width: 25%;
+  font-size: 18px;
 }
 
 .profile-form{
