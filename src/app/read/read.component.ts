@@ -111,7 +111,7 @@ export class ReadComponent implements OnInit, AfterViewInit {
   }
 
   loggedInUserIsAuthor(): boolean {
-    return this._userService.getCurrentUser()._id === this.chapter.author
+    return this._userService.getCurrentUserId() === this.chapter.author
   }
 
   getNumberOfLikes(chapterId: string) {

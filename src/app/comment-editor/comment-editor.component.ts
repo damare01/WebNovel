@@ -32,16 +32,18 @@ export class CommentEditorComponent implements OnInit {
     this._commentService.saveComment(this.newComment).subscribe(commentId => {
       this.newComment._id = commentId
       this.newComment.posted = new Date()
-      const user = this._userService.getCurrentUser()
-      this.newComment.author = {
-        id: user._id,
-        penName: user.penName || user.fullName
-      }
-      this._notificationService.postCommentNotification(this.newComment)
-      this.postedComment.emit(this.newComment)
-      this.text = ''
-      this.editorDiv.nativeElement.innerHTML = ''
-      this.newComment = new Comment()
+      this._userService.getCurrentUser().subscribe(user => {
+        this.newComment.author = {
+          id: user._id,
+          penName: user.penName || user.fullName
+        }
+        this._notificationService.postCommentNotification(this.newComment)
+        this.postedComment.emit(this.newComment)
+        this.text = ''
+        this.editorDiv.nativeElement.innerHTML = ''
+        this.newComment = new Comment()
+      })
+
     }, err => {
       // ignore
     })

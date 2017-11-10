@@ -1,0 +1,29 @@
+.input{
+  display: flex;
+}
+
+.profile-container{
+  display: flex;
+  border: 1px solid #c7c7c7;
+  border-right: 0;
+  border-left: 0;
+  padding: 10px 0 10px 0;
+}
+
+.profile-info{
+  width: 25%;
+  font-size: 18px;
+
+}
+
+.profile-form{
+  width: 75%;
+}
+
+md-form-field{
+  width: 75%;
+}
+
+button{
+  margin-right: 5px;
+}

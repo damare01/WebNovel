@@ -12,7 +12,7 @@ export class AuthenticationService {
   constructor(private http: Http) {
   }
 
-  login(email: string, password): Observable<any> {
+  login(email: string, password: string): Observable<any> {
     return this.http.post('/auth/login', {email: email, password: password})
       .map((response: Response) => {
         const user = response.json()
@@ -44,7 +44,7 @@ export class AuthenticationService {
       })
   }
 
-  refreshToken() {
+  refreshToken(): void {
     this.refreshing = true
     // ensure request options and headers are not null
     const options = new RequestOptions()

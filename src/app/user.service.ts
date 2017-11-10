@@ -23,14 +23,26 @@ export class UserService {
     return this._wnhttp.get('/users/currentlyreading/')
   }
 
-  getCurrentUser(): User {
+  getCurrentUser(): Observable<User> {
     const tokenString = localStorage.getItem('currentUser')
     if (!tokenString) {
-      return new User()
+      return null
     }
     const token = JSON.parse(tokenString).token
     const user = jwtDecode(token)
-    return user
+
+    return this.getUser(user._id)
+  }
+
+  getCurrentUserId(): string {
+    const tokenString = localStorage.getItem('currentUser')
+    if (!tokenString) {
+      return null
+    }
+    const token = JSON.parse(tokenString).token
+    const user = jwtDecode(token)
+
+    return user._id
   }
 
   getUser(id: string): Observable<User> {
@@ -39,5 +51,9 @@ export class UserService {
 
   updateUser(user: User) {
     return this._wnhttp.put('/users', user)
+  }
+
+  updatePassword(oldPassword, newPassword): Observable<User> {
+    return this._wnhttp.put('/users/changepass', {oldPassword: oldPassword, newPassword: newPassword})
   }
 }

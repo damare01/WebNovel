@@ -46,7 +46,7 @@ export class NotificationService {
   postChapterNotification(oldChapterId: string, newChapterId: string) {
     const notification = new Notification()
     notification.verb = 'added a chapter to'
-    notification.actorId = this._userService.getCurrentUser()._id
+    notification.actorId = this._userService.getCurrentUserId()
     notification.objectType = 'chapter'
     notification.objectId = newChapterId
     this._chapterService.getChapter(oldChapterId).subscribe(chapter => {
@@ -58,7 +58,7 @@ export class NotificationService {
   postLikeNotification(chapterId: string, liked: boolean): void {
     const notification = new Notification()
     notification.verb = liked ? 'liked' : 'disliked'
-    notification.actorId = this._userService.getCurrentUser()._id
+    notification.actorId = this._userService.getCurrentUserId()
     notification.objectType = 'chapter'
     notification.objectId = chapterId
     this._chapterService.getChapter(chapterId).subscribe(chapter => {

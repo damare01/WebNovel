@@ -11,13 +11,15 @@ import {Router} from '@angular/router'
 })
 export class UserMenuComponent implements OnInit {
 
-  currentUser: User
+  currentUser = new User()
 
   constructor(private _userService: UserService, private _authenticationService: AuthenticationService, private router: Router) {
   }
 
   ngOnInit() {
-    this.currentUser = this._userService.getCurrentUser()
+  this._userService.getCurrentUser().subscribe(user => {
+      this.currentUser = user
+    })
   }
 
   logout() {

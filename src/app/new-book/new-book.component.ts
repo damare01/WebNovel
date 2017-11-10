@@ -60,7 +60,7 @@ export class NewBookComponent implements OnInit {
       })
     } else {
       this.saving = true
-      this.newChapter.author = this._userService.getCurrentUser()._id
+      this.newChapter.author = this._userService.getCurrentUserId()
       this._chapterService.saveChapter(this.newChapter).subscribe(chapterId => {
         this.newBook.startChapter = chapterId
         this.newChapter._id = chapterId

@@ -72,7 +72,7 @@ export class ProfilePageComponent implements OnInit {
   }
 
   canEdit() {
-    const currentUserId = this._userService.getCurrentUser()._id
+    const currentUserId = this._userService.getCurrentUserId()
     return currentUserId === this.user._id
   }
 

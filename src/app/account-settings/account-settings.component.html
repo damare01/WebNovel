@@ -1,0 +1,59 @@
+<div class="container">
+  <wn-section-header [title]="'My Account'"></wn-section-header>
+  <div class="profile-container">
+    <div class="profile-info">
+      Profile
+    </div>
+    <form name="profile" class="profile-form">
+      <md-form-field>
+      <span class="input">
+        <input mdInput [disabled]="!editFullName" name="fullName" placeholder="Full Name" [(ngModel)]="user.fullName">
+        <button md-button *ngIf="!editFullName" (click)="editFullName = true">EDIT</button>
+        <button md-raised-button color="accent" *ngIf="editFullName" (click)="updateFullName();editFullName = false">SAVE</button>
+        <button md-button *ngIf="editFullName" (click)="editFullName = false">CANCEL</button>
+      </span>
+      </md-form-field>
+      <br>
+      <md-form-field>
+      <span class="input">
+        <input mdInput [disabled]="!editPenName" name="penName" placeholder="Pen Name" [(ngModel)]="user.penName">
+        <button md-button *ngIf="!editPenName" (click)="editPenName = true">EDIT</button>
+        <button md-raised-button color="accent" *ngIf="editPenName"
+                (click)="updatePenName();editPenName = false">SAVE</button>
+        <button md-button *ngIf="editPenName" (click)="editPenName = false">CANCEL</button>
+      </span>
+      </md-form-field>
+      <br>
+      <md-form-field>
+      <span class="input">
+        <input mdInput [disabled]="true" name="email" placeholder="Email Address">
+      </span>
+      </md-form-field>
+    </form>
+  </div>
+
+  <div class="profile-container">
+    <div class="profile-info">
+      Change Password
+    </div>
+    <form name="password" class="profile-form">
+      <md-form-field>
+      <span class="input">
+        <input type="password" mdInput name="oldPass" placeholder="Current Password" [(ngModel)]="oldPass">
+      </span>
+      </md-form-field>
+      <br>
+      <md-form-field>
+        <input type="password" mdInput name="newPass" placeholder="New Password" [(ngModel)]="newPass">
+      </md-form-field>
+      <br>
+      <md-form-field>
+        <input type="password" mdInput name="newPass" placeholder="Confrim New Password" [(ngModel)]="confirmPass">
+        <md-error *ngIf="!newPass || newPass !== confirmPass">The passwords does not match</md-error>
+      </md-form-field>
+      <br>
+      <button md-raised-button color="accent" [disabled]="!newPass || !oldPass || newPass !== confirmPass" (click)="updatePassword()">Update Password</button>
+    </form>
+  </div>
+
+</div>

@@ -42,6 +42,17 @@ const requireAuth = require('passport').authenticate('jwt', {session: false})
 
 /**
  * @swagger
+ * definition:
+ *  PasswordUser:
+ *    properties:
+ *      oldPassword:
+ *        type: string
+ *      newPassword:
+ *        type: string
+ */
+
+/**
+ * @swagger
  * /users/currentlyreading/{bookId}:
  *   get:
  *     tags:
@@ -321,7 +332,13 @@ router.put('/', requireAuth, (req, res) => {
   if (loggedInUser._id != updatedUser._id) {
     res.status(403).send({})
   } else {
-    User.findOneAndUpdate({_id: loggedInUser._id}, {bio: updatedUser.bio}, (err, oldUser) => {
+    User.findOneAndUpdate(
+      {_id: loggedInUser._id},
+      {
+        bio: updatedUser.bio,
+        fullName: updatedUser.fullName,
+        penName: updatedUser.penName
+      }, (err, oldUser) => {
         if (err) {
           res.status(500).send({})
         } else {
@@ -330,6 +347,64 @@ router.put('/', requireAuth, (req, res) => {
       }
     )
   }
+})
+
+/**
+ * @swagger
+ * /users/changepass:
+ *   put:
+ *    tags:
+ *      - users
+ *    description: Creates a new password for the logged in user
+ *    produces:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: "The updated user"
+ *        schema:
+ *          $ref: '#/definitions/PasswordUser'
+ *      500:
+ *        description: "500 when there was an error"
+ */
+router.put('/changepass', requireAuth, (req, res) => {
+  //if oldPassword field is correct then update
+  let oldPassword = req.body.oldPassword
+  let newPassword = req.body.newPassword
+  console.log(oldPassword)
+  User.findOne({_id: req.user._id}, (err, user) => {
+    if (err) {
+      console.log('fusste error')
+      res.status(500).send({})
+    } else {
+      user.comparePassword(oldPassword, function (err, isMatch) {
+        if (err) {
+          console.log('andre error')
+          console.log(err)
+          res.status(403).send({})
+        }
+        else if (!isMatch) {
+          return res.status(403).send({})
+        } else {
+          if (newPassword.length < 3) {
+            console.log('ikke langt nok')
+            res.status(500).send({})
+          } else {
+            user.password = newPassword
+            user.save((err, user) => {
+              if (err) {
+                console.log('saving error')
+                res.status(500).send({})
+              } else {
+                res.send(user)
+              }
+            })
+          }
+
+        }
+      })
+    }
+  })
+
 })
 
 

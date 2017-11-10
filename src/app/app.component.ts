@@ -10,10 +10,12 @@ import {UserService} from './user.service'
 })
 export class AppComponent {
 
-  currentUser: User
+  currentUser: User = new User()
 
   constructor(private authenticationService: AuthenticationService, private userService: UserService) {
-    this.currentUser = this.userService.getCurrentUser()
+    this.userService.getCurrentUser().subscribe(user => {
+      this.currentUser = user
+    })
   }
 
   logout() {

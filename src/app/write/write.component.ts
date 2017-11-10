@@ -58,7 +58,7 @@ export class WriteComponent implements OnInit {
     if (draft) {
       this.newChapter.published = false
     }
-    this.newChapter.author = this._userService.getCurrentUser()._id
+    this.newChapter.author = this._userService.getCurrentUserId()
     this._chapterService.saveChapter(this.newChapter).subscribe((chapterId) => {
       if (!draft) {
         this._chapterService.addChildToChapter(this.parentChapter._id, chapterId).subscribe((response) => {

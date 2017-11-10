@@ -61,7 +61,8 @@ import {PhotoUploadComponent} from './photo-upload/photo-upload.component'
 import {FileUploadModule} from 'ng2-file-upload'
 import {AuthorCardComponent} from './author-card/author-card.component'
 import {SelectNextChapterComponent} from './select-next-chapter/select-next-chapter.component'
-import {ColorService} from './color.service'
+import {ColorService} from './color.service';
+import { AccountSettingsComponent } from './account-settings/account-settings.component'
 
 
 const appRoutes: Routes = [
@@ -77,6 +78,7 @@ const appRoutes: Routes = [
   {path: 'newbook', component: NewBookComponent, canActivate: [AuthGuard]},
   {path: 'mybooks', component: MyBooksPageComponent, canActivate: [AuthGuard]},
   {path: 'mychapters', component: MyChaptersPageComponent, canActivate: [AuthGuard]},
+  {path: 'account-settings', component: AccountSettingsComponent, canActivate: [AuthGuard]},
   {
     path: '',
     redirectTo: '/home',
@@ -123,7 +125,8 @@ const appRoutes: Routes = [
     ProfilePageComponent,
     PhotoUploadComponent,
     AuthorCardComponent,
-    SelectNextChapterComponent
+    SelectNextChapterComponent,
+    AccountSettingsComponent
   ],
   imports: [
     BrowserModule,
