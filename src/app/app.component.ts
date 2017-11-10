@@ -12,8 +12,8 @@ export class AppComponent {
 
   currentUser: User = new User()
 
-  constructor(private authenticationService: AuthenticationService, private userService: UserService) {
-    this.userService.getCurrentUser().subscribe(user => {
+  constructor(private authenticationService: AuthenticationService, private _userService: UserService) {
+    this._userService.getCurrentUser().subscribe(user => {
       this.currentUser = user
     })
   }
