@@ -2,7 +2,10 @@ const jwt = require('jsonwebtoken')
 const userToSocketMap = new Map()
 const socketToUserMap = new Map()
 
+let io
+
 let connect = function (io) {
+  this.io = io
   io.on('connection', (socket) => {
 
     socket.on('user-auth', (token) => {
@@ -10,7 +13,7 @@ let connect = function (io) {
         if (!err) {
           const userId = decoded._id
           console.log(userId)
-          userToSocketMap.set(userId, socket)
+          userToSocketMap.set(userId, socket.id)
           socketToUserMap.set(socket.id, userId)
         }
       })
@@ -28,10 +31,11 @@ let connect = function (io) {
 }
 
 let emitMessage = function (userId, topic, data) {
-  const socket = userToSocketMap.get(userId)
-  if (socket) {
-    socket.emit(topic, data)
+  if(io){
+    const socketId = userToSocketMap.get(userId)
+    this.io.to(socketId).emit(topic, data)
   }
+
 }
 
 module.exports.connect = connect
