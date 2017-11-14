@@ -63,6 +63,7 @@ import {AuthorCardComponent} from './author-card/author-card.component'
 import {SelectNextChapterComponent} from './select-next-chapter/select-next-chapter.component'
 import {ColorService} from './color.service';
 import { AccountSettingsComponent } from './account-settings/account-settings.component'
+import {SocketService} from './socket.service'
 
 
 const appRoutes: Routes = [
@@ -162,7 +163,8 @@ const appRoutes: Routes = [
     LikeService,
     CommentService,
     NotificationService,
-    ColorService
+    ColorService,
+    SocketService
   ],
   bootstrap: [AppComponent]
 })

@@ -41,12 +41,10 @@ export class NotificationPopupButtonComponent implements OnInit {
   }
 
   subscribeToNewNotifications() {
-    this._notificationService.getContinousNewNotifications().subscribe(newNotifications => {
-        if (newNotifications.length) {
-          this.numberOfUnreadNotifications = newNotifications.length
-          this.notifications = newNotifications.concat(this.notifications)
+    this._notificationService.getContinuousNotifications().subscribe(newNotification => {
+      this.numberOfUnreadNotifications++
+      this.notifications = [newNotification].concat(this.notifications)
           this.latestIndexLoaded = this.notifications.length
-        }
       }
     )
   }

@@ -5,13 +5,15 @@ import {Notification} from '../models/notification'
 import {Comment} from '../models/comment'
 import {ChapterService} from './chapter.service'
 import {UserService} from './user.service'
+import {SocketService} from './socket.service'
 
 @Injectable()
 export class NotificationService {
 
   constructor(private _wnhttp: WnHttp,
               private _chapterService: ChapterService,
-              private _userService: UserService) {
+              private _userService: UserService,
+              private _socketService: SocketService) {
   }
 
   getNewNotifications(): Observable<Notification[]> {
@@ -75,9 +77,16 @@ export class NotificationService {
     this.updateNotification(notificationClone).subscribe()
   }
 
-  getContinousNewNotifications(): Observable<Notification[]> {
-    return Observable
-      .interval(0.5 * 60 * 1000)
-      .flatMap(() => this.getNewNotifications())
+  getContinuousNotifications(): Observable<Notification> {
+    const socket = this._socketService.getSocket()
+    const observable = new Observable(observer => {
+      socket.on('notification', (notification) => {
+        observer.next(notification)
+      })
+      return () => {
+        socket.disconnect()
+      }
+    })
+    return observable
   }
 }

@@ -48,8 +48,14 @@ app.get('*', (req, res) => {
   res.sendFile(__dirname + '/dist/application.html')
 })
 
+
 var server = app.listen(port, function(){
     var port = server.address().port
     console.log('App is running on port', port)
 })
+
+
+var io = require('socket.io')(server)
+
+require('./server/message-handler').connect(io)
 

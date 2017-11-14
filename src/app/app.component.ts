@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core'
 import {AuthenticationService} from './authentication.service'
 import {User} from '../models/user'
 import {UserService} from './user.service'
+import * as io from 'socket.io-client'
 
 @Component({
   selector: 'wn-root',
@@ -12,6 +13,8 @@ export class AppComponent implements OnInit {
 
   currentUser: User = new User()
 
+  socket: any
+
   constructor(private authenticationService: AuthenticationService, private _userService: UserService) {
 
   }
@@ -19,6 +22,11 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this._userService.getCurrentUser().subscribe(user => {
       this.currentUser = user
+    })
+
+    this.socket = io()
+    this.socket.on('notification', (data) => {
+      console.log(data)
     })
   }
 

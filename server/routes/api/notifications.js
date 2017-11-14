@@ -2,6 +2,7 @@ let express = require('express')
 let router = express.Router()
 let Notification = require('../../models/notification')
 const requireAuth = require('passport').authenticate('jwt', {session: false})
+const MessageHandler = require('../../message-handler')
 
 /**
  * @swagger
@@ -80,6 +81,8 @@ router.post('/', requireAuth, (req, res) => {
       console.log(err)
       res.status(500).send({})
     } else {
+
+      MessageHandler.emitMessage(newNotification.subjectId, 'notification', newNotification)
       res.status(201).send(newNotification._id)
     }
   })
