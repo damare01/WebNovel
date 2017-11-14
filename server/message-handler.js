@@ -9,13 +9,16 @@ var connect = function (io) {
       socketToUserMap.set(socket.id, user._id)
     })
 
+    socket.on('disconnect', () => {
+      const userId = socketToUserMap.get(socket.id)
+      console.log('deleting ' + userId)
+      socketToUserMap.delete(socket.id)
+      userToSocketMap.delete(userId)
+    })
+
   })
 
-  io.on('disconnect', (socket) => {
-    const userId = socketToUserMap.get(socket.id)
-    socketToUserMap.delete(socket.id)
-    userToSocketMap.delete(userId)
-  })
+
 }
 
 var emitMessage = function (userId, topic, data) {
