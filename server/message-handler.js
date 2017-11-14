@@ -31,7 +31,7 @@ let connect = function (io) {
 }
 
 let emitMessage = function (userId, topic, data) {
-  if(io){
+  if(this.io){
     const socketId = userToSocketMap.get(userId)
     this.io.to(socketId).emit(topic, data)
   }
