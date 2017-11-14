@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, ElementRef, HostListener, OnInit} from '@angular/core'
 import {NotificationService} from '../notification.service'
 import {Notification} from '../../models/notification'
 
@@ -16,7 +16,8 @@ export class NotificationPopupButtonComponent implements OnInit {
 
   numberOfUnreadNotifications: number
 
-  constructor(private _notificationService: NotificationService) {
+  constructor(private _notificationService: NotificationService,
+              private el: ElementRef) {
   }
 
   ngOnInit() {
@@ -30,6 +31,13 @@ export class NotificationPopupButtonComponent implements OnInit {
     })
 
     this.subscribeToNewNotifications()
+  }
+
+  @HostListener('document:click', ['$event'])
+  hideOnOutsideClick(event) {
+    if (!this.el.nativeElement.contains(event.target)) {
+      this.showNotifications = false
+    }
   }
 
   subscribeToNewNotifications() {
