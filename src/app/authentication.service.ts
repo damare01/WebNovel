@@ -42,6 +42,7 @@ export class AuthenticationService {
         const user = response.json()
         if (user && user.token) {
           localStorage.setItem('currentUser', JSON.stringify(user))
+          this._socketService.registerUser()
         }
         return user
       })
