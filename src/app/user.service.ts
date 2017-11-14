@@ -26,7 +26,8 @@ export class UserService {
   getCurrentUser(): Observable<User> {
     const tokenString = localStorage.getItem('currentUser')
     if (!tokenString) {
-      return null
+      const emptyUser = new User()
+      return Observable.of(emptyUser)
     }
     const token = JSON.parse(tokenString).token
     const user = jwtDecode(token)
