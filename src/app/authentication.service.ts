@@ -3,13 +3,15 @@ import {Http, RequestOptions, RequestOptionsArgs, Headers, Response} from '@angu
 import 'rxjs/add/operator/map'
 import {Observable} from 'rxjs/Observable'
 import * as jwtDecode from 'jwt-decode'
+import {SocketService} from './socket.service'
 
 @Injectable()
 export class AuthenticationService {
 
   refreshing = false
 
-  constructor(private http: Http) {
+  constructor(private http: Http,
+              private _socketService: SocketService) {
   }
 
   login(email: string, password: string): Observable<any> {
@@ -18,6 +20,7 @@ export class AuthenticationService {
         const user = response.json()
         if (user && user.token) {
           localStorage.setItem('currentUser', JSON.stringify(user))
+          this._socketService.registerUser()
         }
         return user
       })

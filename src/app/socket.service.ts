@@ -9,9 +9,15 @@ export class SocketService {
 
   constructor(private _userService: UserService) {
     this.socket = io()
-    this._userService.getCurrentUser().subscribe(user => {
-      this.socket.emit('user', user)
-    })
+    this.registerUser()
+  }
+
+  registerUser() {
+    const tokenString = localStorage.getItem('currentUser')
+    if (tokenString) {
+      const token = JSON.parse(tokenString).token
+      this.socket.emit('user-auth', token)
+    }
   }
 
   getSocket() {
