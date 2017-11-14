@@ -11,7 +11,6 @@ var connect = function (io) {
 
     socket.on('disconnect', () => {
       const userId = socketToUserMap.get(socket.id)
-      console.log('deleting ' + userId)
       socketToUserMap.delete(socket.id)
       userToSocketMap.delete(userId)
     })
