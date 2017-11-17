@@ -3,7 +3,7 @@ const passport = require('passport'),
   JwtStrategy = require('passport-jwt').Strategy,
   ExtractJwt = require('passport-jwt').ExtractJwt,
   LocalStrategy = require('passport-local')
-auth = require('../routes/api/controllers/authentication')
+auth = require('../routes/api/controllers/authenticationCtrl')
 
 const localOptions = {usernameField: 'email'}
 

@@ -2,7 +2,7 @@ let express = require('express')
 let router = express.Router()
 let Comment = require('../../models/comment')
 const requireAuth = require('passport').authenticate('jwt', {session: false})
-
+const CurrencyCtrl = require('./controllers/currencyCtrl')
 
 /**
  * @swagger
@@ -198,6 +198,8 @@ router.post('/', requireAuth, (req, res) => {
       res.status(500).send({})
     } else {
       res.status(201).send(comment._id)
+      CurrencyCtrl.incrementCommentsCurrency(comment.discussion_id, (err) => {
+      })
     }
   })
 })

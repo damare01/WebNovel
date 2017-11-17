@@ -55,7 +55,9 @@ var server = app.listen(port, function(){
 })
 
 
-var io = require('socket.io')(server)
+const io = require('socket.io')(server)
+const socketRedis = require('socket.io-redis')
+io.adapter(socketRedis(process.env.REDIS_URL))
 
-require('./server/message-handler').connect(io)
+require('./server/controllers/message-handler').connect(io)
 

@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Chapter = require('../../models/chapter')
 const requireAuth = require('passport').authenticate('jwt', {session: false})
+const CurrencyCtrl = require('./controllers/currencyCtrl')
 
 /**
  * @swagger
@@ -267,17 +268,19 @@ router.post('/:parentId/child/:childId', requireAuth, (req, res) => {
  *
  */
 router.post('/:id/increaseviews', (req, res) => {
-  Chapter.findOne({_id: req.params['id']}, (err, chapter) => {
-    if (err) {
-      res.status(500).send({})
-    } else if (chapter) {
-      chapter.views = chapter.views + 1
-      chapter.save()
-      res.send({})
-    } else {
-      res.send({})
-    }
-  })
+  const chapterId = req.params['id']
+  Chapter.findOneAndUpdate(
+    {_id: chapterId},
+    {$inc: {views: 1}},
+    (err, oldChapter) => {
+      if (err) {
+        res.status(500).send({})
+      } else {
+        res.send({})
+        CurrencyCtrl.incrementChapterViewsCurrency(chapterId, (err) => {
+        })
+      }
+    })
 })
 
 /**

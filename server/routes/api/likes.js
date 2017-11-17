@@ -2,6 +2,7 @@ let express = require('express')
 let router = express.Router()
 let Like = require('../../models/like')
 const requireAuth = require('passport').authenticate('jwt', {session: false})
+const CurrencyCtrl = require('./controllers/currencyCtrl')
 
 /**
  * @swagger
@@ -88,21 +89,27 @@ router.get('/chapter/:id', (req, res) => {
  *
  */
 router.post('/chapter/:id/like', requireAuth, (req, res) => {
-  let user = req.user
-  Like.update({
-      'chapter': req.params['id'],
+  const user = req.user
+  const chapterId = req.params['id']
+  Like.findOneAndUpdate({
+      'chapter':chapterId,
       'user': user._id,
     },
     {
       'vote': 1,
+      'likedBefore': true
     },
     {
       upsert: true,
-    }, (err) => {
+    }, (err, oldLike) => {
       if (err) {
         res.status(500).send({})
       } else {
         res.status(200).send({})
+        if(!oldLike || oldLike.vote !== 1){
+          CurrencyCtrl.updateLikedChapterCurrency(chapterId, 1, (err)=>{
+          })
+        }
       }
     })
 })
@@ -130,8 +137,9 @@ router.post('/chapter/:id/like', requireAuth, (req, res) => {
  */
 router.post('/chapter/:id/dislike', requireAuth, (req, res) => {
   let user = req.user
+  let chapterId = req.params['id']
   Like.update({
-      'chapter': req.params['id'],
+      'chapter': chapterId,
       'user': user._id,
     },
     {
@@ -139,11 +147,16 @@ router.post('/chapter/:id/dislike', requireAuth, (req, res) => {
     },
     {
       upsert: true,
-    }, (err) => {
+    }, (err, oldLike) => {
       if (err) {
         res.status(500).send({})
       } else {
         res.status(200).send({})
+        const wasLikeBefore = !oldLike.upserted && oldLike.vote !== -1
+        if(wasLikeBefore){
+          CurrencyCtrl.updateLikedChapterCurrency(chapterId, -1, (err)=>{
+          })
+        }
       }
     })
 })

@@ -12,7 +12,7 @@ let likeSchema = mongoose.Schema({
   vote: {
     type: Number,
     default: 1,
-  },
+  }
 })
 
 module.exports = mongoose.model('Like', likeSchema)

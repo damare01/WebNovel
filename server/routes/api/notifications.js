@@ -2,7 +2,7 @@ let express = require('express')
 let router = express.Router()
 let Notification = require('../../models/notification')
 const requireAuth = require('passport').authenticate('jwt', {session: false})
-const MessageHandler = require('../../message-handler')
+const MessageHandler = require('../../controllers/message-handler')
 
 /**
  * @swagger
