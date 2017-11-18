@@ -1,12 +1,12 @@
-<button (click)="toggleShowNotifications()" md-icon-button class="fa fa-bell-o" style="color: white">
+<button (click)="toggleShowNotifications()" mat-icon-button class="fa fa-bell-o" style="color: white">
   <mark *ngIf="numberOfUnreadNotifications">{{numberOfUnreadNotifications}}</mark>
 </button>
 <div [ngClass]="{'hidden': !showNotifications}" class="arrow"><i class="fa fa-caret-up"></i></div>
 <div [ngClass]="{'hidden': !showNotifications}" class="notification-list-wrapper">
   <div class="notification-list">
-    <md-card *ngIf="!notifications || !notifications.length">
-      <md-card-content>No notifications to show</md-card-content>
-    </md-card>
+    <mat-card *ngIf="!notifications || !notifications.length">
+      <mat-card-content>No notifications to show</mat-card-content>
+    </mat-card>
     <wn-notification-list *ngIf="notifications"
                           [notifications]="notifications"
                           (cardClick)="toggleShowNotifications()"

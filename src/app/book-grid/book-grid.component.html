@@ -12,16 +12,16 @@
     <div class="image-filler" [style.background-color]="colors[i%colors.length]" *ngIf="!book.coverImage">
       <h3 class="book-title">{{book.title}}</h3>
     </div>
-    <md-card angulartics2On="click"
-             angularticsEvent="ReadClick"
-             angularticsCategory="{{book.title}}">
-      <md-card-title>{{book.title}}</md-card-title>
-      <md-card-content>
+    <mat-card angulartics2On="click"
+              angularticsEvent="ReadClick"
+              angularticsCategory="{{book.title}}">
+      <mat-card-title>{{book.title}}</mat-card-title>
+      <mat-card-content>
         <span title="{{book.description}}">{{book.description ? book.description.substring(0,60) + (book.description.length>60 ? '...' : '') : 'No description...'}}</span>
-      </md-card-content>
-      <md-card-subtitle>By {{book.author.penName}}</md-card-subtitle>
-      <md-card-subtitle>{{book.genre | capitalize}}</md-card-subtitle>
-    </md-card>
+      </mat-card-content>
+      <mat-card-subtitle>By {{book.author.penName}}</mat-card-subtitle>
+      <mat-card-subtitle>{{book.genre | capitalize}}</mat-card-subtitle>
+    </mat-card>
   </div>
 </div>
 

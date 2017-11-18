@@ -1,9 +1,9 @@
-<button md-button [mdMenuTriggerFor]="menu" class="user-button">{{currentUser.penName || currentUser.fullName}} <i
+<button mat-button [matMenuTriggerFor]="menu" class="user-button">{{currentUser.penName || currentUser.fullName}} <i
   class="fa fa-caret-down"></i></button>
-<md-menu #menu="mdMenu">
-  <button md-menu-item [routerLink]="['/user', currentUser._id]"><i class="fa fa-user"></i> My Profile</button>
-  <button md-menu-item [routerLink]="'/mybooks'"><i class="fa fa-book"></i> My books</button>
-  <button md-menu-item [routerLink]="'/mychapters'"><i class="fa fa-bookmark"></i> My chapters</button>
-  <button md-menu-item [routerLink]="'/account-settings'"><i class="fa fa-gear"></i> Account Settings</button>
-  <button md-menu-item (click)="logout()"><i class="fa fa-sign-out"></i> Logout</button>
-</md-menu>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item [routerLink]="['/user', currentUser._id]"><i class="fa fa-user"></i> My Profile</button>
+  <button mat-menu-item [routerLink]="'/mybooks'"><i class="fa fa-book"></i> My books</button>
+  <button mat-menu-item [routerLink]="'/mychapters'"><i class="fa fa-bookmark"></i> My chapters</button>
+  <button mat-menu-item [routerLink]="'/account-settings'"><i class="fa fa-gear"></i> Account Settings</button>
+  <button mat-menu-item (click)="logout()"><i class="fa fa-sign-out"></i> Logout</button>
+</mat-menu>

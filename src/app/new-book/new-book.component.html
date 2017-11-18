@@ -1,26 +1,26 @@
 <div class="flex-container">
   <form name="book-properties" class="book-properties full-width">
-    <md-form-field class="full-width">
-      <input name="title" [(ngModel)]="newBook.title" mdInput placeholder="Title">
-    </md-form-field>
+    <mat-form-field class="full-width">
+      <input name="title" [(ngModel)]="newBook.title" matInput placeholder="Title">
+    </mat-form-field>
     <br>
-    <md-select placeholder="Genre" name="genre" [(ngModel)]="newBook.genre">
-      <md-option *ngFor="let genre of genres" [value]="genre">
+    <mat-select placeholder="Genre" name="genre" [(ngModel)]="newBook.genre">
+      <mat-option *ngFor="let genre of genres" [value]="genre">
         {{ genre }}
-      </md-option>
-    </md-select>
+      </mat-option>
+    </mat-select>
     <br>
-    <md-select placeholder="Language" name="language" [(ngModel)]="newBook.language">
-      <md-option *ngFor="let language of languages" [value]="language.code">
+    <mat-select placeholder="Language" name="language" [(ngModel)]="newBook.language">
+      <mat-option *ngFor="let language of languages" [value]="language.code">
         {{ language.name }}
-      </md-option>
-    </md-select>
+      </mat-option>
+    </mat-select>
     <br>
-    <md-form-field class="description">
-      <textarea mdInput name="description" maxlength="256" placeholder="Description" rows="5"
+    <mat-form-field class="description">
+      <textarea matInput name="description" maxlength="256" placeholder="Description" rows="5"
                 [(ngModel)]="newBook.description"></textarea>
-      <md-hint align="start"><strong>Write a short description to intrigue new readers</strong></md-hint>
-    </md-form-field>
+      <mat-hint align="start"><strong>Write a short description to intrigue new readers</strong></mat-hint>
+    </mat-form-field>
   </form>
 </div>
 
@@ -31,9 +31,9 @@
 <div class="writing-container">
   <div class="flex-container">
     <form name="chapter-form">
-      <md-form-field class="full-width">
-        <input id="chapter-title" name="title" mdInput placeholder="Chapter title" [(ngModel)]="newChapter.title">
-      </md-form-field>
+      <mat-form-field class="full-width">
+        <input id="chapter-title" name="title" matInput placeholder="Chapter title" [(ngModel)]="newChapter.title">
+      </mat-form-field>
       <br>
     </form>
   </div>
@@ -42,7 +42,7 @@
   </div>
   <br>
   <div class="flex-container" style="justify-content: flex-end">
-    <button md-raised-button color="accent" (click)="saveBook()" [disabled]="saving">Publish
+    <button mat-raised-button color="accent" (click)="saveBook()" [disabled]="saving">Publish
     </button>
   </div>
 </div>

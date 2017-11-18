@@ -2,6 +2,6 @@
   <div class="notification" *ngFor="let notification of notifications">
     <wn-notification-card (click)="emitCardClick()" [notification]="notification"></wn-notification-card>
   </div>
-  <button *ngIf="showLoadMore" (click)="emitLoadMore()" md-button>Load More</button>
+  <button *ngIf="showLoadMore" (click)="emitLoadMore()" mat-button>Load More</button>
 </div>
 

@@ -1,23 +1,23 @@
 <div class="chapter-choice">
-  <md-card>
-    <md-card-title>Choose next chapter</md-card-title>
-    <md-card-content>
+  <mat-card>
+    <mat-card-title>Choose next chapter</mat-card-title>
+    <mat-card-content>
       <button *ngFor="let childChapter of children"
               (click)="goToChapter(childChapter._id)"
-              md-button>
+              mat-button>
         {{childChapter.title}}
       </button>
       <span *ngIf="!children.length && loaded" style="color: darkgrey">There is no new chapters. Why don't you create one?</span>
-      <md-spinner *ngIf="!loaded"></md-spinner>
-    </md-card-content>
-    <md-card-actions>
-      <button md-button [disabled]="!parentChapter.parent"
+      <mat-spinner *ngIf="!loaded"></mat-spinner>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button [disabled]="!parentChapter.parent"
               (click)="goToChapter(parentChapter.parent)"><i
         class="fa fa-arrow-left"></i> Last Chapter
       </button>
-      <button md-raised-button color="accent" [routerLink]="['/write', chapterId]"><i class="fa fa-plus"></i> Create
+      <button mat-raised-button color="accent" [routerLink]="['/write', chapterId]"><i class="fa fa-plus"></i> Create
         chapter
       </button>
-    </md-card-actions>
-  </md-card>
+    </mat-card-actions>
+  </mat-card>
 </div>

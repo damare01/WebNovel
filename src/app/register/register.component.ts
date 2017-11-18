@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core'
 import {AuthenticationService} from '../authentication.service'
-import {MdSnackBar} from '@angular/material'
+import {MatSnackBar} from '@angular/material'
 import {Router} from '@angular/router'
 
 @Component({
@@ -17,7 +17,7 @@ export class RegisterComponent implements OnInit {
 
   captchaResponse: string
 
-  constructor(private _authenticationService: AuthenticationService, private snackBar: MdSnackBar, private router: Router) {
+  constructor(private _authenticationService: AuthenticationService, private snackBar: MatSnackBar, private router: Router) {
   }
 
   ngOnInit() {

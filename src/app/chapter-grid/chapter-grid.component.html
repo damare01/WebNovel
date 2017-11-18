@@ -1,4 +1,4 @@
-<md-spinner *ngIf="!viewLoaded"></md-spinner>
+<mat-spinner *ngIf="!viewLoaded"></mat-spinner>
 <div class="container"
      *ngIf="viewLoaded"
      fxLayout="row"
@@ -8,10 +8,10 @@
      fxLayoutGap="10px"
      fxLayoutGap.xs="5px">
   <div *ngFor="let chapterInfo of chapterInfos" class="chapter-card">
-    <md-card [routerLink]="editOnClick ? ['/edit', chapterInfo.chapter._id] : ['/read', chapterInfo.chapter._id]">
-      <md-card-title>{{chapterInfo.chapter.title}}</md-card-title>
-      <md-card-subtitle>{{chapterInfo.chapter.published ? 'Published' : 'Draft'}}</md-card-subtitle>
-      <md-card-content>
+    <mat-card [routerLink]="editOnClick ? ['/edit', chapterInfo.chapter._id] : ['/read', chapterInfo.chapter._id]">
+      <mat-card-title>{{chapterInfo.chapter.title}}</mat-card-title>
+      <mat-card-subtitle>{{chapterInfo.chapter.published ? 'Published' : 'Draft'}}</mat-card-subtitle>
+      <mat-card-content>
         Book: {{getBookTitle(chapterInfo.chapter.book)}}
         <br>
         <span class="green">
@@ -23,7 +23,7 @@
         <span *ngIf="getLikes" style="color: #2f4f4f">
           <i class="fa fa-eye"></i> {{chapterInfo.chapter.views}}
         </span>
-      </md-card-content>
-    </md-card>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>

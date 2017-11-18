@@ -1,5 +1,5 @@
 <wn-section-header [title]="'Continue Reading'"></wn-section-header>
-<md-spinner *ngIf="!currentlyReadingBooks"></md-spinner>
+<mat-spinner *ngIf="!currentlyReadingBooks"></mat-spinner>
 <wn-book-grid *ngIf="currentlyReadingBooks && currentlyReadingBooks.length"
               [books]="currentlyReadingBooks"></wn-book-grid>
 <wn-info-text *ngIf="currentlyReadingBooks && !currentlyReadingBooks.length"

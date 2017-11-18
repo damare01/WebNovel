@@ -11,7 +11,7 @@
   margin: 0 5px 10px 0;
 }
 
-.book-card > md-card {
+.book-card > mat-card {
   width: 45%;
   height: 67%;
   flex-grow: 1;

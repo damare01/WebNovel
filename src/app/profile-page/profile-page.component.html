@@ -1,4 +1,4 @@
-<md-spinner *ngIf="!user"></md-spinner>
+<mat-spinner *ngIf="!user"></mat-spinner>
 <div *ngIf="user">
   <div class="user-header" [style.background-color]="color">{{user.penName || user.fullName}}</div>
   <div class="container">
@@ -10,18 +10,18 @@
         {{user.bio || 'There doesn\'t seem to be a bio here...'}}
       </div>
       <div class="button-group">
-        <button md-button
+        <button mat-button
                 class="edit-button"
                 (click)="toggleBioEditable()"
                 *ngIf="canEdit() && !bioEditable">EDIT BIO
         </button>
-        <button md-raised-button
+        <button mat-raised-button
                 color="accent"
                 class="save-button"
                 (click)="saveBio()"
                 *ngIf="canEdit() && bioEditable">Save
         </button>
-        <button md-button
+        <button mat-button
                 class="cancel-button"
                 (click)="cancel()"
                 *ngIf="canEdit() && bioEditable">Cancel
@@ -29,16 +29,16 @@
       </div>
     </div>
     <div class="content-container">
-      <md-tab-group>
+      <mat-tab-group>
 
-        <md-tab label="{{(user.penName || user.fullName) + '\'s books'}}">
+        <mat-tab label="{{(user.penName || user.fullName) + '\'s books'}}">
           <wn-book-grid [books]="userBooks"></wn-book-grid>
-        </md-tab>
-        <md-tab label="{{(user.penName || user.fullName) + '\'s chapters'}}">
+        </mat-tab>
+        <mat-tab label="{{(user.penName || user.fullName) + '\'s chapters'}}">
           <wn-chapter-grid [chapters]="userChapters"
                            [editOnClick]="false"></wn-chapter-grid>
-        </md-tab>
-      </md-tab-group>
+        </mat-tab>
+      </mat-tab-group>
     </div>
   </div>
 </div>

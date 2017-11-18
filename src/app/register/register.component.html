@@ -1,22 +1,23 @@
 <div class="flex-center">
   <form name="login" class="register-form">
-    <md-form-field class="full-width">
-      <input name="penName" type="text" mdInput placeholder="Pen Name" [(ngModel)]="penName">
-    </md-form-field>
-    <md-form-field class="full-width">
-      <input name="fullName" type="text" mdInput placeholder="Full Name" [(ngModel)]="fullName">
-    </md-form-field>
-    <md-form-field class="full-width">
-      <input name="email" type="email" mdInput placeholder="Email" [(ngModel)]="email">
-    </md-form-field>
+    <mat-form-field class="full-width">
+      <input name="penName" type="text" matInput placeholder="Pen Name" [(ngModel)]="penName">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input name="fullName" type="text" matInput placeholder="Full Name" [(ngModel)]="fullName">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input name="email" type="email" matInput placeholder="Email" [(ngModel)]="email">
+    </mat-form-field>
     <br>
-    <md-form-field class="full-width">
-      <input name="password" type="password" mdInput placeholder="Password" [(ngModel)]="password">
-    </md-form-field>
+    <mat-form-field class="full-width">
+      <input name="password" type="password" matInput placeholder="Password" [(ngModel)]="password">
+    </mat-form-field>
     <br>
     <re-captcha (captchaResponse)="handleCaptcha($event)"
                 site_key="6LfOSjMUAAAAACAfmQAmw_kijvWFYQOKACzpNkMJ"></re-captcha>
-    <button [disabled]="!captchaResponse" color="accent" md-raised-button (click)="register()" style="margin-top: 10px">
+    <button [disabled]="!captchaResponse" color="accent" mat-raised-button (click)="register()"
+            style="margin-top: 10px">
       REGISTER
     </button>
   </form>

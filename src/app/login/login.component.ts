@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core'
 import {AuthenticationService} from '../authentication.service'
 import {Router} from '@angular/router'
-import {MdSnackBar} from '@angular/material'
+import {MatSnackBar} from '@angular/material'
 
 @Component({
   selector: 'wn-login',
@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   email = ''
   password = ''
 
-  constructor(private authService: AuthenticationService, private router: Router, private snackBar: MdSnackBar) {
+  constructor(private authService: AuthenticationService, private router: Router, private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {

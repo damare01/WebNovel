@@ -1,4 +1,4 @@
-<md-spinner *ngIf="!myChapters"></md-spinner>
+<mat-spinner *ngIf="!myChapters"></mat-spinner>
 <wn-chapter-grid [chapters]="myChapters" *ngIf="myChapters"></wn-chapter-grid>
 <div *ngIf="myChapters && !myChapters.length">
   <i class="fa fa-book" style="font-size: 64px; color: gray; margin: 0 auto 5px auto"></i>

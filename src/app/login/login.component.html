@@ -2,14 +2,14 @@
 
 
   <form name="login" class="login-form">
-    <md-form-field class="full-width">
-      <input name="email" type="email" mdInput placeholder="Email" [(ngModel)]="email">
-    </md-form-field>
+    <mat-form-field class="full-width">
+      <input name="email" type="email" matInput placeholder="Email" [(ngModel)]="email">
+    </mat-form-field>
     <br>
-    <md-form-field class="full-width">
-      <input name="password" type="password" mdInput placeholder="Password" [(ngModel)]="password">
-    </md-form-field>
+    <mat-form-field class="full-width">
+      <input name="password" type="password" matInput placeholder="Password" [(ngModel)]="password">
+    </mat-form-field>
     <br>
-    <button color="accent" md-raised-button (click)="login()">Login</button>
+    <button color="accent" mat-raised-button (click)="login()">Login</button>
   </form>
 </div>

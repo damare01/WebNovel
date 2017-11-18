@@ -5,10 +5,10 @@ import {HttpModule} from '@angular/http'
 import {AppComponent} from './app.component'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import {
-  MdButtonModule, MdCardModule, MdFormFieldModule, MdIconModule, MdInputModule, MdMenuModule, MdProgressSpinnerModule,
-  MdSelectModule,
-  MdSnackBarModule, MdTabsModule,
-  MdToolbarModule
+  MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatMenuModule, MatProgressSpinnerModule,
+  MatSelectModule,
+  MatSnackBarModule, MatTabsModule,
+  MatToolbarModule
 } from '@angular/material'
 import {BookGridComponent} from './book-grid/book-grid.component'
 import {AuthenticationService} from './authentication.service'
@@ -132,26 +132,26 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MdToolbarModule,
+    MatToolbarModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
-    MdButtonModule,
-    MdFormFieldModule,
-    MdInputModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
     FormsModule,
-    MdSnackBarModule,
-    MdCardModule,
-    MdIconModule,
-    MdSelectModule,
-    MdMenuModule,
-    MdProgressSpinnerModule,
+    MatSnackBarModule,
+    MatCardModule,
+    MatIconModule,
+    MatSelectModule,
+    MatMenuModule,
+    MatProgressSpinnerModule,
     ReCaptchaModule,
     TagInputModule,
-    MdTabsModule,
+    MatTabsModule,
     FlexLayoutModule,
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
     FileUploadModule,
-    MdToolbarModule
+    MatToolbarModule
   ],
   providers: [
     AuthenticationService,

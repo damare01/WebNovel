@@ -4,9 +4,9 @@
      *ngIf="parentChapter">
   <div class="flex-container">
     <form name="chapter">
-      <md-form-field class="full-width">
-        <input name="title" mdInput placeholder="Chapter title" [(ngModel)]="newChapter.title">
-      </md-form-field>
+      <mat-form-field class="full-width">
+        <input name="title" matInput placeholder="Chapter title" [(ngModel)]="newChapter.title">
+      </mat-form-field>
     </form>
     <br>
     <tag-input [(ngModel)]="tags" [placeholder]="'Enter tags'"></tag-input>
@@ -15,8 +15,8 @@
     <wn-editor [elementId]="'chapter-editor'" (onEditorKeyup)="newChapter.body = $event"></wn-editor>
   </div>
   <div class="flex-container button-group">
-    <button md-button (click)="saveDraft()" [disabled]="!loaded">Save as Draft</button>
-    <button md-raised-button color="accent" (click)="publishChapter()" [disabled]="!loaded">
+    <button mat-button (click)="saveDraft()" [disabled]="!loaded">Save as Draft</button>
+    <button mat-raised-button color="accent" (click)="publishChapter()" [disabled]="!loaded">
       Publish
     </button>
   </div>

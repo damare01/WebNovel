@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core'
-import {MdSnackBar} from '@angular/material'
+import {MatSnackBar} from '@angular/material'
 import {UserService} from '../user.service'
 import {AuthenticationService} from '../authentication.service'
 
@@ -10,7 +10,7 @@ import {AuthenticationService} from '../authentication.service'
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private snackBar: MdSnackBar, private _authService: AuthenticationService) {
+  constructor(private snackBar: MatSnackBar, private _authService: AuthenticationService) {
   }
 
   ngOnInit() {

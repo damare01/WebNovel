@@ -1,17 +1,17 @@
 <div class="sticky">
-  <md-toolbar color="primary">
+  <mat-toolbar color="primary">
     <span [routerLink]="['/home']" style="cursor: pointer; color: white; margin-right: 10px">WebNovel</span>
     <span style="color:white; font-size: 16px; margin-right: 10px">Alpha</span>
-    <a md-button [routerLink]="['/home']" style="color:white">DISCOVER</a>
-    <button md-button [routerLink]="'/mybooks'" style="color: white" *ngIf="isLoggedIn()">CREATE</button>
+    <a mat-button [routerLink]="['/home']" style="color:white">DISCOVER</a>
+    <button mat-button [routerLink]="'/mybooks'" style="color: white" *ngIf="isLoggedIn()">CREATE</button>
     <span class="fill-remaining-space"></span>
     <span>
-      <button color="accent" md-raised-button [routerLink]="['/login']" *ngIf="!isLoggedIn()">LOGIN</button>
-      <button color="accent" md-raised-button [routerLink]="['/register']" *ngIf="!isLoggedIn()">REGISTER</button>
+      <button color="accent" mat-raised-button [routerLink]="['/login']" *ngIf="!isLoggedIn()">LOGIN</button>
+      <button color="accent" mat-raised-button [routerLink]="['/register']" *ngIf="!isLoggedIn()">REGISTER</button>
       <wn-user-menu *ngIf="isLoggedIn()"></wn-user-menu>
       <wn-notification-popup-button *ngIf="isLoggedIn()"></wn-notification-popup-button>
     </span>
-  </md-toolbar>
+  </mat-toolbar>
 </div>
 
 

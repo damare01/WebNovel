@@ -13,13 +13,13 @@
     <div *ngIf="chapter && author">
 
       <h2 class="header" *ngIf="chapter">{{chapter.title}}</h2>
-      <button md-button *ngIf="!editable && loggedInUserIsAuthor()" class="edit-button" (click)="editChapter()">EDIT
+      <button mat-button *ngIf="!editable && loggedInUserIsAuthor()" class="edit-button" (click)="editChapter()">EDIT
         CHAPTER
       </button>
-      <button md-button *ngIf="editable && loggedInUserIsAuthor()" class="save-button" (click)="discardChanges()">
+      <button mat-button *ngIf="editable && loggedInUserIsAuthor()" class="save-button" (click)="discardChanges()">
         DISCARD CHANGED
       </button>
-      <button md-raised-button *ngIf="editable && loggedInUserIsAuthor()" color="accent" class="save-button"
+      <button mat-raised-button *ngIf="editable && loggedInUserIsAuthor()" color="accent" class="save-button"
               (click)="saveChapter()">SAVE CHANGES
       </button>
 
@@ -42,11 +42,11 @@
       <div class="content" id="chapter-content" *ngIf="chapter" [innerHtml]="chapter.body"></div>
 
       <div class="buttons">
-        <button [disabled]="!isLoggedIn()" md-fab class="like" (click)="like()" alt="Like chapter">
+        <button [disabled]="!isLoggedIn()" mat-fab class="like" (click)="like()" alt="Like chapter">
           <i class="fa" [ngClass]="{'fa-thumbs-o-up': !liked, 'fa-thumbs-up': liked}"></i>
         </button>
 
-        <button [disabled]="!isLoggedIn()" md-fab color="warn" class="dislike" (click)="dislike()"
+        <button [disabled]="!isLoggedIn()" mat-fab color="warn" class="dislike" (click)="dislike()"
                 alt="Dislike chapter">
           <i class="fa" [ngClass]="{'fa-thumbs-o-down': !disliked, 'fa-thumbs-down': disliked}"></i>
         </button>
@@ -58,7 +58,7 @@
     <div class="comment-section" *ngIf="chapter && author">
       <wn-chapter-discussion [chapterId]="chapterId"></wn-chapter-discussion>
     </div>
-    <md-spinner style="margin:auto" *ngIf="!chapter || !author"></md-spinner>
+    <mat-spinner style="margin:auto" *ngIf="!chapter || !author"></mat-spinner>
   </div>
   <div class="graph-container">
     <div style="max-width: 20px; max-height: 10px;margin: 0 auto;"><i style="font-size: 24px;"

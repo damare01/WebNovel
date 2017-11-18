@@ -4,7 +4,7 @@ import {Book} from '../../models/book'
 import {Chapter} from '../../models/chapter'
 import {BookService} from '../book.service'
 import {ChapterService} from '../chapter.service'
-import {MdSnackBar} from '@angular/material'
+import {MatSnackBar} from '@angular/material'
 import {Router} from '@angular/router'
 import {UserService} from '../user.service'
 
@@ -24,7 +24,7 @@ export class NewBookComponent implements OnInit {
 
   constructor(private _bookService: BookService,
               private _chapterService: ChapterService,
-              private snackBar: MdSnackBar,
+              private snackBar: MatSnackBar,
               private router: Router,
               private _userService: UserService) {
     this.convertEnumToArray()

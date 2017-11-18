@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core'
 import {User} from '../../models/user'
 import {UserService} from '../user.service'
 import {AuthenticationService} from '../authentication.service'
-import {MdSnackBar} from '@angular/material'
+import {MatSnackBar} from '@angular/material'
 
 @Component({
   selector: 'wn-account-settings',
@@ -22,7 +22,7 @@ export class AccountSettingsComponent implements OnInit {
 
   constructor(private _userService: UserService,
               private _authService: AuthenticationService,
-              private snackBar: MdSnackBar) {
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {

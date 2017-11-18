@@ -2,9 +2,9 @@
   <div class="flex-container">
     <wn-section-header [title]="'Edit draft'"></wn-section-header>
     <form name="chapter">
-      <md-form-field class="full-width">
-        <input name="title" mdInput placeholder="Chapter title" [(ngModel)]="draft.title">
-      </md-form-field>
+      <mat-form-field class="full-width">
+        <input name="title" matInput placeholder="Chapter title" [(ngModel)]="draft.title">
+      </mat-form-field>
     </form>
     <br>
     <tag-input [(ngModel)]="tags" [placeholder]="'Enter tags'"></tag-input>
@@ -14,7 +14,7 @@
   </div>
   <br>
   <div class="flex-container button-group">
-    <button md-button (click)="saveDraft()">Save draft</button>
-    <button md-raised-button color="accent" (click)="publishChapter()">Publish</button>
+    <button mat-button (click)="saveDraft()">Save draft</button>
+    <button mat-raised-button color="accent" (click)="publishChapter()">Publish</button>
   </div>
 </div>

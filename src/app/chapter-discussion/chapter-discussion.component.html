@@ -4,8 +4,8 @@
                    class="comment-editor"
                    (postedComment)="addNewComment($event)"></wn-comment-editor>
 <wn-info-text *ngIf="!isLoggedIn()" [text]="'Log in to comment'"></wn-info-text>
-<md-card *ngIf="comments.length && !isExpanded"
-         style="cursor: pointer"
-         (click)="toggleExpand()">Show comments
-</md-card>
+<mat-card *ngIf="comments.length && !isExpanded"
+          style="cursor: pointer"
+          (click)="toggleExpand()">Show comments
+</mat-card>
 <wn-discussion *ngIf="isExpanded" [comments]="comments"></wn-discussion>
