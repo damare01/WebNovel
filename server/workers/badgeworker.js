@@ -112,6 +112,7 @@ let checkAndCreateBadge = function (badge) {
               UserBadge.insertMany(userIdsToGetBadge, {ordered: false}, (err, insertedDocs) => {
                 resolve('success')
                 insertedDocs.forEach(userBadge =>{
+                  console.log('Awarded new badge to user: ' + userBadge.user_id)
                   alertUser(userBadge)
                 })
               })
