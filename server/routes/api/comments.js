@@ -6,7 +6,7 @@ const CurrencyCtrl = require('./controllers/currencyCtrl')
 
 /**
  * @swagger
- * definition:
+ * definitions:
  *  Comment:
  *    author:
  *      type: Author

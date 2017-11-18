@@ -5,7 +5,7 @@ const requireAuth = require('passport').authenticate('jwt', {session: false})
 
 /**
  * @swagger
- * definition:
+ * definitions:
  *  Author:
  *    id:
  *      type: string
@@ -15,7 +15,7 @@ const requireAuth = require('passport').authenticate('jwt', {session: false})
 
 /**
  * @swagger
- * definition:
+ * definitions:
  *    Book:
  *     properties:
  *       author:

@@ -6,7 +6,7 @@ const MessageHandler = require('../../controllers/message-handler')
 
 /**
  * @swagger
- * definition:
+ * definitions:
  *  Notification:
  *    properties:
  *      created:

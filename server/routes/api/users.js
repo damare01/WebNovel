@@ -8,7 +8,7 @@ const requireAuth = require('passport').authenticate('jwt', {session: false})
 
 /**
  * @swagger
- * definition:
+ * definitions:
  *  CurrentlyReading:
  *    properties:
  *      book:
@@ -21,7 +21,7 @@ const requireAuth = require('passport').authenticate('jwt', {session: false})
 
 /**
  * @swagger
- * definition:
+ * definitions:
  *  User:
  *    properties:
  *      fullName:
@@ -42,7 +42,7 @@ const requireAuth = require('passport').authenticate('jwt', {session: false})
 
 /**
  * @swagger
- * definition:
+ * definitions:
  *  PasswordUser:
  *    properties:
  *      oldPassword:

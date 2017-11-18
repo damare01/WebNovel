@@ -6,7 +6,7 @@ const CurrencyCtrl = require('./controllers/currencyCtrl')
 
 /**
  * @swagger
- * definition:
+ * definitions:
  *  Like:
  *    properties:
  *      user:
@@ -19,7 +19,7 @@ const CurrencyCtrl = require('./controllers/currencyCtrl')
 
 /**
  * @swagger
- * definition:
+ * definitions:
  *  LikeCount:
  *    properties:
  *      likes:
@@ -28,7 +28,7 @@ const CurrencyCtrl = require('./controllers/currencyCtrl')
 
 /**
  * @swagger
- * definition:
+ * definitions:
  *  DislikeCount:
  *    properties:
  *      dislikes:
