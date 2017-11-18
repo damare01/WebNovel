@@ -139,9 +139,11 @@ let createNewBadges = function (badges) {
 
 
 let runEveryMinute = function () {
+  console.log('Badge run started: ' + new Date())
   let startTime = new Date().getTime()
   getAllBadges.then(badges => {
     createNewBadges(badges).then(() => {
+      console.log('Badge run finished: ' + new Date())
       let endTime = new Date().getTime()
       let milliSecPassed = endTime - startTime
       const milliSecUntilNextRun = 1000 * 60 - milliSecPassed
