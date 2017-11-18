@@ -1,10 +1,10 @@
-var express = require('express')
-var bodyParser = require('body-parser')
-var logger = require('morgan')
+const express = require('express')
+const bodyParser = require('body-parser')
+const logger = require('morgan')
 const router = require('./server/routes/router')
 
 
-var app = express()
+const app = express()
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
@@ -18,7 +18,7 @@ app.use((req, res, next)=>{
   res.header('Access-Control-Allow-Credentials', 'true')
   next()
 })
-var distDir = __dirname + '/dist/'
+const distDir = __dirname + '/dist/'
 app.use(express.static(distDir))
 
 const port = process.env.PORT || 8080
@@ -49,8 +49,8 @@ app.get('*', (req, res) => {
 })
 
 
-var server = app.listen(port, function(){
-    var port = server.address().port
+const server = app.listen(port, function () {
+  const port = server.address().port
     console.log('App is running on port', port)
 })
 
