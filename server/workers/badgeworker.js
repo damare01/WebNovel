@@ -1,27 +1,158 @@
+const mongoose = require('mongoose')
 const Redis = require('ioredis')
 const client = new Redis(process.env.REDIS_URL)
 const io = require('socket.io-emitter')(client)
+const Badge = require('../models/badge')
+const UserCurrency = require('../models/userCurrency')
+const UserBadge = require('../models/userBadge')
 
+mongoose.promise = global.Promise
+mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true, promiseLibrary: global.Promise})
 
-setInterval(() => {
-  const notification = {
-    actorId: '59cb9daa4c7248c29487dac3',
-    created: '2017-11-16T12:59:15.947Z',
-    objectId: '5a00695b671e270efc3935cb',
-    objectType: 'chapter',
-    read: false,
-    subjectId: '59c3995ddd8415653e5ebc87',
-    verb: 'disliked',
-    __v: 0,
-    _id: '5a0d8ba33c8983286d9d2acf'
-  }
-  client.get('59c3995ddd8415653e5ebc87', (err, reply) => {
-    if (!err && reply) {
+let alertUser = function(userBadge){
+  client.get(userBadge.user_id, (err, reply)=>{
+    if(!err && reply){
       const socketId = reply.toString()
-      io.to(socketId).emit('notification', notification)
+      io.to(socketId).emit('badge', userBadge.badge_id)
     }
   })
-}, 5 * 1000)
+}
+
+let getAllBadges = new Promise((resolve, reject) => {
+  Badge.find({}, (err, badges) => {
+    if (err) {
+      reject()
+    } else {
+      resolve(badges)
+    }
+  })
+})
+
+let getUserIdIntersection = function (allUserIdObjects) {
+  let shortestSet = allUserIdObjects[0]
+
+  //find shortest set
+  for (let i = 1; i < allUserIdObjects; i++) {
+    let hashSet = allUserIdObjects[i]
+    if (Object.keys(hashSet).length < Object.keys(shortestSet).length) {
+      shortestSet = hashSet
+    }
+  }
+
+  //Get intersection
+  allUserIdObjects.forEach(set => {
+    if (set !== shortestSet) {
+      for (let key in shortestSet) {
+        if (shortestSet.hasOwnProperty(key)) {
+          shortestSet[key] = set[key]
+        }
+      }
+    }
+  })
+
+  return shortestSet
+}
+
+let checkAndCreateBadge = function (badge) {
+  return new Promise((resolve, reject) => {
 
 
+    const currencyThresholds = badge.currency_thresholds
 
+    if (currencyThresholds) {
+      const numberOfThresholdsToCheck = currencyThresholds.length
+
+      let allUserIds = []
+
+      currencyThresholds.forEach(ct => {
+        const query = {
+          $or: [
+            {
+              'checked': false,
+              'amount': {$gte: ct.threshold},
+              'currencyId': ct.currency_id
+            },
+            {
+              'checked': null,
+              'amount': {$gte: ct.threshold},
+              'currencyId': ct.currency_id
+            }
+          ]
+        }
+        UserCurrency.find(
+          query,
+          (err, userCurrencies) => {
+            UserCurrency.update(query, {$set: {'checked': true}}, (err) => {
+            })
+            let userHashSetObject = {}
+
+            userCurrencies.forEach(uc => {
+              userHashSetObject[uc.userId] = true
+            })
+            allUserIds.push(userHashSetObject)
+
+
+            const hasGottenAllUserIds = (Boolean)(allUserIds.length && (allUserIds.length === numberOfThresholdsToCheck))
+            if (hasGottenAllUserIds) {
+              let interSectionObject = getUserIdIntersection(allUserIds)
+
+              let userIdsToGetBadge = []
+              for (let key in interSectionObject) {
+                if (interSectionObject.hasOwnProperty(key)) {
+                  if (interSectionObject[key]) {
+                    let userBadge = new UserBadge({
+                      user_id: key,
+                      badge_id: badge._id
+                    })
+                    userIdsToGetBadge.push(userBadge)
+                  }
+                }
+              }
+
+              UserBadge.insertMany(userIdsToGetBadge, {ordered: false}, (err, insertedDocs) => {
+                resolve('success')
+                insertedDocs.forEach(userBadge =>{
+                  alertUser(userBadge)
+                })
+              })
+
+            }
+          })
+      })
+    }
+  })
+}
+
+let createNewBadges = function (badges) {
+  return new Promise((resolve, reject) => {
+    const totalNumberOfBadges = badges.length
+    let numberOfBadgesChecked = 0
+    badges.forEach(badge => {
+      checkAndCreateBadge(badge).then(() => {
+        if (++numberOfBadgesChecked === totalNumberOfBadges) {
+          resolve()
+        }
+      })
+    })
+  })
+}
+
+
+let runEveryMinute = function () {
+  let startTime = new Date().getTime()
+  getAllBadges.then(badges => {
+    createNewBadges(badges).then(() => {
+      let endTime = new Date().getTime()
+      let milliSecPassed = endTime - startTime
+      console.log(milliSecPassed)
+      const milliSecUntilNextRun = 1000 * 60 - milliSecPassed
+      if (milliSecUntilNextRun < 0) {
+        runEveryMinute()
+      } else {
+        setTimeout(runEveryMinute, milliSecUntilNextRun)
+      }
+    })
+  })
+}
+
+runEveryMinute()
