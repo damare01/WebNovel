@@ -35,6 +35,8 @@ testem.log
 /typings
 yarn-error.log
 .env
+Dockerfile
+.dockerignore
 
 # e2e
 /e2e/*.js
