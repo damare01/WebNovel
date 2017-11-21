@@ -2,30 +2,36 @@
 <div *ngIf="user">
   <div class="user-header" [style.background-color]="color">{{user.penName || user.fullName}}</div>
   <div class="container">
-    <div class="bio-container">
-      <div class="bio-text comment"
-           #bio
-           contentEditable="{{canEdit() && bioEditable}}"
-           (input)="updateBio($event.target.innerText)">
-        {{user.bio || 'There doesn\'t seem to be a bio here...'}}
+    <div class="about-container">
+      <div class="bio-container">
+        <div class="bio-text comment"
+             #bio
+             contentEditable="{{canEdit() && bioEditable}}"
+             (input)="updateBio($event.target.innerText)">
+          {{user.bio || 'There doesn\'t seem to be a bio here...'}}
+        </div>
+        <div class="button-group">
+          <button mat-button
+                  class="edit-button"
+                  (click)="toggleBioEditable()"
+                  *ngIf="canEdit() && !bioEditable">EDIT BIO
+          </button>
+          <button mat-raised-button
+                  color="accent"
+                  class="save-button"
+                  (click)="saveBio()"
+                  *ngIf="canEdit() && bioEditable">Save
+          </button>
+          <button mat-button
+                  class="cancel-button"
+                  (click)="cancel()"
+                  *ngIf="canEdit() && bioEditable">Cancel
+          </button>
+        </div>
       </div>
-      <div class="button-group">
-        <button mat-button
-                class="edit-button"
-                (click)="toggleBioEditable()"
-                *ngIf="canEdit() && !bioEditable">EDIT BIO
-        </button>
-        <button mat-raised-button
-                color="accent"
-                class="save-button"
-                (click)="saveBio()"
-                *ngIf="canEdit() && bioEditable">Save
-        </button>
-        <button mat-button
-                class="cancel-button"
-                (click)="cancel()"
-                *ngIf="canEdit() && bioEditable">Cancel
-        </button>
+
+      <div class="badge-container">
+        <wn-user-badges [userId]="user._id"></wn-user-badges>
       </div>
     </div>
     <div class="content-container">

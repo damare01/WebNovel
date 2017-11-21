@@ -19,7 +19,7 @@ const requireAuth = require('passport').authenticate('jwt', {session: false})
  *    Book:
  *     properties:
  *       author:
- *         type: "string"
+ *         type: Author
  *       title:
  *         type: "string"
  *       startChapter:

@@ -1,0 +1,25 @@
+.badge-icon {
+  font-size: 24px;
+  color: orange;
+}
+
+.badge {
+  width: 40%;
+  padding: 10px;
+  text-align: center;
+}
+
+.badge-container{
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #fff;
+  border: 1px grey solid;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.header{
+  font-size: 18px;
+  width: 100%;
+  font-weight: 600;
+}

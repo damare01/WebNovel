@@ -1,9 +1,11 @@
-let express = require('express')
-let router = express.Router()
-let User = require('../../models/user')
-let Chapter = require('../../models/chapter')
-let Book = require('../../models/book')
-let CurrentlyReading = require('../../models/currentlyReading')
+const express = require('express')
+const router = express.Router()
+const User = require('../../models/user')
+const Chapter = require('../../models/chapter')
+const Book = require('../../models/book')
+const CurrentlyReading = require('../../models/currentlyReading')
+const Badge = require('../../models/badge')
+const UserBadge = require('../../models/userBadge')
 const requireAuth = require('passport').authenticate('jwt', {session: false})
 
 /**
@@ -49,6 +51,32 @@ const requireAuth = require('passport').authenticate('jwt', {session: false})
  *        type: string
  *      newPassword:
  *        type: string
+ */
+
+/**
+ * @swagger
+ * definitions:
+ *  Badge:
+ *    properties:
+ *      name:
+ *        type: "string"
+ *      description:
+ *        type: "string"
+ *      currency_thresholds:
+ *        type: array
+ *        items:
+ *          type: CurrencyThreshold
+ */
+
+/**
+ * @swagger
+ * definitions:
+ *  CurrencyThreshold:
+ *    properties:
+ *      currency_id:
+ *        type: "string"
+ *      threshold:
+ *        type: "number"
  */
 
 /**
@@ -254,6 +282,52 @@ router.get('/:id/books', (req, res) => {
         res.status(500).send([])
       } else {
         res.send(books)
+      }
+    }
+  )
+})
+
+/**
+ * @swagger
+ * /users/{id}/badges:
+ *   get:
+ *     tags:
+ *       - user badges
+ *     description:
+ *       - Returns the badges gotten by the user
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       -
+ *        name: "id"
+ *        in: "path"
+ *        description: "User Id"
+ *        required: true
+ *        type: "string"
+ *     responses:
+ *      200:
+ *        description: An array of badge objects
+ *        schema:
+ *          $ref: '#/definitions/Badge'
+ *
+ */
+router.get('/:id/badges', (req, res) => {
+  let userId = req.params['id']
+  UserBadge.find({
+      user_id: userId
+    },
+    (err, userBadges) => {
+      if (!err) {
+        let badgeIds = userBadges.map(ub => ub.badge_id)
+        Badge.find({
+          _id: {$in: badgeIds}
+        }, (err, badges)=>{
+          if(err){
+            res.status(500).send({})
+          } else {
+            res.send(badges)
+          }
+        })
       }
     }
   )
