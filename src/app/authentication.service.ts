@@ -91,4 +91,13 @@ export class AuthenticationService {
     return loggedIn
   }
 
+  getAuthToken(): string {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    if (currentUser && currentUser.token) {
+      return currentUser.token
+    } else {
+      return ''
+    }
+  }
+
 }
