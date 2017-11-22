@@ -1,5 +1,9 @@
 {
   "name": "web-novel",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oleeskild/WebNovel.git"
+  },
   "version": "0.0.0",
   "engines": {
     "node": "8.4.0"
