@@ -13,4 +13,8 @@ export class BadgeService {
     return this._wnhttp.get(`/users/${userId}/badges/`)
   }
 
+  getBadge(badgeId: string): Observable<Badge>{
+    return this._wnhttp.get(`/badges/${badgeId}`)
+  }
+
 }

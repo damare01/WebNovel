@@ -53,31 +53,7 @@ const requireAuth = require('passport').authenticate('jwt', {session: false})
  *        type: string
  */
 
-/**
- * @swagger
- * definitions:
- *  Badge:
- *    properties:
- *      name:
- *        type: "string"
- *      description:
- *        type: "string"
- *      currency_thresholds:
- *        type: array
- *        items:
- *          type: CurrencyThreshold
- */
 
-/**
- * @swagger
- * definitions:
- *  CurrencyThreshold:
- *    properties:
- *      currency_id:
- *        type: "string"
- *      threshold:
- *        type: "number"
- */
 
 /**
  * @swagger

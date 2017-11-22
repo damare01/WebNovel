@@ -9,6 +9,7 @@ let users = require('./users')
 let likes = require('./likes')
 let comments = require('./comments')
 let notifications = require('./notifications')
+let badges = require('./badges')
 
 mongoose.Promise = global.Promise
 mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true, promiseLibrary: global.Promise})
@@ -24,6 +25,7 @@ db.once('open', () => {
   router.use('/likes', likes)
   router.use('/comments', comments)
   router.use('/notifications', notifications)
+  router.use('/badges', badges)
 })
 
 let swaggerJSDoc = require('swagger-jsdoc')
