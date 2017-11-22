@@ -39,6 +39,7 @@ Dockerfile
 .dockerignore
 docker-compose.yml
 *.dockerfile
+deploy.sh
 
 # e2e
 /e2e/*.js
