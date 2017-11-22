@@ -7,8 +7,8 @@
         <div class="bio-text comment"
              #bio
              contentEditable="{{canEdit() && bioEditable}}"
-             (input)="updateBio($event.target.innerText)">
-          {{user.bio || 'There doesn\'t seem to be a bio here...'}}
+             (input)="updateBio($event.target.innerHTML)"
+        [innerHTML]="user.bio || 'There doesn\'t seem to be a bio here...'">
         </div>
         <div class="button-group">
           <button mat-button
