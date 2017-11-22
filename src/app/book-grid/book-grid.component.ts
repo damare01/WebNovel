@@ -39,9 +39,6 @@ export class BookGridComponent implements OnInit, OnChanges {
   }
 
   openBook(book: Book) {
-    if (!this._authService.isLoggedIn()) {
-      this.router.navigate(['read', book.startChapter])
-    } else {
       this._userService.getCurrentlyReading(book._id).subscribe(cr => {
         if (cr && cr.chapterTrail) {
           this.router.navigate(['read', cr.chapterTrail[cr.chapterTrail.length - 1]])
@@ -49,8 +46,6 @@ export class BookGridComponent implements OnInit, OnChanges {
           this.router.navigate(['read', book.startChapter])
         }
       })
-    }
-
   }
 
 }

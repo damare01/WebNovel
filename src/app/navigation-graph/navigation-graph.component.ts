@@ -74,9 +74,6 @@ export class NavigationGraphComponent implements OnInit, OnChanges {
   }
 
   updateCurrentlyReading() {
-    if (!this.authService.isLoggedIn()) {
-      return
-    }
     const currentlyReading: CurrentlyReading = {
       book: this.bookId,
       chapterTrail: this.chapterTrail

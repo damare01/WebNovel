@@ -8,19 +8,45 @@ import * as jwtDecode from 'jwt-decode'
 @Injectable()
 export class UserService {
 
+  localCurrentlyReadingKey = 'localCurrentlyReading'
+
   constructor(private _wnhttp: WnHttp) {
   }
 
   updateCurrentlyReading(currentlyReading: CurrentlyReading) {
-    return this._wnhttp.put('/users/currentlyreading', currentlyReading)
+    const tokenString = localStorage.getItem('currentUser')
+    if (!tokenString) {
+      const currentlyReadingString = localStorage.getItem(this.localCurrentlyReadingKey) || '[]'
+      const oldCurrentlyReading: CurrentlyReading[] = JSON.parse(currentlyReadingString)
+      const newCurrentlyReading = oldCurrentlyReading.filter(cr => cr.book !== currentlyReading.book)
+      newCurrentlyReading.push(currentlyReading)
+      localStorage.setItem(this.localCurrentlyReadingKey, JSON.stringify(newCurrentlyReading))
+      return Observable.of({})
+    } else {
+      return this._wnhttp.put('/users/currentlyreading', currentlyReading)
+    }
   }
 
   getCurrentlyReading(bookId: string): Observable<CurrentlyReading> {
-    return this._wnhttp.get('/users/currentlyreading/' + bookId)
+    const tokenString = localStorage.getItem('currentUser')
+    if (!tokenString) {
+      const currentlyReadingString = localStorage.getItem(this.localCurrentlyReadingKey) || '[]'
+      const currentlyReading: CurrentlyReading[] = JSON.parse(currentlyReadingString)
+      const currentlyReadingBook = currentlyReading.find(cr => cr.book === bookId) || {}
+      return Observable.of(currentlyReadingBook)
+    } else {
+      return this._wnhttp.get('/users/currentlyreading/' + bookId)
+    }
   }
 
   getAllCurrentlyReading(): Observable<CurrentlyReading[]> {
-    return this._wnhttp.get('/users/currentlyreading/')
+    const tokenString = localStorage.getItem('currentUser')
+    if (!tokenString) {
+      const currentlyReading = localStorage.getItem(this.localCurrentlyReadingKey) || '[]'
+      return Observable.of(JSON.parse(currentlyReading))
+    } else {
+      return this._wnhttp.get('/users/currentlyreading/')
+    }
   }
 
   getCurrentUser(): Observable<User> {
