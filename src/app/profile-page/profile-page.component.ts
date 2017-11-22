@@ -40,7 +40,7 @@ export class ProfilePageComponent implements OnInit {
         this.user = user
         this.setColor()
         this.getUserChapters()
-        this.getUserBooks()
+        // this.getUserBooks()
       })
     })
   }
