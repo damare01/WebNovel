@@ -8,20 +8,20 @@ export class SocketService {
 
   private socket: any
 
-  constructor(private _userService: UserService,
-              private _authService: AuthenticationService) {
+  constructor() {
     this.socket = io()
+    this.socket.on('connect', (socket) => {
+      this.registerUser()
+    })
     this.registerUser()
   }
 
   registerUser() {
-    this.socket.on('connect', (socket) => {
-      const tokenString = localStorage.getItem('currentUser')
-      if (tokenString) {
-        const token = JSON.parse(tokenString).token
-        socket.emit('user-auth', token)
-      }
-    })
+    const tokenString = localStorage.getItem('currentUser')
+    if (tokenString) {
+      const token = JSON.parse(tokenString).token
+      this.socket.emit('user-auth', token)
+    }
 
   }
 
