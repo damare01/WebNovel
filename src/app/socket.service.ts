@@ -1,7 +1,5 @@
-import {Injectable, OnInit} from '@angular/core'
+import {Injectable} from '@angular/core'
 import * as io from 'socket.io-client'
-import {UserService} from './user.service'
-import {AuthenticationService} from './authentication.service'
 
 @Injectable()
 export class SocketService {
