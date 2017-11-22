@@ -8,7 +8,7 @@
              #bio
              contentEditable="{{canEdit() && bioEditable}}"
              (input)="updateBio($event.target.innerHTML)"
-        [innerHTML]="user.bio || 'There doesn\'t seem to be a bio here...'">
+             [innerHTML]="user.bio || 'There doesn\'t seem to be a bio here...'">
         </div>
         <div class="button-group">
           <button mat-button
@@ -38,9 +38,17 @@
       <mat-tab-group>
 
         <mat-tab label="{{(user.penName || user.fullName) + '\'s books'}}">
+          <mat-spinner *ngIf="!booksLoaded"></mat-spinner>
+          <div class="info-text" *ngIf="booksLoaded && !userBooks.length">
+            <wn-info-text [text]="'There doesn\'t seem to be any books here yet...'"></wn-info-text>
+          </div>
           <wn-book-grid [books]="userBooks"></wn-book-grid>
         </mat-tab>
         <mat-tab label="{{(user.penName || user.fullName) + '\'s chapters'}}">
+          <mat-spinner *ngIf="!chaptersLoaded"></mat-spinner>
+          <div class="info-text" *ngIf="chaptersLoaded && !userChapters.length">
+            <wn-info-text [text]="'There doesn\'t seem to be any chapters here yet...'"></wn-info-text>
+          </div>
           <wn-chapter-grid [chapters]="userChapters"
                            [editOnClick]="false"></wn-chapter-grid>
         </mat-tab>

@@ -19,6 +19,9 @@ export class ProfilePageComponent implements OnInit {
   userChapters: Chapter[] = []
   userBooks: Book[] = []
 
+  booksLoaded = false
+  chaptersLoaded = false
+
   @ViewChild('bio') bioDiv: ElementRef
   bioText: any
   oldBioText: any
@@ -40,7 +43,7 @@ export class ProfilePageComponent implements OnInit {
         this.user = user
         this.setColor()
         this.getUserChapters()
-        // this.getUserBooks()
+        this.getUserBooks()
       })
     })
   }
@@ -87,12 +90,14 @@ export class ProfilePageComponent implements OnInit {
         return b.views - a.views
       })
       this.userChapters = chapters
+      this.chaptersLoaded = true
     })
   }
 
   getUserBooks() {
     this._bookService.getUserBooks(this.user._id).subscribe(books => {
       this.userBooks = books
+      this.booksLoaded = true
     })
   }
 
