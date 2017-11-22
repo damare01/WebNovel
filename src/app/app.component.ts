@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
       duration: 4000
     })
     snakcBarRef.onAction().subscribe(() => {
-      this.router.navigate(['/profile', this.currentUser._id])
+      this.router.navigate(['/user', this.currentUser._id])
     })
   }
 
