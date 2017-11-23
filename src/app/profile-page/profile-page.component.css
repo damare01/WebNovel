@@ -13,8 +13,8 @@
   margin: 10px 10px 0 0;
 }
 
-.about-container{
-  width: 30%;
+.about-container {
+  width: 25%;
 }
 
 .bio-container {
@@ -59,10 +59,10 @@
   display: flex;
   flex-wrap: nowrap;
   align-items: flex-start;
-  max-width: 1140px;
+  max-width: 1300px;
   margin: auto;
 }
 
-.info-text{
+.info-text {
   margin-top: 20px;
 }
