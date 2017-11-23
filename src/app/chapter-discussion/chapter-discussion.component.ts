@@ -12,6 +12,7 @@ export class ChapterDiscussionComponent implements OnInit {
 
   @Input() chapterId: string
   comments: Comment[] = []
+  commentsLoaded = false
 
   isExpanded = false
 
@@ -20,9 +21,6 @@ export class ChapterDiscussionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._commentService.getDiscussionRootComments(this.chapterId).subscribe(comments => {
-      this.comments = comments
-    })
   }
 
   addNewComment(comment: Comment) {
@@ -30,6 +28,10 @@ export class ChapterDiscussionComponent implements OnInit {
   }
 
   toggleExpand() {
+    this._commentService.getDiscussionRootComments(this.chapterId).subscribe(comments => {
+      this.comments = comments
+      this.commentsLoaded = true
+    })
     this.isExpanded = !this.isExpanded
   }
 

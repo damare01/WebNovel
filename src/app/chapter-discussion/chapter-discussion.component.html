@@ -4,8 +4,10 @@
                    class="comment-editor"
                    (postedComment)="addNewComment($event)"></wn-comment-editor>
 <wn-info-text *ngIf="!isLoggedIn()" [text]="'Log in to comment'"></wn-info-text>
-<mat-card *ngIf="comments.length && !isExpanded"
+<mat-card *ngIf="!isExpanded"
           style="cursor: pointer"
           (click)="toggleExpand()">Show comments
 </mat-card>
+<mat-spinner *ngIf="isExpanded && !comments.length && !commentsLoaded"></mat-spinner>
 <wn-discussion *ngIf="isExpanded" [comments]="comments"></wn-discussion>
+<wn-info-text *ngIf="commentsLoaded && isExpanded && !comments.length" [text]="'This chapter doesn\'t have any comments yet...'"></wn-info-text>
