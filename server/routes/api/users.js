@@ -53,11 +53,65 @@ const requireAuth = require('passport').authenticate('jwt', {session: false})
  *        type: string
  */
 
-
+/**
+ * @swagger
+ * definitions:
+ *  Count:
+ *    properties:
+ *      wordCount:
+ *        type: number
+ */
 
 /**
  * @swagger
- * /users/currentlyreading/{bookId}:
+ * /users/{id}/wordcount:
+ *   get:
+ *    tags:
+ *      - wordcount chapters user
+ *    description:
+ *      - returns the total number of words the user has written
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      -
+ *        name: "id"
+ *        in: "path"
+ *        description: "User Id"
+ *        required: true
+ *        type: "string"
+ *    responses:
+ *      200:
+ *        description: A wordcount object
+ *        schema:
+ *          $ref: '#/definitions/Count'
+ */
+router.get('/:id/wordcount', (req, res) => {
+  const userId = req.params['id']
+  Chapter
+    .aggregate([
+      {$match: {author: userId}},
+      {
+        $group: {
+          _id: null,
+          total: {
+            $sum: '$wordCount'
+          }
+        }
+      }
+    ], (err, wordCount) => {
+      if (err) {
+        res.status(500).send({})
+      } else if (wordCount && wordCount.length) {
+        res.send({count: wordCount[0].total})
+      } else {
+        res.status(500).send({})
+      }
+    })
+})
+
+/**
+ * @swagger
+ * /users/self/currentlyreading/{bookId}:
  *   get:
  *     tags:
  *       - currentlyreading user
@@ -80,7 +134,7 @@ const requireAuth = require('passport').authenticate('jwt', {session: false})
  *          $ref: '#/definitions/CurrentlyReading'
  *
  */
-router.get('/currentlyreading/:bookId', requireAuth, (req, res) => {
+router.get('/self/currentlyreading/:bookId', requireAuth, (req, res) => {
   User.findOne(
     {
       '_id': req.user._id, 'currentlyReading.book': req.params.bookId,
@@ -103,7 +157,7 @@ router.get('/currentlyreading/:bookId', requireAuth, (req, res) => {
 
 /**
  * @swagger
- * /users/currentlyreading:
+ * /users/self/currentlyreading:
  *   get:
  *     tags:
  *       - currentlyreading
@@ -118,7 +172,7 @@ router.get('/currentlyreading/:bookId', requireAuth, (req, res) => {
  *          $ref: '#/definitions/CurrentlyReading'
  *
  */
-router.get('/currentlyreading', requireAuth, (req, res) => {
+router.get('/self/currentlyreading', requireAuth, (req, res) => {
   User.findOne(
     {
       _id: req.user._id,
@@ -219,6 +273,48 @@ router.get('/:id/chapters', (req, res) => {
 
 /**
  * @swagger
+ * /users/{id}/chapters:
+ *   get:
+ *     tags:
+ *       - user chapters count
+ *     description:
+ *       - Returns the number of chapters a user has written
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       -
+ *        name: "id"
+ *        in: "path"
+ *        description: "User Id"
+ *        required: true
+ *        type: "string"
+ *     responses:
+ *      200:
+ *        description: The chapter count
+ *        schema:
+ *          $ref: '#/definitions/Count'
+ *
+ */
+router.get('/:id/chapters/count', (req, res) => {
+  let userId = req.params['id']
+  Chapter.count(
+    {
+      deleted: false,
+      author: userId,
+      published: true
+    },
+    (err,count) => {
+      if (err) {
+        res.status(500).send([])
+      } else {
+        res.send({count: count})
+      }
+    }
+  )
+})
+
+/**
+ * @swagger
  * /users/{id}/books:
  *   get:
  *     tags:
@@ -265,6 +361,52 @@ router.get('/:id/books', (req, res) => {
 
 /**
  * @swagger
+ * /users/{id}/books/count:
+ *   get:
+ *     tags:
+ *       - user books
+ *     description:
+ *       - Returns the number of books a user has created
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       -
+ *        name: "id"
+ *        in: "path"
+ *        description: "User Id"
+ *        required: true
+ *        type: "string"
+ *     responses:
+ *      200:
+ *        description: The bookcount
+ *        schema:
+ *          $ref: '#/definitions/Count'
+ *
+ */
+router.get('/:id/books/count', (req, res) => {
+  let userId = req.params['id']
+  Book.count({
+      $or: [{
+        'creator': userId,
+        'deleted': false,
+      },
+        {
+          'author.id': userId,
+          'deleted': false
+        }]
+    },
+    (err, count) => {
+      if (err) {
+        res.status(500).send([])
+      } else {
+        res.send({count: count})
+      }
+    }
+  )
+})
+
+/**
+ * @swagger
  * /users/{id}/badges:
  *   get:
  *     tags:
@@ -297,8 +439,8 @@ router.get('/:id/badges', (req, res) => {
         let badgeIds = userBadges.map(ub => ub.badge_id)
         Badge.find({
           _id: {$in: badgeIds}
-        }, (err, badges)=>{
-          if(err){
+        }, (err, badges) => {
+          if (err) {
             res.status(500).send({})
           } else {
             res.send(badges)
@@ -327,7 +469,7 @@ router.get('/:id/badges', (req, res) => {
  *      500:
  *        description: "500 when there was an error"
  */
-router.put('/currentlyreading', requireAuth, (req, res) => {
+router.put('/self/currentlyreading', requireAuth, (req, res) => {
   let currentlyReading = new CurrentlyReading(req.body)
   User.findOneAndUpdate(
     {

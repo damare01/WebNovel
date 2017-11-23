@@ -188,6 +188,8 @@ router.post('/', requireAuth, (req, res) => {
 router.put('/', requireAuth, (req, res) => {
   let chapter = new Chapter(req.body)
   let id = chapter._id
+  const htmlStrippedBody = chapter.body.replace(/<(?:.|\n)*?>/gm, '')
+  chapter.wordCount = htmlStrippedBody.split(' ').length || 0
   Chapter.findOneAndUpdate({_id: id, author: req.user._id}, chapter, (err, doc) => {
     if (err) {
       res.status(500).send({})

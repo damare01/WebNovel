@@ -23,7 +23,7 @@ export class UserService {
       localStorage.setItem(this.localCurrentlyReadingKey, JSON.stringify(newCurrentlyReading))
       return Observable.of({})
     } else {
-      return this._wnhttp.put('/users/currentlyreading', currentlyReading)
+      return this._wnhttp.put('/users/self/currentlyreading', currentlyReading)
     }
   }
 
@@ -35,7 +35,7 @@ export class UserService {
       const currentlyReadingBook = currentlyReading.find(cr => cr.book === bookId) || {}
       return Observable.of(currentlyReadingBook)
     } else {
-      return this._wnhttp.get('/users/currentlyreading/' + bookId)
+      return this._wnhttp.get('/users/self/currentlyreading/' + bookId)
     }
   }
 
@@ -45,7 +45,7 @@ export class UserService {
       const currentlyReading = localStorage.getItem(this.localCurrentlyReadingKey) || '[]'
       return Observable.of(JSON.parse(currentlyReading))
     } else {
-      return this._wnhttp.get('/users/currentlyreading/')
+      return this._wnhttp.get('/users/self/currentlyreading/')
     }
   }
 
@@ -82,5 +82,17 @@ export class UserService {
 
   updatePassword(oldPassword, newPassword): Observable<User> {
     return this._wnhttp.put('/users/changepass', {oldPassword: oldPassword, newPassword: newPassword})
+  }
+
+  getWordCount(userId: string): Observable<number> {
+    return this._wnhttp.get(`/users/${userId}/wordcount`).map(wc => wc.count)
+  }
+
+  getBookCount(userId: string): Observable<number> {
+    return this._wnhttp.get(`/users/${userId}/books/count`).map(bc => bc.count)
+  }
+
+  getChapterCount(userId: string): Observable<number> {
+    return this._wnhttp.get(`/users/${userId}/chapters/count`).map(cc => cc.count)
   }
 }

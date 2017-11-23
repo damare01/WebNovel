@@ -65,7 +65,8 @@ import {ColorService} from './color.service'
 import { AccountSettingsComponent } from './account-settings/account-settings.component'
 import {SocketService} from './socket.service'
 import { UserBadgesComponent } from './user-badges/user-badges.component'
-import {BadgeService} from './badge.service'
+import {BadgeService} from './badge.service';
+import { UserStatisticsComponent } from './user-statistics/user-statistics.component'
 
 
 const appRoutes: Routes = [
@@ -130,7 +131,8 @@ const appRoutes: Routes = [
     AuthorCardComponent,
     SelectNextChapterComponent,
     AccountSettingsComponent,
-    UserBadgesComponent
+    UserBadgesComponent,
+    UserStatisticsComponent
   ],
   imports: [
     BrowserModule,

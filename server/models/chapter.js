@@ -26,7 +26,16 @@ let chapterSchema = mongoose.Schema({
   deleted: {
     type: Boolean,
     default: false,
+  },
+  wordCount:{
+    type: Number
   }
+})
+
+chapterSchema.pre('save', function(next){
+  const htmlStrippedBody = this.body.replace(/<(?:.|\n)*?>/gm, '')
+  this.wordCount = htmlStrippedBody.split(' ').length || 0
+  next()
 })
 
 module.exports = mongoose.model('Chapter', chapterSchema)

@@ -1,0 +1,14 @@
+.stat-container{
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #fff;
+  border: 1px grey solid;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.header{
+  font-size: 18px;
+  width: 100%;
+  font-weight: 600;
+}

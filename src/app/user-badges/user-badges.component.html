@@ -1,9 +1,9 @@
 <div class="badge-container">
-  <div class="header">Badges Earned</div>
+  <div class="header text">Badges Earned <i class="fa fa-trophy"></i></div>
   <mat-spinner *ngIf="!badges"></mat-spinner>
   <div *ngFor="let badge of badges" class="badge" title="{{badge.description}}">
     <i class="fa fa-certificate badge-icon" aria-hidden="true"></i>
     <br>
-    {{badge.name}}
+    <span class="text">{{badge.name}}</span>
   </div>
 </div>

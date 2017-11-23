@@ -4,7 +4,7 @@
   <div class="container">
     <div class="about-container">
       <div class="bio-container">
-        <div class="bio-text comment"
+        <div class="bio-text text"
              #bio
              contentEditable="{{canEdit() && bioEditable}}"
              (input)="updateBio($event.target.innerHTML)"
@@ -30,8 +30,12 @@
         </div>
       </div>
 
-      <div class="badge-container">
+      <div class="info-container">
         <wn-user-badges [userId]="user._id"></wn-user-badges>
+      </div>
+
+      <div class="info-container">
+        <wn-user-statistics [userId]="user._id"></wn-user-statistics>
       </div>
     </div>
     <div class="content-container">
