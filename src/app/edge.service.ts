@@ -9,7 +9,7 @@ export class EdgeService {
   constructor(private _wnhttp: WnHttp) {
   }
 
-  getBookEdges(bookId: string): Observable<Edge> {
+  getBookEdges(bookId: string): Observable<Edge[]> {
     return this._wnhttp.get(`/edges/books/${bookId}`)
   }
 

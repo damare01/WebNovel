@@ -13,6 +13,7 @@ export class BookGraphComponent implements OnInit {
   @ViewChild('bookgraph') bookGraph: ElementRef
 
   bookId = '59d71d9ab40855001296ce3c'
+
   // bookId = '59dbde5601700f0012288c58'
   constructor(private _edgeService: EdgeService, private _chapterService: ChapterService) {
   }
@@ -197,9 +198,6 @@ export class BookGraphComponent implements OnInit {
 
           // update existing nodes (reflexive & selected visual states)
           circle.selectAll('circle')
-            .attr('r', function (d) {
-              return (d === selected_node) ? 24 : 12
-            })
             .style('fill', function (d) {
               return (d === selected_node) ? d3.rgb(colors(d._id)).brighter().toString() : colors(d._id)
             })
@@ -318,7 +316,7 @@ export class BookGraphComponent implements OnInit {
           // show node IDs
           g.append('svg:text')
             .attr('x', 0)
-            .attr('y', 4)
+            .attr('y', 25)
             .attr('class', 'id')
             .text(function (d) {
               return d.title

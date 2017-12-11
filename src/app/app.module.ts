@@ -68,14 +68,16 @@ import { UserBadgesComponent } from './user-badges/user-badges.component'
 import {BadgeService} from './badge.service';
 import { UserStatisticsComponent } from './user-statistics/user-statistics.component';
 import { BookGraphComponent } from './book-graph/book-graph.component'
-import {EdgeService} from './edge.service'
+import {EdgeService} from './edge.service';
+import { BookTreeGraphComponent } from './book-tree-graph/book-tree-graph.component'
 
 
 const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'graph', component: BookGraphComponent},
+  {path: 'forcegraph', component: BookGraphComponent},
+  {path: 'treegraph', component: BookTreeGraphComponent},
   {path: 'browse', component: BrowseComponent, canActivate: [AuthGuard]},
   {path: 'read/:chapterId', component: ReadComponent},
   {path: 'write/:parentChapter', component: WriteComponent, canActivate: [AuthGuard]},
@@ -135,7 +137,8 @@ const appRoutes: Routes = [
     AccountSettingsComponent,
     UserBadgesComponent,
     UserStatisticsComponent,
-    BookGraphComponent
+    BookGraphComponent,
+    BookTreeGraphComponent
   ],
   imports: [
     BrowserModule,
