@@ -1,6 +1,7 @@
 let express = require('express')
 let router = express.Router()
 let Book = require('../../models/book')
+let Chapter = require('../../models/chapter')
 const requireAuth = require('passport').authenticate('jwt', {session: false})
 
 /**
@@ -156,13 +157,46 @@ router.get('/:ids', (req, res) => {
  */
 router.get('/id/:id', (req, res) => {
   let id = req.params.id
-  Book.findOne({'_id': id, 'deleted': false}, (err, chapter) => {
+  Book.findOne({'_id': id, 'deleted': false}, (err, book) => {
     if (err) {
       res.status(500).send({})
-    } else if (!chapter) {
+    } else if (!book) {
       res.status(204).send({})
     } else {
-      res.send(chapter)
+      res.send(book)
+    }
+  })
+})
+
+/**
+ * @swagger
+ * /books/{id}/chapters:
+ *   get:
+ *     tags:
+ *       - Books
+ *     description: Returns all chapters in the book
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *      -
+ *        name: "id"
+ *        in: "path"
+ *        description: "Book id"
+ *        required: true
+ *        type: "string"
+ *     responses:
+ *       200:
+ *         description: An array of chapter objects
+ *         schema:
+ *           $ref: '#/definitions/Book'
+ */
+router.get('/:id/chapters', (req, res) => {
+  let id = req.params.id
+  Chapter.find({'book': id, 'deleted': false, published: true}, (err, chapters) => {
+    if (err) {
+      res.status(500).send({})
+    } else {
+      res.send(chapters)
     }
   })
 })

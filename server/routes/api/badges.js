@@ -58,7 +58,7 @@ const MessageHandler = require('../../controllers/message-handler')
 router.get('/:id', requireAuth, (req, res) => {
   const badgeId = req.params['id']
   Badge.findOne({
-   _id: badgeId
+    _id: badgeId
   }, (err, badge) => {
     if (err) {
       res.sendStatus(500)

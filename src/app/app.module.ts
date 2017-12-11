@@ -66,14 +66,16 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import {SocketService} from './socket.service'
 import { UserBadgesComponent } from './user-badges/user-badges.component'
 import {BadgeService} from './badge.service';
-import { UserStatisticsComponent } from './user-statistics/user-statistics.component'
+import { UserStatisticsComponent } from './user-statistics/user-statistics.component';
+import { BookGraphComponent } from './book-graph/book-graph.component'
+import {EdgeService} from './edge.service'
 
 
 const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'graph', component: NavigationGraphComponent},
+  {path: 'graph', component: BookGraphComponent},
   {path: 'browse', component: BrowseComponent, canActivate: [AuthGuard]},
   {path: 'read/:chapterId', component: ReadComponent},
   {path: 'write/:parentChapter', component: WriteComponent, canActivate: [AuthGuard]},
@@ -132,7 +134,8 @@ const appRoutes: Routes = [
     SelectNextChapterComponent,
     AccountSettingsComponent,
     UserBadgesComponent,
-    UserStatisticsComponent
+    UserStatisticsComponent,
+    BookGraphComponent
   ],
   imports: [
     BrowserModule,
@@ -170,7 +173,8 @@ const appRoutes: Routes = [
     NotificationService,
     ColorService,
     SocketService,
-    BadgeService
+    BadgeService,
+    EdgeService
   ],
   bootstrap: [AppComponent]
 })
