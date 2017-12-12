@@ -1,0 +1,8 @@
+.image-filler {
+  border-radius: 50%;
+  text-align: center;
+  height: 100px;
+  width: 100px;
+  display: flex;
+  margin: 5px 0 10px 0;
+}

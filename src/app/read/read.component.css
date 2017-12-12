@@ -10,7 +10,7 @@
   right: 80%;
 }
 
-.byline{
+.byline {
   display: none;
 }
 
@@ -35,6 +35,22 @@
 
 .graph-container:hover {
   height: 75%;
+}
+
+.book-graph-container {
+  height: 100%;
+  animation-name: slide-in;
+  animation-duration: 1s;
+  position: fixed;
+  background-color: rgba(0, 149, 136, 0.9);
+  right: 0;
+  top: 64px;
+  width: 80%;
+}
+
+@keyframes slide-in{
+  from {left: 100%}
+  to {left: 20%}
 }
 
 .page-container {
@@ -101,16 +117,16 @@ button {
 .comment-editor {
 }
 
-@media screen and (max-width: 1350px){
-  .byline{
+@media screen and (max-width: 1350px) {
+  .byline {
     display: block;
   }
 
-  .author-container{
-    display:none;
+  .author-container {
+    display: none;
   }
 
-  .next-chapter-container{
+  .next-chapter-container {
     display: none;
   }
 }

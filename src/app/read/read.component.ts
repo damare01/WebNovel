@@ -33,7 +33,7 @@ export class ReadComponent implements OnInit, AfterViewInit {
 
   editable = false
 
-  showGraph = true
+  showGraph = false
 
   constructor(private _chapterService: ChapterService,
               private route: ActivatedRoute,
@@ -187,8 +187,9 @@ export class ReadComponent implements OnInit, AfterViewInit {
     })
   }
 
-  toggleGraph() {
+  exploreBook() {
     this.showGraph = !this.showGraph
+    console.log(this.showGraph)
   }
 
   isLoggedIn(): boolean {

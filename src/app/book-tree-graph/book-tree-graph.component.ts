@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core'
+import {Component, Input, OnInit, ViewChild} from '@angular/core'
 import * as d3 from 'd3'
 import {EdgeService} from '../edge.service'
 import {ChapterService} from '../chapter.service'
@@ -13,7 +13,7 @@ import {Edge} from '../../models/edge'
 })
 export class BookTreeGraphComponent implements OnInit {
 
-  bookId = '59d71d9ab40855001296ce3c'
+  @Input('bookId') bookId: string
   addedNodes = {}
 
   rootChapterId: string
@@ -31,7 +31,10 @@ export class BookTreeGraphComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._chapterService.getBookChapters(this.bookId).subscribe(chapters => {
+    if (!this.bookId) {
+      this.bookId = '59d71d9ab40855001296ce3c'
+    }
+    this._chapterService.getBookChapters(this.bookId, false).subscribe(chapters => {
       this.allChapterNodes = chapters
       this._bookService.getBook(this.bookId).subscribe(book => {
         this.rootChapterId = book.startChapter
@@ -45,9 +48,11 @@ export class BookTreeGraphComponent implements OnInit {
   }
 
   setupGraph() {
-    const margin = {top: 20, right: 120, bottom: 20, left: 120},
-      width = 960 - margin.right - margin.left,
-      height = 500 - margin.top - margin.bottom
+    const margin = {top: 20, right: 120, bottom: 20, left: 120}
+
+    const element = this.treeGraph.nativeElement
+    const width = (element.offsetWidth || 1600) - margin.left - margin.right
+    const height = (element.offsetHeight || 800) - margin.top - margin.bottom
 
     let i = 0,
       root
@@ -61,6 +66,7 @@ export class BookTreeGraphComponent implements OnInit {
       .projection(function (d) {
         return [d.y, d.x]
       })
+
 
     const svg = d3.select(this.treeGraph.nativeElement).append('svg')
       .attr('width', width + margin.right + margin.left)

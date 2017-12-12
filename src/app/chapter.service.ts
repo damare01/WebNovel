@@ -56,8 +56,12 @@ export class ChapterService {
     return this.wnhttp.get(`/users/${userId}/chapters`)
   }
 
-  getBookChapters(bookId: string): Observable<Chapter[]> {
-    return this.wnhttp.get(`/books/${bookId}/chapters`)
+  getBookChapters(bookId: string, includeBody?: boolean): Observable<Chapter[]> {
+    let apiString = `/books/${bookId}/chapters`
+    if (!includeBody) {
+      apiString += '?body=false'
+    }
+    return this.wnhttp.get(apiString)
   }
 
 }

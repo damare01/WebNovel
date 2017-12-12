@@ -72,3 +72,7 @@ body {
   max-width: 1440px;
   margin: 0 auto;
 }
+
+.fill-remaining-space {
+  flex: 1 1 auto;
+}

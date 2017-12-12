@@ -69,7 +69,8 @@ import {BadgeService} from './badge.service';
 import { UserStatisticsComponent } from './user-statistics/user-statistics.component';
 import { BookGraphComponent } from './book-graph/book-graph.component'
 import {EdgeService} from './edge.service';
-import { BookTreeGraphComponent } from './book-tree-graph/book-tree-graph.component'
+import { BookTreeGraphComponent } from './book-tree-graph/book-tree-graph.component';
+import { BookCardComponent } from './book-card/book-card.component'
 
 
 const appRoutes: Routes = [
@@ -138,7 +139,8 @@ const appRoutes: Routes = [
     UserBadgesComponent,
     UserStatisticsComponent,
     BookGraphComponent,
-    BookTreeGraphComponent
+    BookTreeGraphComponent,
+    BookCardComponent
   ],
   imports: [
     BrowserModule,

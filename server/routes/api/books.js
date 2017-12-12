@@ -192,7 +192,12 @@ router.get('/id/:id', (req, res) => {
  */
 router.get('/:id/chapters', (req, res) => {
   let id = req.params.id
-  Chapter.find({'book': id, 'deleted': false, published: true}, (err, chapters) => {
+  const includeBody = req.query.body !== 'false'
+  let options = []
+  if(!includeBody){
+    options = ['-body']
+  }
+  Chapter.find({'book': id, 'deleted': false, published: true},options, (err, chapters) => {
     if (err) {
       res.status(500).send({})
     } else {

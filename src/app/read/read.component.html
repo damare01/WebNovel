@@ -9,6 +9,11 @@
 
     <div class="next-chapter-container">
       <wn-select-next-chapter *ngIf="chapter" [chapterId]="chapter._id"></wn-select-next-chapter>
+      <div style="margin-top: 10px">
+        <button mat-raised-button
+                color="accent"
+                style="width: 100%" (click)="exploreBook()">Explore book</button>
+      </div>
     </div>
     <div *ngIf="chapter && author">
 
@@ -51,7 +56,6 @@
           <i class="fa" [ngClass]="{'fa-thumbs-o-down': !disliked, 'fa-thumbs-down': disliked}"></i>
         </button>
         <wn-info-text *ngIf="!isLoggedIn()" [text]="'Login to vote'"></wn-info-text>
-
       </div>
     </div>
 
@@ -59,6 +63,10 @@
       <wn-chapter-discussion [chapterId]="chapterId"></wn-chapter-discussion>
     </div>
     <mat-spinner style="margin:auto" *ngIf="!chapter || !author"></mat-spinner>
+  </div>
+  <div *ngIf="showGraph && chapter" class="book-graph-container">
+    <button mat-icon-button style="font-size: 26px" (click)="exploreBook()"><i class="fa fa-close"></i></button>
+    <wn-book-tree-graph [bookId]="chapter.book"></wn-book-tree-graph>
   </div>
 </div>
 
