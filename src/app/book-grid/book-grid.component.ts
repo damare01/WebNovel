@@ -5,6 +5,7 @@ import {Router} from '@angular/router'
 import {AuthenticationService} from '../authentication.service'
 import {User} from '../../models/user'
 import {LikeService} from '../like.service'
+import {ReadingHistoryService} from '../reading-history.service'
 
 @Component({
   selector: 'wn-book-grid',
@@ -27,8 +28,7 @@ export class BookGridComponent implements OnInit, OnChanges {
 
   constructor(private _userService: UserService,
               private router: Router,
-              private _likeService: LikeService,
-              private _authService: AuthenticationService) {
+              private _readingHistoryService: ReadingHistoryService) {
   }
 
 
@@ -39,13 +39,13 @@ export class BookGridComponent implements OnInit, OnChanges {
   }
 
   openBook(book: Book) {
-      this._userService.getCurrentlyReading(book._id).subscribe(cr => {
-        if (cr && cr.chapterTrail) {
-          this.router.navigate(['read', cr.chapterTrail[cr.chapterTrail.length - 1]])
-        } else {
-          this.router.navigate(['read', book.startChapter])
-        }
-      })
+    this._readingHistoryService.getMyBookReadingHistory(book._id).subscribe(rh => {
+      if (rh && rh.chapterIds.length) {
+        this.router.navigate(['read', rh.chapterIds[rh.chapterIds.length - 1]])
+      } else {
+        this.router.navigate(['read', book.startChapter])
+      }
+    })
   }
 
 }
