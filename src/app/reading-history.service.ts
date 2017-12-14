@@ -17,7 +17,7 @@ export class ReadingHistoryService {
     return this._wnhttp.put('/users/self/readinghistory/', readingHistory)
   }
 
-  getMyReadingHistory(bookId: string): Observable<ReadingHistory> {
+  getMyBookReadingHistory(bookId: string): Observable<ReadingHistory> {
     return this._wnhttp.get(`/users/self/readinghistory/${bookId}`)
   }
 

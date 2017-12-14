@@ -265,6 +265,8 @@ router.get('/self/readinghistory/:bookId', requireAuth, (req, res) => {
   ReadingHistory.findOne({'userId': userId, 'bookId': bookId}, (err, history) => {
       if (err) {
         res.status.send({})
+      } else if(!history) {
+        res.send({})
       } else {
         res.send(history)
       }
@@ -293,18 +295,22 @@ router.get('/self/readinghistory/:bookId', requireAuth, (req, res) => {
 router.put('/self/readinghistory', requireAuth, (req, res) => {
   let readingHistory = new ReadingHistory(req.body)
   let userId = req.user._id
+  readingHistory.userId = userId
   ReadingHistory.findOneAndUpdate(
     {
       'userId': userId,
       'bookId': readingHistory.bookId,
     },
-    readingHistory,
+    {
+      chapterIds: readingHistory.chapterIds
+    },
     {
       upsert: true,
       new: true
     },
     (err, readinghistory) => {
       if (err) {
+        console.log(err)
         res.status(500).send({})
       } else {
         res.status(201).send(readinghistory)

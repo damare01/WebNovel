@@ -5,7 +5,7 @@ let readingHistorySchema= new mongoose.Schema({
     type: String,
     required: true,
   },
-  edgeIds: {
+  chapterIds: {
     type: [String],
     required: true,
   },

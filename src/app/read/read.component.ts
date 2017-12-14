@@ -189,7 +189,6 @@ export class ReadComponent implements OnInit, AfterViewInit {
 
   exploreBook() {
     this.showGraph = !this.showGraph
-    console.log(this.showGraph)
   }
 
   isLoggedIn(): boolean {

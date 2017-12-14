@@ -192,6 +192,8 @@ router.get('/chapter/:id/mylike', requireAuth, (req, res) => {
   }, (err, like) => {
     if (err) {
       res.status(500).send({})
+    } else if(!like){
+      res.send({})
     } else {
       res.send(like)
     }

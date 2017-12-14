@@ -6,6 +6,8 @@ import {BookService} from '../book.service'
 import {Chapter} from '../../models/chapter'
 import {Edge} from '../../models/edge'
 import {ReadingHistoryService} from '../reading-history.service'
+import {ActivatedRoute, Router} from '@angular/router'
+import {ReadingHistory} from '../../models/readinghistory'
 
 @Component({
   selector: 'wn-book-tree-graph',
@@ -17,40 +19,70 @@ export class BookTreeGraphComponent implements OnInit {
   @Input('bookId') bookId: string
   addedNodes = {}
 
+  currentChapterId: string
+
   rootChapterId: string
 
   allChapterNodes: Chapter[]
   edges: Edge[]
 
+  walkedChapterIds: string[] = []
+  clickableNodeIds: string[] = []
+
   rootNode: Chapter
+  nodes: any = []
+  links: any = []
 
   @ViewChild('treegraph') treeGraph
 
   constructor(private _edgeService: EdgeService,
               private _chapterService: ChapterService,
               private _bookService: BookService,
-              private _readingHistoryService: ReadingHistoryService) {
+              private _readingHistoryService: ReadingHistoryService,
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.currentChapterId = params['chapterId']
+      this.setClickableNodeArray()
+    })
+
     if (!this.bookId) {
       this.bookId = '59d71d9ab40855001296ce3c'
     }
-    this._readingHistoryService.getMyReadingHistory(this.bookId).subscribe(readingHistory => {
-      console.log(readingHistory)
-    })
 
     this._chapterService.getBookChapters(this.bookId, false).subscribe(chapters => {
       this.allChapterNodes = chapters
+
       this._bookService.getBook(this.bookId).subscribe(book => {
+
+        this._readingHistoryService.getMyBookReadingHistory(this.bookId).subscribe(readingHistory => {
+          if (readingHistory.chapterIds) {
+            this.walkedChapterIds = readingHistory.chapterIds
+          } else {
+            this.walkedChapterIds = [book.startChapter]
+          }
+
+        })
         this.rootChapterId = book.startChapter
+
         this._edgeService.getBookEdges(this.bookId).subscribe(edges => {
           this.edges = edges
           this.createTree()
           this.setupGraph()
+          this.setClickableNodeArray()
         })
       })
     })
+  }
+
+  saveReadingHistory() {
+    const rh = new ReadingHistory()
+    rh.bookId = this.bookId
+    rh.chapterIds = this.walkedChapterIds
+    this._readingHistoryService.saveReadingHistory(rh).subscribe()
   }
 
   setupGraph() {
@@ -106,30 +138,32 @@ export class BookTreeGraphComponent implements OnInit {
     function update(source) {
 
       // Compute the new tree layout.
-      const nodes = tree.nodes(root).reverse(),
-        links = []
+      outerThis.nodes = tree.nodes(root).reverse(),
+        outerThis.links = []
       outerThis.edges.forEach(edge => {
-        const link = {source: null, target: null}
-        link.source = nodes.find(node => node._id === edge.source)
-        link.target = nodes.find(node => node._id === edge.target)
+        const link = {source: null, target: null, _id: edge._id}
+        link.source = outerThis.nodes.find(node => node._id === edge.source)
+        link.target = outerThis.nodes.find(node => node._id === edge.target)
         if (link.source && link.target) {
-          links.push(link)
+          outerThis.links.push(link)
         }
       })
 
       // Normalize for fixed-depth.
-      nodes.forEach(function (d) {
+      outerThis.nodes.forEach(function (d) {
         d.y = d.depth * 180
       })
 
       // Update the nodes…
       const node = graph.selectAll('g.node')
-        .data(nodes, function (d) {
+        .data(outerThis.nodes, function (d) {
           return d._id || (d.id = ++i)
         })
 
+
       // Enter any new nodes at the parent's previous position.
-      const nodeEnter = node.enter().append('g')
+      const nodeEnter = node.enter()
+        .append('g')
         .attr('class', 'node')
         .attr('transform', function (d) {
           return 'translate(' + source.y0 + ',' + source.x0 + ')'
@@ -158,6 +192,7 @@ export class BookTreeGraphComponent implements OnInit {
       // Transition nodes to their new position.
       const nodeUpdate = node.transition()
         .duration(duration)
+
         .attr('transform', function (d) {
           return 'translate(' + d.y + ',' + d.x + ')'
         })
@@ -187,13 +222,26 @@ export class BookTreeGraphComponent implements OnInit {
 
       // Update the links…
       const link = graph.selectAll('path.link')
-        .data(links, function (d) {
-          return d.target._id + d.source._id
+        .data(outerThis.links, function (d) {
+          return d._id
+        })
+        .attr('class', function (d) {
+          let classString = 'link'
+          if (outerThis.edgeIsWalked(d)) {
+            classString += ' walked'
+          }
+          return classString
         })
 
       // Enter any new links at the parent's previous position.
       link.enter().insert('path', 'g')
-        .attr('class', 'link')
+        .attr('class', function (d) {
+          let classString = 'link'
+          if (outerThis.edgeIsWalked(d)) {
+            classString += ' walked'
+          }
+          return classString
+        })
         .attr('d', function (d) {
           const o = {x: source.x0, y: source.y0}
           return diagonal({source: o, target: o})
@@ -214,7 +262,7 @@ export class BookTreeGraphComponent implements OnInit {
         .remove()
 
       // Stash the old positions for transition.
-      nodes.forEach(function (d) {
+      outerThis.nodes.forEach(function (d) {
         d.x0 = d.x
         d.y0 = d.y
       })
@@ -222,14 +270,50 @@ export class BookTreeGraphComponent implements OnInit {
 
 // Toggle children on click.
     function click(d) {
-      if (d.children) {
+      /*if (d.children) {
         d._children = d.children
         d.children = null
       } else {
         d.children = d._children
         d._children = null
       }
-      update(d)
+      update(d)*/
+      if (outerThis.canClickOnNode(d._id)) {
+        outerThis.router.navigate(['read', d._id])
+        outerThis.walkToNode(outerThis.currentChapterId, d._id)
+        update(d)
+      } else {
+        console.log('cant click')
+      }
+    }
+  }
+
+  edgeIsWalked(edge: any) {
+    return this.walkedChapterIds.indexOf(edge.target._id) !== -1 && this.walkedChapterIds.indexOf(edge.source._id) !== -1
+  }
+
+  setClickableNodeArray() {
+    const parentNodeId = this.walkedChapterIds.length > 1 ? this.walkedChapterIds[this.walkedChapterIds.length - 2] : '0'
+    // get all nodes that are children or siblings of current chapter
+    const clickableNodesIds = (this.links.filter(link => link.source._id === this.currentChapterId || link.source._id === parentNodeId).map(link => link.target._id))
+    this.clickableNodeIds = clickableNodesIds
+  }
+
+  canClickOnNode(nodeId: string) {
+    if (this.walkedChapterIds.length < 2) {
+      return true
+    }
+    return this.clickableNodeIds.indexOf(nodeId) !== -1 || this.walkedChapterIds.indexOf(nodeId) !== -1
+  }
+
+  walkToNode(oldNodeId: any, newNodeId: any) {
+    const existEdge = this.links.findIndex(link => link.source._id === oldNodeId && link.target._id === newNodeId) !== -1
+    if (!existEdge && this.walkedChapterIds.length) {
+      this.walkedChapterIds.splice(this.walkedChapterIds.length - 1)
+      this.walkToNode(this.walkedChapterIds[this.walkedChapterIds.length - 1], newNodeId)
+    } else {
+      this.walkedChapterIds.push(newNodeId)
+      this.saveReadingHistory()
     }
   }
 

@@ -1,4 +1,4 @@
-/deep/.node {
+/deep/.node.clickable {
   cursor: pointer;
 }
 
@@ -17,4 +17,8 @@
   fill: none;
   stroke: #ccc;
   stroke-width: 2px;
+}
+
+/deep/.link.walked {
+  stroke: #ff9800 !important;
 }

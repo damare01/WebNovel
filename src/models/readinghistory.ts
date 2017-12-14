@@ -1,5 +1,5 @@
 export class ReadingHistory {
   bookId: string
-  edgeIds: string[]
+  chapterIds: string[]
   userId: string
 }
