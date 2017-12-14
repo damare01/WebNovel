@@ -6,6 +6,7 @@ const Book = require('../../models/book')
 const CurrentlyReading = require('../../models/currentlyReading')
 const Badge = require('../../models/badge')
 const UserBadge = require('../../models/userBadge')
+const ReadingHistory = require('../../models/readingHistory')
 const requireAuth = require('passport').authenticate('jwt', {session: false})
 
 /**
@@ -60,6 +61,21 @@ const requireAuth = require('passport').authenticate('jwt', {session: false})
  *    properties:
  *      wordCount:
  *        type: number
+ */
+
+/**
+ * @swagger
+ * definitions:
+ *  ReadingHistory:
+ *    properties:
+ *      bookId:
+ *        type: "string"
+ *      edgeIds:
+ *         type: "array"
+ *         items:
+ *          type: string
+ *      userId:
+ *        type: string
  */
 
 /**
@@ -192,6 +208,72 @@ router.get('/self/currentlyreading', requireAuth, (req, res) => {
 
 /**
  * @swagger
+ * /users/self/readinghistory:
+ *   get:
+ *     tags:
+ *       - readinghistory
+ *     description:
+ *       - Returns all the readinghistory objects from the logged in user
+ *     produces:
+ *       - application/json
+ *     responses:
+ *      200:
+ *        description: An array of readinghistory objects
+ *        schema:
+ *          $ref: '#/definitions/ReadingHistory'
+ *
+ */
+router.get('/self/readinghistory', requireAuth, (req, res) => {
+  const userId = req.user._id
+  ReadingHistory.find({'userId': userId}, (err, history) => {
+      if (err) {
+        res.status.send({})
+      } else {
+        res.send(history)
+      }
+    }
+  )
+})
+
+/**
+ * @swagger
+ * /users/self/readinghistory/{bookId}:
+ *   get:
+ *     tags:
+ *       - readinghistory
+ *     description:
+ *       - Returns the readinghistory object belonging to book with id bookId from the logged in user
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       -
+ *        name: "bookId"
+ *        in: "path"
+ *        description: "Book Id"
+ *        required: true
+ *        type: "string"
+ *     responses:
+ *      200:
+ *        description: A readinghistory objects
+ *        schema:
+ *          $ref: '#/definitions/ReadingHistory'
+ *
+ */
+router.get('/self/readinghistory/:bookId', requireAuth, (req, res) => {
+  const userId = req.user._id
+  const bookId = req.params['bookId']
+  ReadingHistory.findOne({'userId': userId, 'bookId': bookId}, (err, history) => {
+      if (err) {
+        res.status.send({})
+      } else {
+        res.send(history)
+      }
+    }
+  )
+})
+
+/**
+ * @swagger
  * /users/{id}:
  *   get:
  *     tags:
@@ -303,7 +385,7 @@ router.get('/:id/chapters/count', (req, res) => {
       author: userId,
       published: true
     },
-    (err,count) => {
+    (err, count) => {
       if (err) {
         res.status(500).send([])
       } else {
