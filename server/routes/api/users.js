@@ -274,6 +274,46 @@ router.get('/self/readinghistory/:bookId', requireAuth, (req, res) => {
 
 /**
  * @swagger
+ * /users/self/readinghistory:
+ *   put:
+ *    tags:
+ *      - CurrentlyReading
+ *    description:
+ *      - "Receives a ReadingHistory object and adds
+ *         it to the currently reading array of the user logged in. If it already
+ *         exists it gets updated"
+ *    produces:
+ *      - application/json
+ *    responses:
+ *      200:
+ *        description: "200 when successfully updated"
+ *      500:
+ *        description: "500 when there was an error"
+ */
+router.put('/self/readinghistory', requireAuth, (req, res) => {
+  let readingHistory = new ReadingHistory(req.body)
+  let userId = req.user._id
+  ReadingHistory.findOneAndUpdate(
+    {
+      'userId': userId,
+      'bookId': readingHistory.bookId,
+    },
+    readingHistory,
+    {
+      upsert: true,
+      new: true
+    },
+    (err, readinghistory) => {
+      if (err) {
+        res.status(500).send({})
+      } else {
+        res.status(201).send(readinghistory)
+      }
+    })
+})
+
+/**
+ * @swagger
  * /users/{id}:
  *   get:
  *     tags:
@@ -535,7 +575,7 @@ router.get('/:id/badges', (req, res) => {
 
 /**
  * @swagger
- * /users/currentlyreading:
+ * /users/self/currentlyreading:
  *   put:
  *    tags:
  *      - CurrentlyReading

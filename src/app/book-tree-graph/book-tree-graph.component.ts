@@ -5,6 +5,7 @@ import {ChapterService} from '../chapter.service'
 import {BookService} from '../book.service'
 import {Chapter} from '../../models/chapter'
 import {Edge} from '../../models/edge'
+import {ReadingHistoryService} from '../reading-history.service'
 
 @Component({
   selector: 'wn-book-tree-graph',
@@ -27,13 +28,18 @@ export class BookTreeGraphComponent implements OnInit {
 
   constructor(private _edgeService: EdgeService,
               private _chapterService: ChapterService,
-              private _bookService: BookService) {
+              private _bookService: BookService,
+              private _readingHistoryService: ReadingHistoryService) {
   }
 
   ngOnInit() {
     if (!this.bookId) {
       this.bookId = '59d71d9ab40855001296ce3c'
     }
+    this._readingHistoryService.getMyReadingHistory(this.bookId).subscribe(readingHistory => {
+      console.log(readingHistory)
+    })
+
     this._chapterService.getBookChapters(this.bookId, false).subscribe(chapters => {
       this.allChapterNodes = chapters
       this._bookService.getBook(this.bookId).subscribe(book => {
@@ -140,7 +146,7 @@ export class BookTreeGraphComponent implements OnInit {
         .attr('x', function (d) {
           return d.children || d._children ? -13 : 13
         })
-        .attr('dy', '.35em')
+        .attr('dy', '-.75em')
         .attr('text-anchor', function (d) {
           return d.children || d._children ? 'end' : 'start'
         })

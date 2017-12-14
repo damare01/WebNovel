@@ -71,6 +71,7 @@ import { BookGraphComponent } from './book-graph/book-graph.component'
 import {EdgeService} from './edge.service';
 import { BookTreeGraphComponent } from './book-tree-graph/book-tree-graph.component';
 import { BookCardComponent } from './book-card/book-card.component'
+import {ReadingHistoryService} from './reading-history.service'
 
 
 const appRoutes: Routes = [
@@ -179,7 +180,8 @@ const appRoutes: Routes = [
     ColorService,
     SocketService,
     BadgeService,
-    EdgeService
+    EdgeService,
+    ReadingHistoryService
   ],
   bootstrap: [AppComponent]
 })
