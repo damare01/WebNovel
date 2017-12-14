@@ -64,16 +64,17 @@ export class BookTreeGraphComponent implements OnInit {
           } else {
             this.walkedChapterIds = [book.startChapter]
           }
+          this.rootChapterId = book.startChapter
 
+          this._edgeService.getBookEdges(this.bookId).subscribe(edges => {
+            this.edges = edges
+            this.createTree()
+            this.setupGraph()
+            this.setClickableNodeArray()
+          })
         })
-        this.rootChapterId = book.startChapter
 
-        this._edgeService.getBookEdges(this.bookId).subscribe(edges => {
-          this.edges = edges
-          this.createTree()
-          this.setupGraph()
-          this.setClickableNodeArray()
-        })
+
       })
     })
   }

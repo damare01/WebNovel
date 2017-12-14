@@ -4,6 +4,8 @@ import {Chapter} from '../../models/chapter'
 import {UserService} from '../user.service'
 import {Router} from '@angular/router'
 import {CurrentlyReading} from '../../models/currentlyreading'
+import {EdgeService} from '../edge.service'
+import {ReadingHistoryService} from '../reading-history.service'
 
 @Component({
   selector: 'wn-select-next-chapter',
@@ -20,7 +22,9 @@ export class SelectNextChapterComponent implements OnInit, OnChanges {
 
   constructor(private _chapterService: ChapterService,
               private _userService: UserService,
-              private router: Router) {
+              private router: Router,
+              private _edgeService: EdgeService,
+              private _readingHistoryService: ReadingHistoryService) {
   }
 
   ngOnInit() {
@@ -28,21 +32,25 @@ export class SelectNextChapterComponent implements OnInit, OnChanges {
     this.loaded = false
     this._chapterService.getChapter(this.chapterId).subscribe(parentChapter => {
       this.parentChapter = parentChapter
-      let counter = 0
-      const tmpChildren = []
-      const childrenLength = parentChapter.childrenIds.length
-      if (childrenLength === 0) {
-        this.loaded = true
-      }
-      parentChapter.childrenIds.forEach(childId => {
-        this._chapterService.getChapter(childId).subscribe(child => {
-          tmpChildren.push(child)
-          if (++counter >= childrenLength) {
-            this.children = tmpChildren
-            this.loaded = true
-          }
+      this._edgeService.getEdgesFromNode(parentChapter.book, this.chapterId).subscribe(edges => {
+        const childrenIds = edges.map(edge => edge.target)
+        let counter = 0
+        const tmpChildren = []
+        const childrenLength = childrenIds.length
+        if (childrenLength === 0) {
+          this.loaded = true
+        }
+        childrenIds.forEach(childId => {
+          this._chapterService.getChapter(childId).subscribe(child => {
+            tmpChildren.push(child)
+            if (++counter >= childrenLength) {
+              this.children = tmpChildren
+              this.loaded = true
+            }
+          })
         })
       })
+
     })
   }
 
@@ -50,23 +58,31 @@ export class SelectNextChapterComponent implements OnInit, OnChanges {
     this.ngOnInit()
   }
 
-  goToChapter(chapterId: string) {
-    this._userService.getCurrentlyReading(this.parentChapter.book).subscribe(cr => {
-      if (!cr) {
-        cr = new CurrentlyReading()
-        cr.book = this.parentChapter.book
+  updateReadingHistory(chapter: Chapter) {
+    this._readingHistoryService.getMyBookReadingHistory(chapter.book).subscribe(rh => {
+      if (rh.chapterIds.length < 1) {
+        return
+      } else if (rh.chapterIds[rh.chapterIds.length - 1] !== chapter._id) {
+        rh.chapterIds.push(chapter._id)
+        this._readingHistoryService.saveReadingHistory(rh).subscribe()
       }
-      if (!cr.chapterTrail) {
-        cr.chapterTrail = []
-      }
-      const trailIndex = cr.chapterTrail.indexOf(chapterId)
-      if (trailIndex === -1) {
-        cr.chapterTrail.push(chapterId)
-      } else {
-        cr.chapterTrail = cr.chapterTrail.slice(0, trailIndex + 1)
-      }
-      this._userService.updateCurrentlyReading(cr).subscribe()
-      this.router.navigate(['/read', chapterId])
     })
+  }
+
+
+  goToLastChapter() {
+    this._readingHistoryService.getMyBookReadingHistory(this.parentChapter.book).subscribe(rh => {
+      if (rh.chapterIds.length > 1) {
+        rh.chapterIds.splice(rh.chapterIds.length - 1)
+        this._readingHistoryService.saveReadingHistory(rh).subscribe()
+        this.router.navigate(['/read', rh.chapterIds[rh.chapterIds.length - 1]])
+      }
+    })
+  }
+
+  goToChapter(chapterId: string) {
+    const childChapter = this.children.find(chapter => chapter._id === chapterId)
+    this.router.navigate(['/read', chapterId])
+    this.updateReadingHistory(childChapter)
   }
 }

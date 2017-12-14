@@ -5,6 +5,8 @@ import {Chapter} from '../../models/chapter'
 import {UserService} from '../user.service'
 import {isString} from 'util'
 import {NotificationService} from '../notification.service'
+import {EdgeService} from '../edge.service'
+import {Edge} from '../../models/edge'
 
 @Component({
   selector: 'wn-write',
@@ -19,11 +21,14 @@ export class WriteComponent implements OnInit {
   tags: any = []
   loaded = false
 
+  isContinuation = false
+
   constructor(private _chapterService: ChapterService,
               private route: ActivatedRoute,
               private router: Router,
               private _userService: UserService,
-              private _notificationService: NotificationService) {
+              private _notificationService: NotificationService,
+              private _edgeService: EdgeService) {
   }
 
   ngOnInit() {
@@ -61,10 +66,14 @@ export class WriteComponent implements OnInit {
     this.newChapter.author = this._userService.getCurrentUserId()
     this._chapterService.saveChapter(this.newChapter).subscribe((chapterId) => {
       if (!draft) {
-        this._chapterService.addChildToChapter(this.parentChapter._id, chapterId).subscribe((response) => {
+        const newEdge = new Edge()
+        newEdge.bookId = this.parentChapter.book
+        newEdge.source = this.parentChapter._id
+        newEdge.target = chapterId
+        this._edgeService.createEdge(newEdge).subscribe(() => {
           this.loaded = true
           this._notificationService.postChapterNotification(this.parentChapter._id, chapterId)
-          this.router.navigate(['read', chapterId])
+          this.router.navigate(['read', this.parentChapter._id])
         })
       } else {
         this.loaded = true

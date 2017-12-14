@@ -12,6 +12,7 @@ import 'tinymce/themes/modern'
 import 'tinymce/plugins/table'
 import 'tinymce/plugins/link'
 import {NotificationService} from '../notification.service'
+import {ReadingHistoryService} from '../reading-history.service'
 
 @Component({
   selector: 'wn-read',
@@ -41,7 +42,8 @@ export class ReadComponent implements OnInit, AfterViewInit {
               private _userService: UserService,
               private _likeService: LikeService,
               private _authService: AuthenticationService,
-              private _notificationService: NotificationService) {
+              private _notificationService: NotificationService,
+              private _readingHistoryService: ReadingHistoryService) {
   }
 
   ngOnInit() {

@@ -15,4 +15,6 @@ let readingHistorySchema= new mongoose.Schema({
   }
 })
 
+
+readingHistorySchema.index({userId: 1, bookId: 1}, { unique: true })
 module.exports = mongoose.model('ReadingHistory', readingHistorySchema)
