@@ -21,7 +21,7 @@ If you want live updates, meaning the website updates as you write code, run `ng
 
 Then you need to start the node server by running `node index.js`.
 
-If you also want to run the badeworker process, which checks whether to award a new badge to users every minute run 
+If you also want to run the badgeworker process, which checks whether to award a new badge to users every minute run 
 `node index.js` with environment variable PROCESS_TYPE=badge-worker
 
 ## Environment variables
