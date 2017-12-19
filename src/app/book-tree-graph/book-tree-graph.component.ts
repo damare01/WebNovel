@@ -97,6 +97,10 @@ export class BookTreeGraphComponent implements OnInit {
       root
     const duration = 750
 
+    let mousedown_node = null
+    let mouseup_node = null
+    let emptyNodes: any[] = []
+
     const outerThis = this
     const tree = d3.layout.tree()
       .size([height, width])
@@ -127,6 +131,11 @@ export class BookTreeGraphComponent implements OnInit {
       .append('g')
       .attr('class', 'graph')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+
+    let drag_line = graph
+      .append('path')
+      .attr('class', 'dragline hidden')
+      .attr('d', 'M0,0L0,0')
 
     root = this.rootNode
     root.x0 = height / 2
@@ -171,10 +180,27 @@ export class BookTreeGraphComponent implements OnInit {
         })
         .on('click', click)
 
+
       nodeEnter.append('circle')
         .attr('r', 1e-6)
         .style('fill', function (d) {
           return d._children ? 'lightsteelblue' : '#fff'
+        })
+        .on('mouseover', function (d) {
+          mouseup_node = d
+          if (!mousedown_node || d === mousedown_node) {
+            return
+          }
+          // enlarge target node
+          d3.select(this).attr('transform', 'scale(1.1)')
+        })
+        .on('mouseout', function (d) {
+          mouseup_node = null
+          if (!mousedown_node || d === mousedown_node) {
+            return
+          }
+          // unenlarge target node
+          d3.select(this).attr('transform', '')
         })
 
       nodeEnter.append('text')
@@ -269,6 +295,59 @@ export class BookTreeGraphComponent implements OnInit {
       })
     }
 
+    // Ole gjor ting han ikke kan
+    d3.selectAll('g.node')
+      .call(d3.behavior.drag().on('dragstart', dragstart))
+
+    const drag = d3.behavior.drag()
+    drag.on('drag', mousemove)
+    drag.on('dragend', mouseup)
+
+    d3.selectAll('g.graph')
+      .call(drag)
+
+    function mouseup() {
+      console.log('mouseup')
+      mousedown_node = null
+
+      const x = d3.mouse(this)[0]
+      const y = d3.mouse(this)[1]
+
+      if (!mouseup_node) {
+        emptyNodes.push({x: y, y: x})
+        const newNode = d3.select('g.graph').selectAll('g.newnode')
+          .data(emptyNodes)
+          .enter()
+          .append('g')
+          .attr('class', 'newnode')
+          .attr('transform', function (d) {
+            return 'translate(' + x + ',' + y + ')'
+          })
+          .call(d3.behavior.drag().on('dragstart', dragstart))
+
+        const circle = newNode.append('circle')
+          .attr('r', 10)
+      }
+
+      drag_line = graph
+        .append('path')
+        .attr('class', 'dragline hidden')
+        .attr('d', 'M0,0L0,0')
+
+
+    }
+
+    function mousemove() {
+      console.log('ready to get movin')
+      if (!mousedown_node) {
+        return
+      }
+      console.log('movin')
+      // update drag line
+      drag_line.attr('d', 'M' + mousedown_node.y + ',' + mousedown_node.x + 'L' + (d3.mouse(this)[0] - 1) + ',' + (d3.mouse(this)[1] - 1))
+
+    }
+
 // Toggle children on click.
     function click(d) {
       /*if (d.children) {
@@ -286,6 +365,14 @@ export class BookTreeGraphComponent implements OnInit {
       } else {
         console.log('cant click')
       }
+    }
+
+    function dragstart(d) {
+      console.log('dragstart')
+      mousedown_node = d
+      drag_line
+        .classed('hidden', false)
+        .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y)
     }
   }
 
