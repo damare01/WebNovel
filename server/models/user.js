@@ -29,10 +29,6 @@ let userSchema = new mongoose.Schema({
   },
   resetPasswordToken: {type: String},
   resetPasswordExpires: {type: Date},
-  currentlyReading: {
-    type: [CurrentlyReading],
-    default: [],
-  },
   role: {
     type: String,
     default: 'user'

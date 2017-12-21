@@ -4,6 +4,7 @@ import {ChapterService} from '../chapter.service'
 import {Chapter} from '../../models/chapter'
 import {NodeMap} from '../../models/nodemap'
 import {EdgeService} from '../edge.service'
+import {MatSnackBar} from '@angular/material'
 
 @Component({
   selector: 'wn-attach-node-to-chapter',
@@ -26,7 +27,8 @@ export class AttachNodeToChapterComponent implements OnInit, OnChanges {
   allNodesHasChapter = false
 
   constructor(private _chapterService: ChapterService,
-              private _edgeService: EdgeService) {
+              private _edgeService: EdgeService,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -93,16 +95,27 @@ export class AttachNodeToChapterComponent implements OnInit, OnChanges {
     })
 
 
-    let counter = 0
+    let chapterCounter = 0
+    let edgeCounter = 0
     this.connections.forEach(conn => {
       const updateChapter = conn.chapter
       updateChapter.book = this.newEdges[0].bookId
       this._chapterService.updateChapter(updateChapter).subscribe(() =>{
-        if(++counter === this.connections.length){
+        if(++chapterCounter === this.connections.length){
           edgesToSave.forEach(edge =>{
-            this._edgeService.createEdge(edge).subscribe()
+            this._edgeService.createEdge(edge).subscribe(() =>{
+              if(++edgeCounter === edgesToSave.length){
+                this.snackBar.open('New path sucessfully saved', "OK", {
+                  duration: 2000
+                })
+              }
+            }, err =>{
+              this.snackBar.open('Something went wrong when saving', "OK", {duration: 2000})
+            })
           })
         }
+      } ,err =>{
+        this.snackBar.open('Something went wrong when saving', "OK", {duration: 2000})
       })
     })
 
