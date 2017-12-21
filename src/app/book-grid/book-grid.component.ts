@@ -45,6 +45,8 @@ export class BookGridComponent implements OnInit, OnChanges {
       } else {
         this.router.navigate(['read', book.startChapter])
       }
+    },err =>{
+      this.router.navigate(['read', book.startChapter])
     })
   }
 
