@@ -86,6 +86,7 @@ const appRoutes: Routes = [
   {path: 'browse', component: BrowseComponent, canActivate: [AuthGuard]},
   {path: 'read/:chapterId', component: ReadComponent},
   {path: 'write/:parentChapter', component: WriteComponent, canActivate: [AuthGuard]},
+  {path: 'write', component: WriteComponent, canActivate: [AuthGuard]},
   {path: 'edit/:chapterId', component: EditDraftComponent, canActivate: [AuthGuard]},
   {path: 'user/:userId', component: ProfilePageComponent, canActivate: [AuthGuard]},
   {path: 'newbook', component: NewBookComponent, canActivate: [AuthGuard]},

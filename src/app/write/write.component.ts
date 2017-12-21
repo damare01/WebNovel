@@ -21,8 +21,6 @@ export class WriteComponent implements OnInit {
   tags: any = []
   loaded = false
 
-  isContinuation = false
-
   constructor(private _chapterService: ChapterService,
               private route: ActivatedRoute,
               private router: Router,

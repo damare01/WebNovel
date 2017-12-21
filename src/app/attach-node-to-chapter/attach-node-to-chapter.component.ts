@@ -100,6 +100,7 @@ export class AttachNodeToChapterComponent implements OnInit, OnChanges {
     this.connections.forEach(conn => {
       const updateChapter = conn.chapter
       updateChapter.book = this.newEdges[0].bookId
+      updateChapter.published = true
       this._chapterService.updateChapter(updateChapter).subscribe(() =>{
         if(++chapterCounter === this.connections.length){
           edgesToSave.forEach(edge =>{

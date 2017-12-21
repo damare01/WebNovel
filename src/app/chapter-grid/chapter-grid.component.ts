@@ -66,7 +66,7 @@ export class ChapterGridComponent implements OnInit, OnChanges {
     if (book) {
       return book.title
     }
-    return 'Book not found'
+    return 'None'
   }
 
 }

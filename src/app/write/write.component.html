@@ -1,7 +1,6 @@
 <wn-info-text [text]="'There was an error when adding a new chapter. Please try again later.'"
               *ngIf="parentChapter && !parentChapter._id"></wn-info-text>
-<div class="writing-container"
-     *ngIf="parentChapter">
+<div class="writing-container">
   <div class="flex-container">
     <form name="chapter">
       <mat-form-field class="full-width">
@@ -16,7 +15,7 @@
   </div>
   <div class="flex-container button-group">
     <button mat-button (click)="saveDraft()" [disabled]="!loaded">Save as Draft</button>
-    <button mat-raised-button color="accent" (click)="publishChapter()" [disabled]="!loaded">
+    <button mat-raised-button color="accent" (click)="publishChapter()" [disabled]="!loaded" *ngIf="parentChapter">
       Publish
     </button>
   </div>
