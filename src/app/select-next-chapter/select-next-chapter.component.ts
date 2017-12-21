@@ -6,6 +6,7 @@ import {Router} from '@angular/router'
 import {CurrentlyReading} from '../../models/currentlyreading'
 import {EdgeService} from '../edge.service'
 import {ReadingHistoryService} from '../reading-history.service'
+import {AuthenticationService} from '../authentication.service'
 
 @Component({
   selector: 'wn-select-next-chapter',
@@ -26,7 +27,8 @@ export class SelectNextChapterComponent implements OnInit, OnChanges {
               private _userService: UserService,
               private router: Router,
               private _edgeService: EdgeService,
-              private _readingHistoryService: ReadingHistoryService) {
+              private _readingHistoryService: ReadingHistoryService,
+              private _authService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -90,5 +92,9 @@ export class SelectNextChapterComponent implements OnInit, OnChanges {
 
   createNewPath() {
     this.createPathClick.emit(true)
+  }
+
+  isLoggedIn(): boolean{
+    return this._authService.isLoggedIn()
   }
 }

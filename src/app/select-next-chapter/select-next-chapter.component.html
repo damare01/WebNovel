@@ -27,5 +27,5 @@
 
 <mat-menu #appMenu="matMenu">
   <button mat-menu-item [routerLink]="['/write', chapterId]"> Continue story </button>
-  <button mat-menu-item (click)="createNewPath()"> Create new path </button>
+  <button mat-menu-item (click)="createNewPath()" [disabled]="!isLoggedIn()"> Create new path </button>
 </mat-menu>
