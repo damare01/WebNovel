@@ -8,11 +8,13 @@
     </div>
 
     <div class="next-chapter-container">
-      <wn-select-next-chapter *ngIf="chapter" [chapterId]="chapter._id"></wn-select-next-chapter>
+      <wn-select-next-chapter *ngIf="chapter" [chapterId]="chapter._id"
+                              (createPathClick)="openEditGraph()"></wn-select-next-chapter>
       <div style="margin-top: 10px">
         <button mat-raised-button
                 color="accent"
-                style="width: 100%" (click)="exploreBook()">Explore book</button>
+                style="width: 100%" (click)="toggleGraph()">Explore book
+        </button>
       </div>
     </div>
     <div *ngIf="chapter && author">
@@ -64,9 +66,34 @@
     </div>
     <mat-spinner style="margin:auto" *ngIf="!chapter || !author"></mat-spinner>
   </div>
+
   <div *ngIf="showGraph && chapter" class="book-graph-container">
-    <button mat-icon-button style="font-size: 26px" (click)="exploreBook()"><i class="fa fa-close"></i></button>
-    <wn-book-tree-graph [bookId]="chapter.book"></wn-book-tree-graph>
+    <button mat-icon-button style="font-size: 26px" (click)="toggleGraph()"><i class="fa fa-close"></i></button>
+    <mat-button-toggle-group *ngIf="graphMode !== 'read'"
+                             #group="matButtonToggleGroup"
+                             [value]="'draw'"
+                             (change)="graphMode = $event.value"
+                             style="float: right">
+      <mat-button-toggle value="draw">
+        Draw
+      </mat-button-toggle>
+      <mat-button-toggle value="insert">
+        Insert
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+    <wn-book-tree-graph [mode]="graphMode"
+                        [bookId]="chapter.book"
+                        [newNodeMap]="newNodeMap"
+                        (newEdges)="setNewEdgesFromGraph($event)"
+                        (newNodes)="setNewNodesFromGraph($event)"
+                        (selectedNode)="setSelectedNodeFromGraph($event)"></wn-book-tree-graph>
+  </div>
+
+  <div class="select-chapter-container" *ngIf="showGraph" [class.hidden]="graphMode !== 'insert'">
+    <wn-attach-node-to-chapter [selectedNode]="selectedNodeFromGraph"
+                               [newEdges]="newEdgesFromGraph"
+                               [newNodes]="newNodesFromGraph"
+                               (currentNodeMap)="newNodeMap = $event"></wn-attach-node-to-chapter>
   </div>
 </div>
 

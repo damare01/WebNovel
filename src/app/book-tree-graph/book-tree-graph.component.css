@@ -9,9 +9,10 @@
 }
 
 /deep/.newnode circle {
-  fill: red;
-  stroke: steelblue;
+  fill: white;
+  stroke: #69cc5c;
   stroke-width: 3px;
+  cursor: pointer;
 }
 
 /deep/.node text {
@@ -27,8 +28,9 @@
 
 /deep/.dragline {
   fill: none;
-  stroke: #ccc;
+  stroke: #69cc5c;
   stroke-width: 2px;
+  stroke-dasharray: 10, 2;
 }
 
 /deep/.link.walked {

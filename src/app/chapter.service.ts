@@ -64,4 +64,8 @@ export class ChapterService {
     return this.wnhttp.get(apiString)
   }
 
+  getMyUnusedChapters(): Observable<Chapter[]> {
+    return this.wnhttp.get('/chapters/self/unused')
+  }
+
 }

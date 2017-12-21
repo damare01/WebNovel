@@ -21,25 +21,9 @@
   max-width: 300px;
 }
 
-.graph-container {
-  width: 100%;
-  border-top: 1px solid darkgray;
-  height: 5%;
-  position: fixed;
-  bottom: 0;
-  overflow-y: hidden;
-  transition: height 0.8s;
-  background-color: rgba(0, 149, 136, 0.9);
-  cursor: move;
-}
-
-.graph-container:hover {
-  height: 75%;
-}
-
 .book-graph-container {
   height: 100%;
-  animation-name: slide-in;
+  animation-name: slide-in-from-right;
   animation-duration: 1s;
   position: fixed;
   background-color: rgba(0, 149, 136, 0.9);
@@ -48,9 +32,23 @@
   width: 80%;
 }
 
-@keyframes slide-in{
-  from {left: 100%}
-  to {left: 20%}
+.select-chapter-container {
+  position: fixed;
+  height: 100%;
+  left: 0;
+  width: 20%;
+  top: 0;
+  padding-top: 64px;
+  background-color: #fff;
+}
+
+@keyframes slide-in-from-right {
+  from {
+    left: 100%
+  }
+  to {
+    left: 20%
+  }
 }
 
 .page-container {

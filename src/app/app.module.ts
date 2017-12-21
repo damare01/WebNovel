@@ -5,7 +5,8 @@ import {HttpModule} from '@angular/http'
 import {AppComponent} from './app.component'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import {
-  MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatMenuModule, MatProgressSpinnerModule,
+  MatButtonModule, MatButtonToggleModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule,
+  MatProgressSpinnerModule,
   MatSelectModule,
   MatSnackBarModule, MatTabsModule,
   MatToolbarModule
@@ -71,7 +72,9 @@ import { BookGraphComponent } from './book-graph/book-graph.component'
 import {EdgeService} from './edge.service';
 import { BookTreeGraphComponent } from './book-tree-graph/book-tree-graph.component';
 import { BookCardComponent } from './book-card/book-card.component'
-import {ReadingHistoryService} from './reading-history.service'
+import {ReadingHistoryService} from './reading-history.service';
+import { AttachNodeToChapterComponent } from './attach-node-to-chapter/attach-node-to-chapter.component';
+import { TitleFilterPipe } from './title-filter.pipe'
 
 
 const appRoutes: Routes = [
@@ -141,7 +144,9 @@ const appRoutes: Routes = [
     UserStatisticsComponent,
     BookGraphComponent,
     BookTreeGraphComponent,
-    BookCardComponent
+    BookCardComponent,
+    AttachNodeToChapterComponent,
+    TitleFilterPipe
   ],
   imports: [
     BrowserModule,
@@ -165,7 +170,9 @@ const appRoutes: Routes = [
     FlexLayoutModule,
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
     FileUploadModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatButtonToggleModule,
+    MatListModule
   ],
   providers: [
     AuthenticationService,

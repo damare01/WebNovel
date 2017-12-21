@@ -1,0 +1,55 @@
+.container {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+
+.chapter-list {
+  overflow-y: auto;
+}
+
+.chapter-card {
+  margin: 5px;
+}
+
+.added-chapters-list {
+  height: 40%;
+  overflow-y: auto;
+}
+
+.search-bar {
+  width: 90%;
+  margin-left: 16px;
+}
+
+.button{
+  align-self: flex-end;
+  margin-bottom: 102px;
+  width: 100%;
+}
+
+.item.selected {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.button>button {
+  width: 100%;
+}
+
+.item {
+  cursor: pointer;
+
+}
+.item::before{
+  content: "";
+  width: 75%;
+  display:block;
+  margin:auto;
+  border-top:1px solid rgba(0,0,0,0.3);
+}
+
+mat-list {
+  margin-top: -9px;
+}

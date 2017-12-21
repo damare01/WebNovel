@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core'
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core'
 import * as d3 from 'd3'
 import {EdgeService} from '../edge.service'
 import {ChapterService} from '../chapter.service'
@@ -8,16 +8,24 @@ import {Edge} from '../../models/edge'
 import {ReadingHistoryService} from '../reading-history.service'
 import {ActivatedRoute, Router} from '@angular/router'
 import {ReadingHistory} from '../../models/readinghistory'
+import {NodeMap} from '../../models/nodemap'
 
 @Component({
   selector: 'wn-book-tree-graph',
   templateUrl: './book-tree-graph.component.html',
   styleUrls: ['./book-tree-graph.component.css']
 })
-export class BookTreeGraphComponent implements OnInit {
+export class BookTreeGraphComponent implements OnInit, OnChanges {
 
   @Input('bookId') bookId: string
   addedNodes = {}
+
+  @Input('mode') mode = 'read' // read, draw or insert
+  @Output() selectedNode = new EventEmitter<any>()
+  @Output() newNodes = new EventEmitter<any[]>()
+  @Output() newEdges = new EventEmitter<Edge[]>()
+
+  @Input() newNodeMap: NodeMap[] = []
 
   currentChapterId: string
 
@@ -41,6 +49,23 @@ export class BookTreeGraphComponent implements OnInit {
               private _readingHistoryService: ReadingHistoryService,
               private router: Router,
               private route: ActivatedRoute) {
+  }
+
+  ngOnChanges() {
+
+    if (this.newNodeMap) {
+      d3.selectAll('.newnode')
+        .select('text')
+        .text((d) => {
+          const nodeMap = this.newNodeMap.find(nm => nm.nodeId == d._id)
+          if (nodeMap) {
+            return nodeMap.title
+          } else {
+            return d._id
+          }
+        })
+    }
+
   }
 
   ngOnInit() {
@@ -79,6 +104,18 @@ export class BookTreeGraphComponent implements OnInit {
     })
   }
 
+  isInReadMode(): boolean {
+    return this.mode.toLowerCase() === 'read'
+  }
+
+  isInDrawMode(): boolean {
+    return this.mode.toLowerCase() === 'draw'
+  }
+
+  isInInsertMode(): boolean {
+    return this.mode.toLowerCase() === 'insert'
+  }
+
   saveReadingHistory() {
     const rh = new ReadingHistory()
     rh.bookId = this.bookId
@@ -93,6 +130,8 @@ export class BookTreeGraphComponent implements OnInit {
     const width = (element.offsetWidth || 1600) - margin.left - margin.right
     const height = (element.offsetHeight || 800) - margin.top - margin.bottom
 
+    const nodeRadius = 10
+
     let i = 0,
       root
     const duration = 750
@@ -100,6 +139,8 @@ export class BookTreeGraphComponent implements OnInit {
     let mousedown_node = null
     let mouseup_node = null
     let emptyNodes: any[] = []
+    let newEdges: Edge[] = []
+    let newNodeId = 1
 
     const outerThis = this
     const tree = d3.layout.tree()
@@ -186,22 +227,8 @@ export class BookTreeGraphComponent implements OnInit {
         .style('fill', function (d) {
           return d._children ? 'lightsteelblue' : '#fff'
         })
-        .on('mouseover', function (d) {
-          mouseup_node = d
-          if (!mousedown_node || d === mousedown_node) {
-            return
-          }
-          // enlarge target node
-          d3.select(this).attr('transform', 'scale(1.1)')
-        })
-        .on('mouseout', function (d) {
-          mouseup_node = null
-          if (!mousedown_node || d === mousedown_node) {
-            return
-          }
-          // unenlarge target node
-          d3.select(this).attr('transform', '')
-        })
+        .on('mouseover', nodeMouseOver)
+        .on('mouseout', nodeMouseOut)
 
       nodeEnter.append('text')
         .attr('x', function (d) {
@@ -225,7 +252,7 @@ export class BookTreeGraphComponent implements OnInit {
         })
 
       nodeUpdate.select('circle')
-        .attr('r', 10)
+        .attr('r', nodeRadius)
         .style('fill', function (d) {
           return d._children ? 'lightsteelblue' : '#fff'
         })
@@ -295,7 +322,7 @@ export class BookTreeGraphComponent implements OnInit {
       })
     }
 
-    // Ole gjor ting han ikke kan
+    // enable creating new edges and nodes
     d3.selectAll('g.node')
       .call(d3.behavior.drag().on('dragstart', dragstart))
 
@@ -307,14 +334,19 @@ export class BookTreeGraphComponent implements OnInit {
       .call(drag)
 
     function mouseup() {
-      console.log('mouseup')
-      mousedown_node = null
+
+      if (outerThis.isInReadMode() || outerThis.isInInsertMode()) {
+        return
+      }
 
       const x = d3.mouse(this)[0]
       const y = d3.mouse(this)[1]
 
+      let newEdge: Edge
+
       if (!mouseup_node) {
-        emptyNodes.push({x: y, y: x})
+        let newId = newNodeId++
+        emptyNodes.push({x: y, y: x, _id: '' + newId})
         const newNode = d3.select('g.graph').selectAll('g.newnode')
           .data(emptyNodes)
           .enter()
@@ -323,11 +355,32 @@ export class BookTreeGraphComponent implements OnInit {
           .attr('transform', function (d) {
             return 'translate(' + x + ',' + y + ')'
           })
+          .on('click', emptyNodeClick)
+          .on('mouseover', nodeMouseOver)
+          .on('mouseout', nodeMouseOut)
           .call(d3.behavior.drag().on('dragstart', dragstart))
 
+        newNode.append('text')
+          .attr('x', 13)
+          .attr('dy', '-.75em')
+          .attr('text-anchor', 'start')
+          .text(function (d) {
+            return d.title || d._id
+          })
+          .style('fill-opacity', 1)
+
         const circle = newNode.append('circle')
-          .attr('r', 10)
+          .attr('r', nodeRadius)
+
+        newEdge = {bookId: outerThis.bookId, source: mousedown_node._id, target: '' + newId}
+      } else {
+        newEdge = {bookId: outerThis.bookId, source: mousedown_node._id, target: mouseup_node._id}
       }
+
+
+      newEdges.push(newEdge)
+      outerThis.newEdges.emit(newEdges)
+      outerThis.newNodes.emit(emptyNodes)
 
       drag_line = graph
         .append('path')
@@ -335,29 +388,60 @@ export class BookTreeGraphComponent implements OnInit {
         .attr('d', 'M0,0L0,0')
 
 
+      mousedown_node = null
+
+    }
+
+    function nodeMouseOver(d) {
+      mouseup_node = d
+      if (!mousedown_node || d === mousedown_node) {
+        return
+      }
+      // enlarge target node
+      d3.select(this).attr('transform', 'scale(1.1)')
+    }
+
+    function nodeMouseOut(d) {
+      mouseup_node = null
+      if (!mousedown_node || d === mousedown_node) {
+        return
+      }
+      // unenlarge target node
+      d3.select(this).attr('transform', '')
     }
 
     function mousemove() {
-      console.log('ready to get movin')
       if (!mousedown_node) {
         return
       }
-      console.log('movin')
+
+      if (outerThis.isInReadMode()) {
+        return
+      }
       // update drag line
-      drag_line.attr('d', 'M' + mousedown_node.y + ',' + mousedown_node.x + 'L' + (d3.mouse(this)[0] - 1) + ',' + (d3.mouse(this)[1] - 1))
+      const destination = {y: (d3.mouse(this)[0] - 1), x: (d3.mouse(this)[1] - 1)}
+      drag_line.attr('d', diagonalLine(mousedown_node, destination))
 
     }
 
-// Toggle children on click.
-    function click(d) {
-      /*if (d.children) {
-        d._children = d.children
-        d.children = null
+    function emptyNodeClick(emptyNode) {
+      if (outerThis.isInInsertMode()) {
+        outerThis.selectedNode.emit(emptyNode)
+        d3.selectAll('.newnode')
+          .select('circle')
+          .attr('r', function (d) {
+            if (d === emptyNode) {
+              return nodeRadius * 1.5
+            } else {
+              return nodeRadius
+            }
+          })
       } else {
-        d.children = d._children
-        d._children = null
+        return
       }
-      update(d)*/
+    }
+
+    function click(d) {
       if (outerThis.canClickOnNode(d._id)) {
         outerThis.router.navigate(['read', d._id])
         outerThis.walkToNode(outerThis.currentChapterId, d._id)
@@ -368,11 +452,20 @@ export class BookTreeGraphComponent implements OnInit {
     }
 
     function dragstart(d) {
-      console.log('dragstart')
+      if (outerThis.isInReadMode() || outerThis.isInInsertMode()) {
+        return
+      }
       mousedown_node = d
       drag_line
         .classed('hidden', false)
-        .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y)
+        .attr('d', diagonalLine(mousedown_node, mousedown_node))
+    }
+
+    function diagonalLine(s, d) {
+      return `M ${s.y} ${s.x}
+            C ${(s.y + d.y) / 2} ${s.x},
+              ${(s.y + d.y) / 2} ${d.x},
+              ${d.y} ${d.x}`
     }
   }
 

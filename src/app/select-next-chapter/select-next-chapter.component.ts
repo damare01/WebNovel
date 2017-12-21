@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core'
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core'
 import {ChapterService} from '../chapter.service'
 import {Chapter} from '../../models/chapter'
 import {UserService} from '../user.service'
@@ -17,6 +17,8 @@ export class SelectNextChapterComponent implements OnInit, OnChanges {
   @Input() chapterId: string
   parentChapter: Chapter = new Chapter()
   children: Chapter[] = []
+
+  @Output() createPathClick = new EventEmitter<boolean>()
 
   loaded = false
 
@@ -84,5 +86,9 @@ export class SelectNextChapterComponent implements OnInit, OnChanges {
     const childChapter = this.children.find(chapter => chapter._id === chapterId)
     this.router.navigate(['/read', chapterId])
     this.updateReadingHistory(childChapter)
+  }
+
+  createNewPath() {
+    this.createPathClick.emit(true)
   }
 }

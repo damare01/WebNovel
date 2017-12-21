@@ -17,9 +17,6 @@
               (click)="goToLastChapter()"><i
         class="fa fa-arrow-left"></i> Last Chapter
       </button>
-      <!--button mat-raised-button color="accent" [routerLink]="['/write', chapterId]"><i class="fa fa-plus"></i> Create
-        chapter
-      </button-->
 
       <button mat-raised-button color="accent" [matMenuTriggerFor]="appMenu"><i class="fa fa-plus"></i> Create
         chapter
@@ -30,5 +27,5 @@
 
 <mat-menu #appMenu="matMenu">
   <button mat-menu-item [routerLink]="['/write', chapterId]"> Continue story </button>
-  <button mat-menu-item disabled> (Coming soon) Alternate chapter </button>
+  <button mat-menu-item (click)="createNewPath()"> Create new path </button>
 </mat-menu>

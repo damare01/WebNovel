@@ -319,6 +319,34 @@ router.get('/id/:id', (req, res) => {
   })
 })
 
+/**
+ * @swagger
+ * /chapters/self/unused:
+ *   get:
+ *     tags:
+ *       - Chapters
+ *     description: Returns the chapters which are unused, i.e. not attached to any book
+ *     produces:
+ *       - application/json
+ *     responses:
+ *      200:
+ *        description: An array chapter objects
+ *        schema:
+ *          $ref: '#/definitions/Chapter'
+ *
+ */
+router.get('/self/unused', requireAuth, (req, res) => {
+  const user = req.user
+
+  Chapter.find({$or: [{book: undefined, author: user._id}, {book: null, author: user._id}]}, (err, chapters) => {
+    if(err){
+      res.status(500).send([])
+    } else {
+      res.send(chapters)
+    }
+  })
+})
+
 
 module.exports = router
 

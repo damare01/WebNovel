@@ -1,0 +1,41 @@
+<div class="flex-center" style="height: 100%" *ngIf="!selectedNode">
+  <h2 class="book-title" style="margin:auto">Select one of the new nodes...</h2>
+</div>
+
+<div *ngIf="selectedNode" style="height:100%;">
+  <div style="display:flex">
+    <span class="book-title" style="margin: 10px auto auto auto">Select a chapter</span>
+  </div>
+
+  <div class="container">
+
+    <mat-form-field class="search-bar">
+      <input matInput type="text" placeholder="Search" [(ngModel)]="query"/>
+    </mat-form-field>
+
+    <div class="chapter-list">
+      <div *ngIf="!chapters">
+        <mat-spinner></mat-spinner>
+      </div>
+
+      <mat-list>
+        <mat-list-item *ngFor="let chapter of chapters | titleFilter: query"
+                       (click)="selectChapter(chapter)"
+                       class="item"
+                       [class.selected]="selectedChapter === chapter">
+          {{chapter.title}}
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div style="flex: 1 1 auto"></div>
+    <div class="button">
+      <button mat-raised-button color="accent"
+              (click)="save()"
+              [disabled]="!allNodesHasChapter">SAVE
+      </button>
+    </div>
+  </div>
+</div>
+
+
+

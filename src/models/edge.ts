@@ -1,5 +1,5 @@
 export class Edge {
-  _id: string
+  _id?: string
   source: string
   target: string
   bookId: string

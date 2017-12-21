@@ -13,6 +13,7 @@ import 'tinymce/plugins/table'
 import 'tinymce/plugins/link'
 import {NotificationService} from '../notification.service'
 import {ReadingHistoryService} from '../reading-history.service'
+import {Edge} from '../../models/edge'
 
 @Component({
   selector: 'wn-read',
@@ -35,6 +36,11 @@ export class ReadComponent implements OnInit, AfterViewInit {
   editable = false
 
   showGraph = false
+
+  graphMode = 'read'
+  newEdgesFromGraph: Edge[]
+  newNodesFromGraph: any[]
+  selectedNodeFromGraph: any
 
   constructor(private _chapterService: ChapterService,
               private route: ActivatedRoute,
@@ -189,11 +195,36 @@ export class ReadComponent implements OnInit, AfterViewInit {
     })
   }
 
-  exploreBook() {
+  toggleGraph() {
+    if(this.showGraph){
+      this.graphMode = 'read'
+    }
     this.showGraph = !this.showGraph
+
   }
 
   isLoggedIn(): boolean {
     return this._authService.isLoggedIn()
+  }
+
+  openEditGraph() {
+    this.graphMode = 'draw'
+    this.showGraph = true
+  }
+
+  setGraphMode(mode: string) {
+    this.graphMode = mode
+  }
+
+  setNewEdgesFromGraph(edges: Edge[]){
+    this.newEdgesFromGraph = edges
+  }
+
+  setNewNodesFromGraph(nodes: any[]){
+    this.newNodesFromGraph = nodes
+  }
+
+  setSelectedNodeFromGraph(node: any) {
+    this.selectedNodeFromGraph = node
   }
 }
