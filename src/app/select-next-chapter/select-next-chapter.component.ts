@@ -76,7 +76,7 @@ export class SelectNextChapterComponent implements OnInit, OnChanges {
 
   goToLastChapter() {
     this._readingHistoryService.getMyBookReadingHistory(this.parentChapter.book).subscribe(rh => {
-      if (rh.chapterIds.length > 1) {
+      if (rh.chapterIds && rh.chapterIds.length > 1) {
         rh.chapterIds.splice(rh.chapterIds.length - 1)
         this._readingHistoryService.saveReadingHistory(rh).subscribe()
         this.router.navigate(['/read', rh.chapterIds[rh.chapterIds.length - 1]])
