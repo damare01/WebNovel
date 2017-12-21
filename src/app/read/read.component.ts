@@ -198,6 +198,9 @@ export class ReadComponent implements OnInit, AfterViewInit {
   toggleGraph() {
     if(this.showGraph){
       this.graphMode = 'read'
+      this.newNodesFromGraph = undefined
+      this.newEdgesFromGraph = undefined
+      this.selectedNodeFromGraph = undefined
     }
     this.showGraph = !this.showGraph
 

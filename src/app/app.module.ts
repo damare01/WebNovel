@@ -7,7 +7,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import {
   MatButtonModule, MatButtonToggleModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule,
   MatProgressSpinnerModule,
-  MatSelectModule,
+  MatSelectModule, MatSlideToggleModule,
   MatSnackBarModule, MatTabsModule,
   MatToolbarModule
 } from '@angular/material'
@@ -173,7 +173,8 @@ const appRoutes: Routes = [
     FileUploadModule,
     MatToolbarModule,
     MatButtonToggleModule,
-    MatListModule
+    MatListModule,
+    MatSlideToggleModule
   ],
   providers: [
     AuthenticationService,

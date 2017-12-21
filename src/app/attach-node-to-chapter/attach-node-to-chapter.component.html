@@ -13,11 +13,16 @@
       <input matInput type="text" placeholder="Search" [(ngModel)]="query"/>
     </mat-form-field>
 
-    <div class="chapter-list">
-      <div *ngIf="!chapters">
-        <mat-spinner></mat-spinner>
+    <div *ngIf="!chapters || !chapters.length" style="margin: auto">
+      <div class="flex-center">
+        <span class="text" style="margin: auto">You don't have any available chapters</span>
       </div>
+      <div class="flex-center">
+        <button mat-raised-button color="accent" style="margin: 20px auto" [routerLink]="['/write']">Create new chapter</button>
+      </div>
+    </div>
 
+    <div class="chapter-list">
       <mat-list>
         <mat-list-item *ngFor="let chapter of chapters | titleFilter: query"
                        (click)="selectChapter(chapter)"
