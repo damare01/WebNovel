@@ -1,5 +1,5 @@
 <div class="flex-center" style="height: 100%" *ngIf="!selectedNode">
-  <h2 class="book-title" style="margin:auto">Select one of the new nodes...</h2>
+  <h2 class="book-title" style="margin:auto; text-align:center">Select one of the new nodes...</h2>
 </div>
 
 <div *ngIf="selectedNode" style="height:100%;">
@@ -18,7 +18,9 @@
         <span class="text" style="margin: auto">You don't have any available chapters</span>
       </div>
       <div class="flex-center">
-        <button mat-raised-button color="accent" style="margin: 20px auto" [routerLink]="['/write']">Create new chapter</button>
+        <button mat-raised-button color="accent" style="margin: 20px auto" [routerLink]="['/write']">Create new
+          chapter
+        </button>
       </div>
     </div>
 

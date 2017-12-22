@@ -227,7 +227,7 @@ router.get('/self/readinghistory', requireAuth, (req, res) => {
   const userId = req.user._id
   ReadingHistory.find({'userId': userId}, (err, history) => {
       if (err) {
-        res.status.send({})
+        res.status(500).send({})
       } else {
         res.send(history)
       }
