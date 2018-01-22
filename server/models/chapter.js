@@ -2,8 +2,14 @@ let mongoose = require('mongoose')
 
 let chapterSchema = mongoose.Schema({
   author: String, // author id
-  title: String,
-  body: String,
+  title: {
+    type: String,
+    required: true
+  },
+  body: {
+    type: String,
+    required: true
+  },
   parent: String, // chapter id
   book: String,
   created: {

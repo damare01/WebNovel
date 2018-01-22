@@ -7,6 +7,7 @@ import {isString} from 'util'
 import {NotificationService} from '../notification.service'
 import {EdgeService} from '../edge.service'
 import {Edge} from '../../models/edge'
+import {MatSnackBar} from "@angular/material";
 
 @Component({
   selector: 'wn-write',
@@ -26,7 +27,8 @@ export class WriteComponent implements OnInit {
               private router: Router,
               private _userService: UserService,
               private _notificationService: NotificationService,
-              private _edgeService: EdgeService) {
+              private _edgeService: EdgeService,
+              private snackbar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -56,6 +58,12 @@ export class WriteComponent implements OnInit {
   }
 
   saveChapter(draft: boolean) {
+    if(!this.newChapter.title || !this.newChapter.body){
+      this.snackbar.open('Please fill in all the fields', 'DISMISS', {
+        duration: 3000
+      })
+    }
+
     this.addTagsToChapter()
     this.loaded = false
     if (draft) {

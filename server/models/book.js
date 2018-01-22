@@ -8,17 +8,17 @@ let bookSchema = mongoose.Schema({
   },
   title: {
     type: String,
-    required: true,
+    required: true
   },
   startChapter: {
     type: String,
-    required: true,
+    required: true
   }, // chapter id
   coverImage: String, // img url
   language: {
     type: String,
     required: true,
-    default: 'en',
+    default: 'en'
   }, // language code
   description: {
     type: String,

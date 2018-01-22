@@ -51,11 +51,11 @@ export class NewBookComponent implements OnInit {
 
   saveBook() {
     if (!this.newChapter.title || !this.newChapter.body) {
-      this.snackBar.open('Please write the first chapter', 'Dismiss', {
+      this.snackBar.open('Please write the first chapter', 'DISMISS', {
         duration: 3000
       })
     } else if (!this.newBook.title || !this.newBook.genre || !this.newBook.language) {
-      this.snackBar.open('Please fill in all the fields', 'Dismiss', {
+      this.snackBar.open('Please fill in all the fields', 'DISMISS', {
         duration: 3000
       })
     } else {
