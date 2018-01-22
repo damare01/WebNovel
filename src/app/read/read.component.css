@@ -147,6 +147,6 @@ mat-button-toggle-group {
   }
 
   .next-chapter-container {
-    /*display: none;*/
+    display: none;
   }
 }
