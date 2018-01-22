@@ -67,7 +67,7 @@ export class NewBookComponent implements OnInit {
         this._bookService.saveBook(this.newBook).subscribe(bookId => {
           this.newChapter.book = bookId
           this._chapterService.updateChapter(this.newChapter).subscribe(res => {
-            this.router.navigate(['/home'])
+            this.router.navigate([`/read/${chapterId}`])
           })
         })
       })
