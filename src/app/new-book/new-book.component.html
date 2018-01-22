@@ -4,17 +4,21 @@
       <input name="title" [(ngModel)]="newBook.title" matInput placeholder="Title">
     </mat-form-field>
     <br>
-    <mat-select placeholder="Genre" name="genre" [(ngModel)]="newBook.genre">
-      <mat-option *ngFor="let genre of genres" [value]="genre">
-        {{ genre }}
-      </mat-option>
-    </mat-select>
+    <mat-form-field>
+      <mat-select placeholder="Genre" name="genre" [(ngModel)]="newBook.genre">
+        <mat-option *ngFor="let genre of genres" [value]="genre">
+          {{ genre }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <br>
-    <mat-select placeholder="Language" name="language" [(ngModel)]="newBook.language">
-      <mat-option *ngFor="let language of languages" [value]="language.code">
-        {{ language.name }}
-      </mat-option>
-    </mat-select>
+    <mat-form-field>
+      <mat-select placeholder="Language" name="language" [(ngModel)]="newBook.language">
+        <mat-option *ngFor="let language of languages" [value]="language.code">
+          {{ language.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <br>
     <mat-form-field class="description">
       <textarea matInput name="description" maxlength="256" placeholder="Description" rows="5"
