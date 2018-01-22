@@ -61,7 +61,7 @@
   }
 }
 
-.tutorial>li {
+.tutorial > li {
   padding-bottom: 10px;
 }
 
@@ -129,8 +129,12 @@ button {
 .comment-editor {
 }
 
+.hidden {
+  display: none;
+}
+
 mat-button-toggle-group {
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 @media screen and (max-width: 1350px) {
@@ -143,6 +147,6 @@ mat-button-toggle-group {
   }
 
   .next-chapter-container {
-    display: none;
+    /*display: none;*/
   }
 }
