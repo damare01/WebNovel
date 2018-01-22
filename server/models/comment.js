@@ -15,7 +15,10 @@ let commentSchema = mongoose.Schema({
     type: String,
     default: ''
   },
-  text: String,
+  text: {
+    type: String,
+    required: true
+  },
   deleted: {
     type: Boolean,
     default: false

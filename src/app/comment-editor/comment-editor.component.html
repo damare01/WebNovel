@@ -5,7 +5,7 @@
        (input)="updateText($event.target.innerHTML)">
   </div>
   <div class="button-group">
-    <button mat-button color="accent" (click)="postComment()">Publish</button>
+    <button mat-button color="accent" [disabled]="!text" (click)="postComment()">Publish</button>
     <button style="margin-left: 5px" mat-button>Cancel</button>
   </div>
 </div>

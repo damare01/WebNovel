@@ -27,6 +27,9 @@ export class CommentEditorComponent implements OnInit {
   }
 
   postComment() {
+    if(!this.text){
+      return
+    }
     this.newComment.text = this.text
     this.newComment.discussion_id = this.discussionId
     this._commentService.saveComment(this.newComment).subscribe(commentId => {
