@@ -62,6 +62,7 @@ export class WriteComponent implements OnInit {
       this.snackbar.open('Please fill in all the fields', 'DISMISS', {
         duration: 3000
       })
+      return
     }
 
     this.addTagsToChapter()
