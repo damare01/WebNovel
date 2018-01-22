@@ -373,6 +373,14 @@ export class BookTreeGraphComponent implements OnInit, OnChanges {
 
       let newEdge: Edge
 
+      let edgeIsFromOldNodeToOldNode = mousedown_node && mouseup_node
+      if(edgeIsFromOldNodeToOldNode){
+        mousedown_node = null
+        mouseup_node = null
+        drag_line.attr('class', 'dragline hidden')
+        return
+      }
+
       if (!mouseup_node) {
         let newId = newNodeId++
         emptyNodes.push({x: y, y: x, _id: '' + newId})
