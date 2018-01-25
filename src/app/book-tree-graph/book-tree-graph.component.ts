@@ -373,8 +373,9 @@ export class BookTreeGraphComponent implements OnInit, OnChanges {
 
       let newEdge: Edge
 
-      let edgeIsFromOldNodeToOldNode = mousedown_node && mouseup_node
-      if(edgeIsFromOldNodeToOldNode){
+      let edgeIsFromOldNodeToOldNode = (mousedown_node && mousedown_node.title) && (mouseup_node && mouseup_node.title)
+      let edgeIsFromNewToNewNoe = (mousedown_node && !mousedown_node.title) && (mouseup_node && !mousedown_node.title)
+      if(edgeIsFromOldNodeToOldNode || edgeIsFromNewToNewNoe){
         mousedown_node = null
         mouseup_node = null
         drag_line.attr('class', 'dragline hidden')
@@ -392,10 +393,6 @@ export class BookTreeGraphComponent implements OnInit, OnChanges {
           .attr('transform', function (d) {
             return 'translate(' + x + ',' + y + ')'
           })
-          .on('click', emptyNodeClick)
-          .on('mouseover', nodeMouseOver)
-          .on('mouseout', nodeMouseOut)
-          .call(d3.behavior.drag().on('dragstart', dragstart))
 
         newNode.append('text')
           .attr('x', 13)
@@ -408,6 +405,11 @@ export class BookTreeGraphComponent implements OnInit, OnChanges {
 
         const circle = newNode.append('circle')
           .attr('r', nodeRadius)
+          .on('click', emptyNodeClick)
+          .on('mouseover', nodeMouseOver)
+          .on('mouseout', nodeMouseOut)
+          .call(d3.behavior.drag().on('dragstart', dragstart))
+
 
         newEdge = {bookId: outerThis.bookId, source: mousedown_node._id, target: '' + newId}
       } else {
@@ -431,7 +433,9 @@ export class BookTreeGraphComponent implements OnInit, OnChanges {
 
     function nodeMouseOver(d) {
       mouseup_node = d
-      if (!mousedown_node || d === mousedown_node) {
+      let notDraggingLine = !mousedown_node
+      let mouseOverStartNode = d === mousedown_node
+      if (notDraggingLine || mouseOverStartNode) {
         return
       }
       // enlarge target node
@@ -444,7 +448,7 @@ export class BookTreeGraphComponent implements OnInit, OnChanges {
         return
       }
       // unenlarge target node
-      d3.select(this).attr('transform', '')
+      d3.select(this).attr('transform', 'scale(1.0)')
     }
 
     function mousemove() {
