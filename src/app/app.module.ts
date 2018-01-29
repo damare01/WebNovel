@@ -74,7 +74,8 @@ import { BookTreeGraphComponent } from './book-tree-graph/book-tree-graph.compon
 import { BookCardComponent } from './book-card/book-card.component'
 import {ReadingHistoryService} from './reading-history.service';
 import { AttachNodeToChapterComponent } from './attach-node-to-chapter/attach-node-to-chapter.component';
-import { TitleFilterPipe } from './title-filter.pipe'
+import { TitleFilterPipe } from './title-filter.pipe';
+import { ChildrenCarouselComponent } from './children-carousel/children-carousel.component'
 
 
 const appRoutes: Routes = [
@@ -147,7 +148,8 @@ const appRoutes: Routes = [
     BookTreeGraphComponent,
     BookCardComponent,
     AttachNodeToChapterComponent,
-    TitleFilterPipe
+    TitleFilterPipe,
+    ChildrenCarouselComponent
   ],
   imports: [
     BrowserModule,

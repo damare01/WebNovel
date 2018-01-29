@@ -8,7 +8,7 @@
     </div>
 
     <div class="next-chapter-container">
-      <wn-select-next-chapter *ngIf="chapter" [chapterId]="chapter._id"
+      <wn-select-next-chapter [parentChapter]="chapter"
                               (createPathClick)="openEditGraph()"></wn-select-next-chapter>
       <div style="margin-top: 10px">
         <button mat-raised-button
@@ -47,6 +47,19 @@
       </div>
 
       <div class="content" id="chapter-content" *ngIf="chapter" [innerHtml]="chapter.body"></div>
+
+      <div class="children">
+        <wn-children-carousel [parentChapter]="chapter"></wn-children-carousel>
+      </div>
+
+      <div class="chapter-navigation">
+        <wn-select-next-chapter [parentChapter]="chapter"
+                                (createPathClick)="openEditGraph()"></wn-select-next-chapter>
+          <button mat-raised-button
+                  color="accent"
+                  style="width: 62%" (click)="toggleGraph()">Explore book
+          </button>
+      </div>
 
       <div class="buttons">
         <button [disabled]="!isLoggedIn()" mat-fab class="like" (click)="like()" alt="Like chapter">

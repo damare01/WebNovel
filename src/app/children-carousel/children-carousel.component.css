@@ -1,0 +1,69 @@
+.container {
+  background-color: #e6eaea;
+  padding: 0 10px 10px 10px;
+  border: #9caeae 4px dotted;
+}
+
+.carousel {
+  display: flex;
+  justify-content: space-around;
+  overflow-x: hidden;
+}
+
+.child {
+  width: 22%;
+  background-color: #fff;
+  height: 100px;
+  overflow-y: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: width 0.2s;
+}
+
+.child:hover{
+  width: 30%;
+  transition: width 0.2s;
+}
+
+.text {
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  margin: 10px;
+}
+
+.comment {
+  color: #9caeae;
+}
+
+.fadeout {
+  position: absolute;
+  bottom: 0em;
+  width:100%;
+  height: 4em;
+  background: -webkit-linear-gradient(
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  background-image: -moz-linear-gradient(
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  background-image: -o-linear-gradient(
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  background-image: -ms-linear-gradient(
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
+
+h5 {
+  margin: 10px;
+}
+

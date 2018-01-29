@@ -15,13 +15,11 @@ import {AuthenticationService} from '../authentication.service'
 })
 export class SelectNextChapterComponent implements OnInit, OnChanges {
 
-  @Input() chapterId: string
-  parentChapter: Chapter = new Chapter()
+  @Input() parentChapter: Chapter = new Chapter()
   children: Chapter[] = []
 
   @Output() createPathClick = new EventEmitter<boolean>()
 
-  loaded = false
 
   constructor(private _chapterService: ChapterService,
               private _userService: UserService,
@@ -32,47 +30,11 @@ export class SelectNextChapterComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.children = []
-    this.loaded = false
-    this._chapterService.getChapter(this.chapterId).subscribe(parentChapter => {
-      this.parentChapter = parentChapter
-      this._edgeService.getEdgesFromNode(parentChapter.book, this.chapterId).subscribe(edges => {
-        const childrenIds = edges.map(edge => edge.target)
-        let counter = 0
-        const tmpChildren = []
-        const childrenLength = childrenIds.length
-        if (childrenLength === 0) {
-          this.loaded = true
-        }
-        childrenIds.forEach(childId => {
-          this._chapterService.getChapter(childId).subscribe(child => {
-            tmpChildren.push(child)
-            if (++counter >= childrenLength) {
-              this.children = tmpChildren
-              this.loaded = true
-            }
-          })
-        })
-      })
-
-    })
   }
 
   ngOnChanges() {
     this.ngOnInit()
   }
-
-  updateReadingHistory(chapter: Chapter) {
-    this._readingHistoryService.getMyBookReadingHistory(chapter.book).subscribe(rh => {
-      if (rh.chapterIds.length < 1) {
-        return
-      } else if (rh.chapterIds[rh.chapterIds.length - 1] !== chapter._id) {
-        rh.chapterIds.push(chapter._id)
-        this._readingHistoryService.saveReadingHistory(rh).subscribe()
-      }
-    })
-  }
-
 
   goToLastChapter() {
     this._readingHistoryService.getMyBookReadingHistory(this.parentChapter.book).subscribe(rh => {
@@ -80,14 +42,11 @@ export class SelectNextChapterComponent implements OnInit, OnChanges {
         rh.chapterIds.splice(rh.chapterIds.length - 1)
         this._readingHistoryService.saveReadingHistory(rh).subscribe()
         this.router.navigate(['/read', rh.chapterIds[rh.chapterIds.length - 1]])
+        if (typeof window != 'undefined'){
+          window.scrollTo(0,0)
+        }
       }
     })
-  }
-
-  goToChapter(chapterId: string) {
-    const childChapter = this.children.find(chapter => chapter._id === chapterId)
-    this.router.navigate(['/read', chapterId])
-    this.updateReadingHistory(childChapter)
   }
 
   createNewPath() {

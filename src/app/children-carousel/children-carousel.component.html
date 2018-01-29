@@ -1,0 +1,15 @@
+<div class="container">
+  <h2 class="header">Choose your next chapter:</h2>
+  <div class="carousel">
+    <button mat-button [disabled]="!hasPrev" (click)="prevChildren()"><i class="fa fa-arrow-left"></i></button>
+    <div *ngFor="let child of childrenPresented" class="child" (click)="goToChapter(child)">
+      <div class="fadeout"></div>
+      <h5 class="header">{{child.title}}</h5>
+      <div class="text" [innerHTML]="child.body"></div>
+    </div>
+    <div class="comment" *ngIf="!childrenPresented.length">
+      This chapter has no continuation. Why don't you create one?
+    </div>
+    <button mat-button [disabled]="!hasNext" (click)="nextChildren()"><i class="fa fa-arrow-right"></i></button>
+  </div>
+</div>
