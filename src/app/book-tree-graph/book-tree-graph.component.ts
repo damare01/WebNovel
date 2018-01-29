@@ -374,7 +374,7 @@ export class BookTreeGraphComponent implements OnInit, OnChanges {
       let newEdge: Edge
 
       let edgeIsFromOldNodeToOldNode = (mousedown_node && mousedown_node.title) && (mouseup_node && mouseup_node.title)
-      let edgeIsFromNewToNewNoe = (mousedown_node && !mousedown_node.title) && (mouseup_node && !mousedown_node.title)
+      let edgeIsFromNewToNewNoe = (mousedown_node && !mousedown_node.title) && (mouseup_node && !mouseup_node.title)
       if(edgeIsFromOldNodeToOldNode || edgeIsFromNewToNewNoe){
         mousedown_node = null
         mouseup_node = null
