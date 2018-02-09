@@ -142,7 +142,7 @@ export class ReadComponent implements OnInit, AfterViewInit {
       if (like.vote === 1) {
         this.liked = true
         this.disliked = false
-      } else {
+      } else if(like.vote == -1){
         this.disliked = true
         this.liked = false
       }
