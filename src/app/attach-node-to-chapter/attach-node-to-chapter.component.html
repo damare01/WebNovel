@@ -13,17 +13,6 @@
       <input matInput type="text" placeholder="Search" [(ngModel)]="query"/>
     </mat-form-field>
 
-    <div *ngIf="!chapters || !chapters.length" style="margin: auto">
-      <div class="flex-center">
-        <span class="text" style="margin: auto">You don't have any available chapters</span>
-      </div>
-      <div class="flex-center">
-        <button mat-raised-button color="accent" style="margin: 20px auto" [routerLink]="['/write']">Create new
-          chapter
-        </button>
-      </div>
-    </div>
-
     <div class="chapter-list">
       <mat-list>
         <mat-list-item *ngFor="let chapter of chapters | titleFilter: query"
@@ -34,7 +23,22 @@
         </mat-list-item>
       </mat-list>
     </div>
+
+
+
     <div style="flex: 1 1 auto"></div>
+
+    <div *ngIf="!chapters || chapters.length < newNodes.length" style="margin: auto">
+      <div class="flex-center">
+        <span class="text" style="margin: auto">You don't have enough available chapters for all the new nodes</span>
+      </div>
+      <div class="flex-center">
+        <button mat-raised-button color="accent" style="margin: 20px auto" [routerLink]="['/write']">CREATE NEW
+          CHAPTER(S)
+        </button>
+      </div>
+    </div>
+
     <div class="button">
       <button mat-raised-button color="accent"
               (click)="save()"

@@ -34,6 +34,7 @@ export class AttachNodeToChapterComponent implements OnInit, OnChanges {
   ngOnInit() {
     this._chapterService.getMyUnusedChapters().subscribe(chapters => {
       this.chapters = chapters
+      console.log(this.chapters)
     })
   }
 
