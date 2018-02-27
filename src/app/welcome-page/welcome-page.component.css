@@ -29,8 +29,12 @@ button.border-button{
   border: 1px solid white;
 }
 
-.left-text{
-  margin-right: 50px;
+.left{
+  margin: 0 50px 0 50px;
+}
+
+.right{
+  margin: 0 50px 0 50px;
 }
 
 .info-container{
@@ -39,6 +43,7 @@ button.border-button{
   margin-right: 1rem;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 30px;
 }
 
 .info-header{
