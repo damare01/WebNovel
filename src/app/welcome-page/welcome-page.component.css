@@ -1,0 +1,47 @@
+.cover{
+  background-image: url();
+  background-size: cover;
+  background-position: 50% 100%;
+  background-repeat: no-repeat;
+}
+
+.header{
+  margin: -64px 0 15px 0;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  color: white;
+  font-size: 32px;
+  background-image: url(https://images.pexels.com/photos/590493/pexels-photo-590493.jpeg?w=940&h=650&dpr=2&auto=compress&cs=tinysrgb);
+  background-size: cover;
+  min-height: 30rem;
+  background-position: 50% 50%
+}
+
+button{
+  margin: 5px;
+}
+
+button.border-button{
+  border: 1px solid white;
+}
+
+.left-text{
+  margin-right: 50px;
+}
+
+.info-container{
+  max-width: 100%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-header{
+  font-weight: 600;
+  font-size: 24px;
+}

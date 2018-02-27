@@ -1,12 +1,14 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, HostListener, Inject, OnInit} from '@angular/core'
 import {AuthenticationService} from './authentication.service'
 import {User} from '../models/user'
 import {UserService} from './user.service'
 import {SocketService} from './socket.service'
 import {MatSnackBar} from '@angular/material'
-import {Router} from '@angular/router'
+import {ActivatedRoute, Router} from '@angular/router'
 import {Badge} from '../models/badge'
 import {BadgeService} from './badge.service'
+import {DOCUMENT} from '@angular/platform-browser'
+
 
 @Component({
   selector: 'wn-root',
@@ -16,6 +18,9 @@ import {BadgeService} from './badge.service'
 export class AppComponent implements OnInit {
 
   currentUser: User = new User()
+
+  isOnWelcomePage = false
+  transparentHeader = false
 
   socket: any
 
@@ -61,6 +66,5 @@ export class AppComponent implements OnInit {
   isLoggedIn(): boolean {
     return this.authenticationService.isLoggedIn()
   }
-
 
 }

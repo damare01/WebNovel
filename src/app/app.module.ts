@@ -75,11 +75,13 @@ import { BookCardComponent } from './book-card/book-card.component'
 import {ReadingHistoryService} from './reading-history.service';
 import { AttachNodeToChapterComponent } from './attach-node-to-chapter/attach-node-to-chapter.component';
 import { TitleFilterPipe } from './title-filter.pipe';
-import { ChildrenCarouselComponent } from './children-carousel/children-carousel.component'
+import { ChildrenCarouselComponent } from './children-carousel/children-carousel.component';
+import { WelcomePageComponent } from './welcome-page/welcome-page.component'
 
 
 const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
+  {path: 'welcome', component: WelcomePageComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'forcegraph', component: BookGraphComponent},
@@ -149,7 +151,8 @@ const appRoutes: Routes = [
     BookCardComponent,
     AttachNodeToChapterComponent,
     TitleFilterPipe,
-    ChildrenCarouselComponent
+    ChildrenCarouselComponent,
+    WelcomePageComponent
   ],
   imports: [
     BrowserModule,
