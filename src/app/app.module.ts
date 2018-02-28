@@ -77,11 +77,12 @@ import { AttachNodeToChapterComponent } from './attach-node-to-chapter/attach-no
 import { TitleFilterPipe } from './title-filter.pipe';
 import { ChildrenCarouselComponent } from './children-carousel/children-carousel.component';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component'
+import {WelcomeGuard} from './welcome.guard'
 
 
 const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
-  {path: 'welcome', component: WelcomePageComponent},
+  {path: 'welcome', component: WelcomePageComponent, canActivate: [WelcomeGuard]},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'forcegraph', component: BookGraphComponent},
@@ -98,7 +99,7 @@ const appRoutes: Routes = [
   {path: 'account-settings', component: AccountSettingsComponent, canActivate: [AuthGuard]},
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/welcome',
     pathMatch: 'full'
   },
   {path: '**', component: NotFoundComponent}
@@ -195,7 +196,8 @@ const appRoutes: Routes = [
     SocketService,
     BadgeService,
     EdgeService,
-    ReadingHistoryService
+    ReadingHistoryService,
+    WelcomeGuard
   ],
   bootstrap: [AppComponent]
 })

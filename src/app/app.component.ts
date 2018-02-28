@@ -7,7 +7,6 @@ import {MatSnackBar} from '@angular/material'
 import {ActivatedRoute, Router} from '@angular/router'
 import {Badge} from '../models/badge'
 import {BadgeService} from './badge.service'
-import {DOCUMENT} from '@angular/platform-browser'
 
 
 @Component({

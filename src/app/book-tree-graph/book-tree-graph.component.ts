@@ -68,6 +68,15 @@ export class BookTreeGraphComponent implements OnInit, OnChanges {
 
   }
 
+  getEdgesAndSetupGraph() {
+    this._edgeService.getBookEdges(this.bookId).subscribe(edges => {
+      this.edges = edges
+      this.createTree()
+      this.setupGraph()
+      this.setClickableNodeArray()
+    })
+  }
+
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.currentChapterId = params['chapterId']
@@ -91,12 +100,13 @@ export class BookTreeGraphComponent implements OnInit, OnChanges {
           }
           this.rootChapterId = book.startChapter
 
-          this._edgeService.getBookEdges(this.bookId).subscribe(edges => {
-            this.edges = edges
-            this.createTree()
-            this.setupGraph()
-            this.setClickableNodeArray()
-          })
+          this.getEdgesAndSetupGraph()
+        }, err => {
+
+          this.walkedChapterIds = [book.startChapter]
+          this.rootChapterId = book.startChapter
+
+          this.getEdgesAndSetupGraph()
         })
 
 
@@ -322,7 +332,7 @@ export class BookTreeGraphComponent implements OnInit, OnChanges {
         .attr('d', function (d) {
           const o = {x: source.x0, y: source.y0}
           if (d.source.y === d.target.y) {
-            d.target = {x: d.target.x + nodeRadius+5, y: d.target.y}
+            d.target = {x: d.target.x + nodeRadius + 5, y: d.target.y}
           }
           return diagonal({source: o, target: o})
         })
@@ -375,7 +385,7 @@ export class BookTreeGraphComponent implements OnInit, OnChanges {
 
       let edgeIsFromOldNodeToOldNode = (mousedown_node && mousedown_node.title) && (mouseup_node && mouseup_node.title)
       let edgeIsFromNewToNewNoe = (mousedown_node && !mousedown_node.title) && (mouseup_node && !mouseup_node.title)
-      if(edgeIsFromOldNodeToOldNode || edgeIsFromNewToNewNoe){
+      if (edgeIsFromOldNodeToOldNode || edgeIsFromNewToNewNoe) {
         mousedown_node = null
         mouseup_node = null
         drag_line.attr('class', 'dragline hidden')
