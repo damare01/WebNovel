@@ -1,20 +1,24 @@
 <div class="writing-container" *ngIf="draft">
   <div class="flex-container">
     <wn-section-header [title]="'Edit draft'"></wn-section-header>
-    <form name="chapter">
-      <mat-form-field class="full-width">
-        <input name="title" matInput placeholder="Chapter title" [(ngModel)]="draft.title">
-      </mat-form-field>
-    </form>
-    <br>
-    <tag-input [(ngModel)]="tags" [placeholder]="'Enter tags'"></tag-input>
-  </div>
-  <div class="flex-container">
-    <wn-editor [elementId]="'draft-editor'" [content]="draft.body" (onEditorKeyup)="draft.body = $event"></wn-editor>
-  </div>
+    <a *ngIf="parentChapter" [routerLink]="['/read',parentChapter._id ]">
+    <wn-info-text
+      [text]="' - Continuation of chapter ' + parentChapter.title + ' in the book ' + bookTitle"></wn-info-text>
+  </a>
+  <form name="chapter">
+    <mat-form-field class="full-width">
+      <input name="title" matInput placeholder="Chapter title" [(ngModel)]="draft.title">
+    </mat-form-field>
+  </form>
   <br>
-  <div class="flex-container button-group">
-    <button mat-button (click)="saveDraft()">Save draft</button>
-    <button *ngIf="draft.book" mat-raised-button color="accent" (click)="publishChapter()">Publish</button>
-  </div>
+  <tag-input [(ngModel)]="tags" [placeholder]="'Enter tags'"></tag-input>
+</div>
+<div class="flex-container">
+  <wn-editor [elementId]="'draft-editor'" [content]="draft.body" (onEditorKeyup)="draft.body = $event"></wn-editor>
+</div>
+<br>
+<div class="flex-container button-group">
+  <button mat-button (click)="saveDraft()">Save draft</button>
+  <button *ngIf="draft.book" mat-raised-button color="accent" (click)="publishChapter()">Publish</button>
+</div>
 </div>

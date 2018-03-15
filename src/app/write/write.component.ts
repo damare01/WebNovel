@@ -7,7 +7,7 @@ import {isString} from 'util'
 import {NotificationService} from '../notification.service'
 import {EdgeService} from '../edge.service'
 import {Edge} from '../../models/edge'
-import {MatSnackBar} from "@angular/material";
+import {MatSnackBar} from '@angular/material'
 
 @Component({
   selector: 'wn-write',
@@ -58,7 +58,7 @@ export class WriteComponent implements OnInit {
   }
 
   saveChapter(draft: boolean) {
-    if(!this.newChapter.title || !this.newChapter.body){
+    if (!this.newChapter.title || !this.newChapter.body) {
       this.snackbar.open('Please fill in all the fields', 'DISMISS', {
         duration: 3000
       })
@@ -72,20 +72,15 @@ export class WriteComponent implements OnInit {
     }
     this.newChapter.author = this._userService.getCurrentUserId()
     this._chapterService.saveChapter(this.newChapter).subscribe((chapterId) => {
-      if (!draft) {
-        const newEdge = new Edge()
-        newEdge.bookId = this.parentChapter.book
-        newEdge.source = this.parentChapter._id
-        newEdge.target = chapterId
-        this._edgeService.createEdge(newEdge).subscribe(() => {
-          this.loaded = true
-          this._notificationService.postChapterNotification(this.parentChapter._id, chapterId)
-          this.router.navigate(['read', this.parentChapter._id])
-        })
-      } else {
+      const newEdge = new Edge()
+      newEdge.bookId = this.parentChapter.book
+      newEdge.source = this.parentChapter._id
+      newEdge.target = chapterId
+      this._edgeService.createEdge(newEdge).subscribe(() => {
         this.loaded = true
-        this.router.navigate(['mychapters'])
-      }
+        this._notificationService.postChapterNotification(this.parentChapter._id, chapterId)
+        this.router.navigate(['read', this.parentChapter._id])
+      })
     })
   }
 

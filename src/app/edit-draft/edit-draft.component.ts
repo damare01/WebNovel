@@ -4,6 +4,9 @@ import {ChapterService} from '../chapter.service'
 import {ActivatedRoute, Router} from '@angular/router'
 import {isString} from 'util'
 import {NotificationService} from '../notification.service'
+import {BookService} from '../book.service'
+import {EdgeService} from '../edge.service'
+import {Edge} from '../../models/edge'
 
 @Component({
   selector: 'wn-edit-draft',
@@ -13,12 +16,16 @@ import {NotificationService} from '../notification.service'
 export class EditDraftComponent implements OnInit {
 
   draft: Chapter
+  bookTitle: string = ''
+  parentChapter: Chapter = new Chapter()
   tags: any = []
 
   constructor(private _chapterService: ChapterService,
               private route: ActivatedRoute,
               private router: Router,
-              private _notificationService: NotificationService) {
+              private _notificationService: NotificationService,
+              private _bookService: BookService,
+              private _edgeService: EdgeService) {
   }
 
   ngOnInit() {
@@ -28,6 +35,19 @@ export class EditDraftComponent implements OnInit {
         this.draft = draft
         if (draft.tags) {
           this.tags = draft.tags
+        }
+        if (draft.book) {
+          this._bookService.getBook(draft.book).subscribe(book => {
+            this.bookTitle = book.title
+          })
+          this._edgeService.getEdgesToNode(draft.book, draft._id).subscribe(edges => {
+            if (edges.length) {
+              let edge = edges[0]
+              this._chapterService.getChapter(edge.source).subscribe(chapter => {
+                this.parentChapter = chapter
+              })
+            }
+          })
         }
       })
     })
@@ -44,10 +64,8 @@ export class EditDraftComponent implements OnInit {
     this.addTagsToChapter()
     this.draft.published = true
     this._chapterService.updateChapter(this.draft).subscribe(oldChapter => {
-      this._chapterService.addChildToChapter(oldChapter.parent, oldChapter._id).subscribe(res => {
-        this._notificationService.postChapterNotification(oldChapter.parent, this.draft._id)
-        this.router.navigate(['/read', this.draft._id])
-      })
+      this._notificationService.postChapterNotification(oldChapter.parent, this.draft._id)
+      this.router.navigate(['/read', this.draft._id])
     })
   }
 

@@ -234,6 +234,10 @@ router.post('/:parentId/child/:childId', requireAuth, (req, res) => {
     if (err) {
       res.status(500).send({})
     } else {
+      if(!req.params['childId']){
+       res.status(500).send({})
+      }
+      //TODO: This is not atomic. Also not necessary. Remove after deleting all uses in app.
       chapter.childrenIds.push(req.params['childId'])
       chapter.save((err, done) => {
         if (err) {

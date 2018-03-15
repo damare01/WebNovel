@@ -14,6 +14,7 @@ import 'tinymce/plugins/link'
 import {NotificationService} from '../notification.service'
 import {ReadingHistoryService} from '../reading-history.service'
 import {Edge} from '../../models/edge'
+import {MatSnackBar} from '@angular/material'
 
 @Component({
   selector: 'wn-read',
@@ -49,7 +50,8 @@ export class ReadComponent implements OnInit, AfterViewInit {
               private _likeService: LikeService,
               private _authService: AuthenticationService,
               private _notificationService: NotificationService,
-              private _readingHistoryService: ReadingHistoryService) {
+              private _readingHistoryService: ReadingHistoryService,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -105,6 +107,13 @@ export class ReadComponent implements OnInit, AfterViewInit {
       this.chapter.body = this.newBody
     }
     this._chapterService.updateChapter(this.chapter).subscribe(newChapter => {
+      this.snackBar.open('Chapter sucessfully updated', 'OK', {
+        duration: 3000
+      })
+    }, err => {
+      this.snackBar.open('Something went wrong, chapter is not updated', 'OK', {
+        duration: 3000
+      })
     })
   }
 
