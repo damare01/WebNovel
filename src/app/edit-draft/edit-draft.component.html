@@ -15,6 +15,6 @@
   <br>
   <div class="flex-container button-group">
     <button mat-button (click)="saveDraft()">Save draft</button>
-    <button mat-raised-button color="accent" (click)="publishChapter()">Publish</button>
+    <button *ngIf="draft.book" mat-raised-button color="accent" (click)="publishChapter()">Publish</button>
   </div>
 </div>
