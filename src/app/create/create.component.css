@@ -4,11 +4,11 @@
 }
 
 .container.header {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  max-width: 1140px;
+  margin: 20px auto 20px auto;
 }
 
-/deep/ h2 {
+.header-text {
   display: inline;
   margin: 20px 10px 20px 0;
 }
