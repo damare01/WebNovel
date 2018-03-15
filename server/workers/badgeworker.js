@@ -82,6 +82,7 @@ let checkAndCreateBadge = function (badge) {
         UserCurrency.find(
           query,
           (err, userCurrencies) => {
+            //TODO: Reduce this to a single findAndUpdate query
             UserCurrency.update(query, {$set: {'checked': true}}, (err) => {
             })
             let userHashSetObject = {}

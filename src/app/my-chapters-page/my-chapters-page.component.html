@@ -1,5 +1,11 @@
-<div style="margin: auto auto auto 20px">
-  <wn-section-header [title]="'My Chapters'"></wn-section-header>
+<div style="margin: 10px auto auto 20px">
+  <div style="display: inline-flex">
+    <wn-section-header [title]="'My Chapters'"></wn-section-header>
+    <button mat-button
+            color="accent"
+            style="margin-left: 10px"
+            [routerLink]="['/write']"><i class="fa fa-plus"></i> New draft</button>
+  </div>
 </div>
 <mat-tab-group>
   <mat-tab label="Published">
