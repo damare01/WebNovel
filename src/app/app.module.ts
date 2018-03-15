@@ -77,7 +77,8 @@ import { AttachNodeToChapterComponent } from './attach-node-to-chapter/attach-no
 import { TitleFilterPipe } from './title-filter.pipe';
 import { ChildrenCarouselComponent } from './children-carousel/children-carousel.component';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component'
-import {WelcomeGuard} from './welcome.guard'
+import {WelcomeGuard} from './welcome.guard';
+import { CreateComponent } from './create/create.component'
 
 
 const appRoutes: Routes = [
@@ -95,6 +96,7 @@ const appRoutes: Routes = [
   {path: 'user/:userId', component: ProfilePageComponent, canActivate: [AuthGuard]},
   {path: 'newbook', component: NewBookComponent, canActivate: [AuthGuard]},
   {path: 'mybooks', component: MyBooksPageComponent, canActivate: [AuthGuard]},
+  {path: 'create', component: CreateComponent, canActivate: [AuthGuard]},
   {path: 'mychapters', component: MyChaptersPageComponent, canActivate: [AuthGuard]},
   {path: 'account-settings', component: AccountSettingsComponent, canActivate: [AuthGuard]},
   {
@@ -153,7 +155,8 @@ const appRoutes: Routes = [
     AttachNodeToChapterComponent,
     TitleFilterPipe,
     ChildrenCarouselComponent,
-    WelcomePageComponent
+    WelcomePageComponent,
+    CreateComponent
   ],
   imports: [
     BrowserModule,
