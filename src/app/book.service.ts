@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core'
 import {WnHttp} from './wnhttp.service'
-import {Observable} from 'rxjs/Observable'
-import 'rxjs/add/operator/map'
+import {Observable} from 'rxjs'
+
 import {Response} from '@angular/http'
 import {Book} from '../models/book'
 

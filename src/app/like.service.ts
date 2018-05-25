@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core'
 import {WnHttp} from './wnhttp.service'
-import {Observable} from 'rxjs/Observable'
+import {Observable} from 'rxjs'
 import {Like} from '../models/like'
 import {LikeCount} from '../models/likecount'
 import {DislikeCount} from '../models/dislikecount'

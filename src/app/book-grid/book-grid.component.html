@@ -1,11 +1,6 @@
 <div *ngIf="books.length"
      class="container"
-     fxLayout="row"
-     fxLayoutWrap
-     fxLayout.xs="column"
-     fxLayoutAlign="space-between"
-     fxLayoutGap="10px"
-     fxLayoutGap.xs="5px">
+    >
   <div *ngFor="let book of books; let i = index" (click)="openBook(book)" class="book-card">
     <img *ngIf="book.coverImage"
          src="https://about.canva.com/wp-content/uploads/sites/3/2015/01/business_bookcover.png">

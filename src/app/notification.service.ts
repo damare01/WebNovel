@@ -79,7 +79,7 @@ export class NotificationService {
 
   getContinuousNotifications(): Observable<Notification> {
     const socket = this._socketService.getSocket()
-    const observable = new Observable(observer => {
+    const observable = new Observable<Notification>(observer => {
       socket.on('notification', (notification) => {
         observer.next(notification)
       })

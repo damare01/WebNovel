@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core'
 import {Http, RequestOptions, RequestOptionsArgs, Headers, Response} from '@angular/http'
-import 'rxjs/add/operator/map'
-import {Observable} from 'rxjs/Observable'
+
+import {Observable} from 'rxjs'
 import * as jwtDecode from 'jwt-decode'
 import {SocketService} from './socket.service'
 

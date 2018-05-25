@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core'
 import {WnHttp} from './wnhttp.service'
 import {Badge} from '../models/badge'
-import {Observable} from 'rxjs/Observable'
+import {Observable} from 'rxjs'
 
 @Injectable()
 export class BadgeService {

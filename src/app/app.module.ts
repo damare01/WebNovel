@@ -21,7 +21,6 @@ import {HomeComponent} from './home/home.component'
 import {RegisterComponent} from './register/register.component'
 import {ChapterService} from './chapter.service'
 import {BookService} from './book.service'
-import {NavigationGraphComponent} from './navigation-graph/navigation-graph.component'
 import {BrowseComponent} from './browse/browse.component'
 import {ReadComponent} from './read/read.component'
 import {NotFoundComponent} from './notfound/notfound.component'
@@ -115,7 +114,6 @@ const appRoutes: Routes = [
     LoginComponent,
     HomeComponent,
     RegisterComponent,
-    NavigationGraphComponent,
     BrowseComponent,
     ReadComponent,
     NotFoundComponent,
