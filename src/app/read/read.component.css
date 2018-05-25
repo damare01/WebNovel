@@ -6,8 +6,8 @@
 
 .author-container {
   position: fixed;
-  top: 75px;
-  left: 80px;
+  margin-left: -250px;
+  margin-top: 75px;
 }
 
 .byline {
@@ -24,6 +24,7 @@
   top: 300px;
   left:18px;
   max-width: 300px;
+  display:none;
 }
 
 .book-graph-container {
@@ -142,6 +143,11 @@ button {
   display: none;
 }
 
+.chapter-navigation {
+  display: flex;
+  justify-content: space-between;
+}
+
 mat-button-toggle-group {
   background-color: rgba(0, 0, 0, 0.5);
 }
@@ -151,16 +157,12 @@ mat-button-toggle-group {
     display: block;
   }
 
-  .chapter-navigation {
-    display: flex;
-    justify-content: space-between;
+  .byline:hover{
+    text-decoration: underline;
   }
 
   .author-container {
     display: none;
   }
 
-  .next-chapter-container {
-    display: none;
-  }
 }
