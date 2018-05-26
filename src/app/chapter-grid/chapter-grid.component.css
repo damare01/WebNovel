@@ -1,6 +1,12 @@
+.container{
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
 .chapter-card {
   cursor: pointer;
-  margin: 0 0 10px 0;
+  margin: 0 30px 10px 0;
   width: 30%;
 }
 

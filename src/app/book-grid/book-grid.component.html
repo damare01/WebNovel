@@ -1,6 +1,5 @@
 <div *ngIf="books.length"
-     class="container"
-    >
+     class="container">
   <div *ngFor="let book of books; let i = index" (click)="openBook(book)" class="book-card">
     <img *ngIf="book.coverImage"
          src="https://about.canva.com/wp-content/uploads/sites/3/2015/01/business_bookcover.png">

@@ -1,12 +1,6 @@
 <mat-spinner *ngIf="!viewLoaded"></mat-spinner>
 <div class="container"
-     *ngIf="viewLoaded"
-     fxLayout="row"
-     fxLayoutWrap
-     fxLayout.xs="column"
-     fxLayoutAlign="start"
-     fxLayoutGap="10px"
-     fxLayoutGap.xs="5px">
+     *ngIf="viewLoaded">
   <div *ngFor="let chapterInfo of chapterInfos" class="chapter-card">
     <mat-card [routerLink]="editOnClick ? ['/edit', chapterInfo.chapter._id] : ['/read', chapterInfo.chapter._id]">
       <mat-card-title>{{chapterInfo.chapter.title}}</mat-card-title>

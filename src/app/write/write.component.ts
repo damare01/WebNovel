@@ -72,15 +72,21 @@ export class WriteComponent implements OnInit {
     }
     this.newChapter.author = this._userService.getCurrentUserId()
     this._chapterService.saveChapter(this.newChapter).subscribe((chapterId) => {
-      const newEdge = new Edge()
-      newEdge.bookId = this.parentChapter.book
-      newEdge.source = this.parentChapter._id
-      newEdge.target = chapterId
-      this._edgeService.createEdge(newEdge).subscribe(() => {
-        this.loaded = true
-        this._notificationService.postChapterNotification(this.parentChapter._id, chapterId)
-        this.router.navigate(['read', this.parentChapter._id])
-      })
+      if (this.parentChapter) {
+        const newEdge = new Edge()
+        newEdge.bookId = this.parentChapter.book
+        newEdge.source = this.parentChapter._id
+        newEdge.target = chapterId
+        this._edgeService.createEdge(newEdge).subscribe(() => {
+          this.loaded = true
+          this._notificationService.postChapterNotification(this.parentChapter._id, chapterId)
+          this.router.navigate(['read', this.parentChapter._id])
+        })
+      }else{
+        this.loaded = true;
+        this.router.navigate(['mychapters'])
+      }
+
     })
   }
 
