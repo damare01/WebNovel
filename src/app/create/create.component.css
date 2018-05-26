@@ -1,9 +1,17 @@
 .container {
   max-width: 1140px;
   margin: 0 auto 10px auto;
+  max-height: 500px;
+  overflow-y: auto;
+  background-color: #dad9d7;
+  padding: 10px;
 }
 
-.container.header {
+.container.bottom{
+  margin-bottom: 20px;
+}
+
+.header {
   max-width: 1140px;
   margin: 20px auto 20px auto;
 }

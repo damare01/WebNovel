@@ -2,5 +2,7 @@
 <mat-spinner *ngIf="!currentlyReadingBooks"></mat-spinner>
 <wn-book-grid *ngIf="currentlyReadingBooks && currentlyReadingBooks.length"
               [books]="currentlyReadingBooks"></wn-book-grid>
-<wn-info-text *ngIf="currentlyReadingBooks && !currentlyReadingBooks.length"
+<p *ngIf="currentlyReadingBooks && !currentlyReadingBooks.length">
+  <wn-info-text
               [text]="'You haven\'t started on any book yet...'"></wn-info-text>
+</p>
