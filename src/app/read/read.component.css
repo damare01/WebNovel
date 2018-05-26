@@ -154,7 +154,7 @@ mat-button-toggle-group {
 
 @media screen and (max-width: 1350px) {
   .byline {
-    display: block;
+    display: inline;
   }
 
   .byline:hover{
