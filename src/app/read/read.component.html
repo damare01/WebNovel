@@ -7,7 +7,7 @@
       </wn-author-card>
     </div>
 
-    <div class="next-chapter-container">
+    <!--div class="next-chapter-container">
       <wn-select-next-chapter [parentChapter]="chapter"
                               (createPathClick)="openEditGraph()"></wn-select-next-chapter>
       <div style="margin-top: 10px">
@@ -16,7 +16,7 @@
                 style="width: 100%" (click)="toggleGraph()">Explore book
         </button>
       </div>
-    </div>
+    </div-->
     <div *ngIf="chapter && author">
 
       <h2 class="header" *ngIf="chapter">{{chapter.title}}</h2>
@@ -55,11 +55,11 @@
       <div class="chapter-navigation">
         <wn-select-next-chapter [parentChapter]="chapter"
                                 (createPathClick)="openEditGraph()"></wn-select-next-chapter>
-          <button mat-raised-button
-                  color="accent"
-                  style="width: 50%" (click)="toggleGraph()"><i class="fa fa-search"
-          ></i> Explore book
-          </button>
+        <button mat-raised-button
+                color="accent"
+                style="width: 50%" (click)="toggleGraph()"><i class="fa fa-search"
+        ></i> Explore book
+        </button>
       </div>
 
       <div class="buttons">
@@ -90,7 +90,7 @@
                                #group="matButtonToggleGroup"
                                [value]="'draw'"
                                (change)="graphMode = $event.value"
-                               style="float: right">
+                               style="float: right; background-color: #fbff00">
         <mat-button-toggle value="draw">
           DRAW
         </mat-button-toggle>
@@ -108,13 +108,20 @@
                         (navigatedToNewNode)="showGraph=false"></wn-book-tree-graph>
   </div>
 
-  <div class="flex-center select-chapter-container" *ngIf="graphMode === 'draw'">
-    <ul style="margin: auto" class="text tutorial">
-      <li>Draw new paths by dragging from an existing node and releasing anywhere.</li>
-      <li>Extend the path by dragging from a new node and releasing anywhere.</li>
-      <li>Connect a new node to an old by dragging from a new node to an old node.</li>
-      <li>When you're done, click insert in the upper right corner to insert you chapter drafts</li>
-    </ul>
+  <div class="select-chapter-container" *ngIf="graphMode === 'draw'">
+    <div style="display: flex">
+      <h1 style="margin: 10px auto 20px auto">How to use:</h1>
+    </div>
+    <div class="flex-center">
+      <ul style="margin: auto" class="text tutorial">
+        <li><b>To be able to insert chapters you first need to create drafts for each chapter you want to add.
+          This can be done from the <span style="text-decoration: underline" class="clickable" routerLink="/mychapters">My Chapters</span> page</b></li>
+        <li>Draw new paths by dragging from an existing node and releasing anywhere.</li>
+        <li>Extend the path by dragging from a new node and releasing anywhere.</li>
+        <li>Connect a new node to an old by dragging from a new node to an old node.</li>
+        <li>When you're done, click insert in the upper right corner to insert you chapter drafts</li>
+      </ul>
+    </div>
   </div>
   <div class="select-chapter-container" *ngIf="showGraph" [class.hidden]="graphMode !== 'insert'">
     <wn-attach-node-to-chapter [selectedNode]="selectedNodeFromGraph"
