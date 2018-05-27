@@ -8,6 +8,7 @@ import {NotificationService} from '../notification.service'
 import {EdgeService} from '../edge.service'
 import {Edge} from '../../models/edge'
 import {MatSnackBar} from '@angular/material'
+import {ReadingHistoryService} from "../reading-history.service";
 
 @Component({
   selector: 'wn-write',
@@ -28,7 +29,8 @@ export class WriteComponent implements OnInit {
               private _userService: UserService,
               private _notificationService: NotificationService,
               private _edgeService: EdgeService,
-              private snackbar: MatSnackBar) {
+              private snackbar: MatSnackBar,
+              private _readingHistoryService: ReadingHistoryService) {
   }
 
   ngOnInit() {
@@ -80,13 +82,21 @@ export class WriteComponent implements OnInit {
         this._edgeService.createEdge(newEdge).subscribe(() => {
           this.loaded = true
           this._notificationService.postChapterNotification(this.parentChapter._id, chapterId)
-          this.router.navigate(['read', this.parentChapter._id])
+          this.updateReadingHistory(this.parentChapter.book, chapterId)
+          this.router.navigate(['read', chapterId])
         })
       }else{
         this.loaded = true;
         this.router.navigate(['mychapters'])
       }
 
+    })
+  }
+
+  updateReadingHistory(bookId: string, newChapterId: string){
+    this._readingHistoryService.getMyBookReadingHistory(bookId).subscribe(rh => {
+      rh.chapterIds = rh.chapterIds.concat([newChapterId])
+      this._readingHistoryService.saveReadingHistory(rh).subscribe()
     })
   }
 

@@ -25,6 +25,8 @@ export class BookTreeGraphComponent implements OnInit, OnChanges {
   @Output() newNodes = new EventEmitter<any[]>()
   @Output() newEdges = new EventEmitter<Edge[]>()
 
+  @Output() navigatedToNewNode = new EventEmitter<string>()
+
   @Input() newNodeMap: NodeMap[] = []
 
   currentChapterId: string
@@ -546,6 +548,7 @@ export class BookTreeGraphComponent implements OnInit, OnChanges {
     } else {
       this.walkedChapterIds.push(newNodeId)
       this.saveReadingHistory()
+      this.navigatedToNewNode.emit(newNodeId)
     }
   }
 

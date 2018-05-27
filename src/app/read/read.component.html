@@ -104,7 +104,8 @@
                         [newNodeMap]="newNodeMap"
                         (newEdges)="setNewEdgesFromGraph($event)"
                         (newNodes)="setNewNodesFromGraph($event)"
-                        (selectedNode)="setSelectedNodeFromGraph($event)"></wn-book-tree-graph>
+                        (selectedNode)="setSelectedNodeFromGraph($event)"
+                        (navigatedToNewNode)="showGraph=false"></wn-book-tree-graph>
   </div>
 
   <div class="flex-center select-chapter-container" *ngIf="graphMode === 'draw'">
