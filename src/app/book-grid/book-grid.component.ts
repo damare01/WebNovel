@@ -44,6 +44,9 @@ export class BookGridComponent implements OnInit, OnChanges {
         this.router.navigate(['read', rh.chapterIds[rh.chapterIds.length - 1]])
       } else {
         this.router.navigate(['read', book.startChapter])
+        rh.bookId = book._id
+        rh.chapterIds = [book.startChapter]
+        this._readingHistoryService.saveReadingHistory(rh).subscribe()
       }
     },err =>{
       this.router.navigate(['read', book.startChapter])
