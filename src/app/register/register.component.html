@@ -1,7 +1,9 @@
 <div class="flex-center">
   <form name="login" class="register-form">
-    <mat-form-field class="full-width">
+    <mat-form-field class="full-width" style="margin-bottom: 15px">
       <input name="penName" type="text" matInput placeholder="Pen Name" [(ngModel)]="penName">
+      <mat-hint align="start"><strong>Pen name is the name that will be publicly shown to others. If you don't want to remain anonymous
+      this can be your real name.</strong></mat-hint>
     </mat-form-field>
     <mat-form-field class="full-width">
       <input name="fullName" type="text" matInput placeholder="Full Name" [(ngModel)]="fullName">

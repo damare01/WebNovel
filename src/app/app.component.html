@@ -6,7 +6,7 @@
     <button mat-button [routerLink]="'/create'" style="color: white" *ngIf="isLoggedIn()">CREATE</button>
     <span class="fill-remaining-space"></span>
     <span>
-      <button color="accent" mat-raised-button [routerLink]="['/login']" *ngIf="!isLoggedIn()">LOGIN</button>
+      <button style="margin-right: 10px" color="accent" mat-raised-button [routerLink]="['/login']" *ngIf="!isLoggedIn()">LOGIN</button>
       <button color="accent" mat-raised-button [routerLink]="['/register']" *ngIf="!isLoggedIn()">REGISTER</button>
       <wn-user-menu *ngIf="isLoggedIn()"></wn-user-menu>
       <wn-notification-popup-button *ngIf="isLoggedIn()"></wn-notification-popup-button>
