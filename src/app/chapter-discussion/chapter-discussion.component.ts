@@ -25,7 +25,7 @@ export class ChapterDiscussionComponent implements OnInit {
 
   addNewComment(comment: Comment) {
     this.comments = [comment].concat(this.comments)
-    this.isExpanded = true
+    this.toggleExpand()
   }
 
   toggleExpand() {
