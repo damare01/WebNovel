@@ -82,7 +82,7 @@
   </div>
 
   <div *ngIf="showGraph && chapter" class="book-graph-container">
-    <div style="background-color: #34736a; padding: 10px">
+    <div style="background-color: #b36b00; padding: 10px">
       <button mat-icon-button style="font-size: 26px" (click)="toggleGraph()"><i class="fa fa-close"></i></button>
       <span class="book-title" style="color: white">{{graphMode | capitalize}} MODE</span>
 
@@ -90,11 +90,11 @@
                                #group="matButtonToggleGroup"
                                [value]="'draw'"
                                (change)="graphMode = $event.value"
-                               style="float: right; background-color: #fbff00">
+                               style="float: right">
         <mat-button-toggle value="draw">
           DRAW
         </mat-button-toggle>
-        <mat-button-toggle value="insert" [disabled]="!newNodesFromGraph || !newNodesFromGraph.length">
+        <mat-button-toggle value="insert" [disabled]="!newNodesFromGraph || !newNodesFromGraph.length" [ngStyle]="{'color': value==='draw' ? 'grey' : 'white'}">
           INSERT
         </mat-button-toggle>
       </mat-button-toggle-group>
