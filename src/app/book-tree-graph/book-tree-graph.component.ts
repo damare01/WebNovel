@@ -495,6 +495,9 @@ export class BookTreeGraphComponent implements OnInit, OnChanges {
     }
 
     function click(d) {
+      if(outerThis.mode==='draw'){
+        return
+      }
       if (outerThis.canClickOnNode(d._id)) {
         outerThis.router.navigate(['read', d._id])
         outerThis.walkToNode(outerThis.currentChapterId, d._id)
@@ -541,6 +544,9 @@ export class BookTreeGraphComponent implements OnInit, OnChanges {
   }
 
   walkToNode(oldNodeId: any, newNodeId: any) {
+    if(this.mode === "draw"){
+      return
+    }
     const existEdge = this.links.findIndex(link => link.source._id === oldNodeId && link.target._id === newNodeId) !== -1
     if (!existEdge && this.walkedChapterIds.length) {
       this.walkedChapterIds.splice(this.walkedChapterIds.length - 1)
