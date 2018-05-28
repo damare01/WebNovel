@@ -100,7 +100,12 @@ export class WriteComponent implements OnInit {
 
   updateReadingHistory(bookId: string, newChapterId: string) {
     this._readingHistoryService.getMyBookReadingHistory(bookId).subscribe(rh => {
-      rh.chapterIds = rh.chapterIds.concat([newChapterId])
+      if(rh.chapterIds){
+        rh.chapterIds = rh.chapterIds.concat([newChapterId])
+      }else{
+        rh.bookId = this.parentChapter.book
+        rh.chapterIds = [this.parentChapter._id, newChapterId]
+      }
       this._readingHistoryService.saveReadingHistory(rh).subscribe()
     })
   }
