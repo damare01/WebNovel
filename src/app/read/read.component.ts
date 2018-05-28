@@ -239,4 +239,12 @@ export class ReadComponent implements OnInit, AfterViewInit {
   setSelectedNodeFromGraph(node: any) {
     this.selectedNodeFromGraph = node
   }
+
+  resetGraph(){
+    this.showGraph = false
+    this.graphMode='read'
+    this.newEdgesFromGraph = []
+    this.newNodesFromGraph = []
+    this.selectedNodeFromGraph = null
+  }
 }

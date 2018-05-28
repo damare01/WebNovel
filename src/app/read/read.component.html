@@ -124,10 +124,11 @@
     </div>
   </div>
   <div class="select-chapter-container" *ngIf="showGraph" [class.hidden]="graphMode !== 'insert'">
-    <wn-attach-node-to-chapter [selectedNode]="selectedNodeFromGraph"
+    <wn-attach-node-to-chapter *ngIf="showGraph && graphMode !=='read'" [selectedNode]="selectedNodeFromGraph"
                                [newEdges]="newEdgesFromGraph"
                                [newNodes]="newNodesFromGraph"
-                               (currentNodeMap)="newNodeMap = $event"></wn-attach-node-to-chapter>
+                               (currentNodeMap)="newNodeMap = $event"
+                              (published)="resetGraph()"></wn-attach-node-to-chapter>
   </div>
 </div>
 

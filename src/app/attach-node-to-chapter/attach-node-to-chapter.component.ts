@@ -17,6 +17,8 @@ export class AttachNodeToChapterComponent implements OnInit, OnChanges {
   @Input() newNodes: any[]
   @Input() newEdges: Edge[]
 
+  @Output() published = new EventEmitter()
+
   chapters: Chapter[]
   selectedChapter: Chapter
 
@@ -34,7 +36,6 @@ export class AttachNodeToChapterComponent implements OnInit, OnChanges {
   ngOnInit() {
     this._chapterService.getMyUnusedChapters().subscribe(chapters => {
       this.chapters = chapters
-      console.log(this.chapters)
     })
   }
 
@@ -110,6 +111,8 @@ export class AttachNodeToChapterComponent implements OnInit, OnChanges {
                 this.snackBar.open('New path sucessfully saved', "OK", {
                   duration: 2000
                 })
+                this.published.emit()
+                this.currentNodeMap.emit([])
               }
             }, err =>{
               this.snackBar.open('Something went wrong when saving', "OK", {duration: 2000})

@@ -60,7 +60,7 @@ export class ChildrenCarouselComponent implements OnInit, OnChanges {
 
   updateReadingHistory(chapter: Chapter) {
     this._readingHistoryService.getMyBookReadingHistory(chapter.book).subscribe(rh => {
-      if (rh.chapterIds.length < 1) {
+      if (rh.chapterIds && rh.chapterIds.length < 1) {
         return
       } else if (rh.chapterIds[rh.chapterIds.length - 1] !== chapter._id) {
         rh.chapterIds.push(chapter._id)
