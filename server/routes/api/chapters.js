@@ -234,8 +234,8 @@ router.post('/:parentId/child/:childId', requireAuth, (req, res) => {
     if (err) {
       res.status(500).send({})
     } else {
-      if(!req.params['childId']){
-       res.status(500).send({})
+      if (!req.params['childId']) {
+        res.status(500).send({})
       }
       //TODO: This is not atomic. Also not necessary. Remove after deleting all uses in app.
       chapter.childrenIds.push(req.params['childId'])
@@ -317,7 +317,9 @@ router.get('/id/:id', (req, res) => {
   Chapter.findOne({_id: id, published: true}, (err, chapter) => {
     if (err) {
       res.status(500).send({})
-    } else {
+    } else if(!chapter){
+      res.status(404).send({})
+    } else{
       res.send(chapter)
     }
   })
@@ -343,7 +345,7 @@ router.get('/self/unused', requireAuth, (req, res) => {
   const user = req.user
 
   Chapter.find({$or: [{book: undefined, author: user._id}, {book: null, author: user._id}]}, (err, chapters) => {
-    if(err){
+    if (err) {
       res.status(500).send([])
     } else {
       res.send(chapters)

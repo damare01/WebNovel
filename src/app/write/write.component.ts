@@ -81,11 +81,16 @@ export class WriteComponent implements OnInit {
         newEdge.target = chapterId
         this._edgeService.createEdge(newEdge).subscribe(() => {
           this.loaded = true
-          this._notificationService.postChapterNotification(this.parentChapter._id, chapterId)
-          this.updateReadingHistory(this.parentChapter.book, chapterId)
-          this.router.navigate(['read', chapterId])
+          if (draft) {
+            this.router.navigate(['mychapters'])
+          } else {
+            this._notificationService.postChapterNotification(this.parentChapter._id, chapterId)
+            this.updateReadingHistory(this.parentChapter.book, chapterId)
+            this.router.navigate(['read', chapterId])
+          }
+
         })
-      }else{
+      } else {
         this.loaded = true;
         this.router.navigate(['mychapters'])
       }
@@ -93,7 +98,7 @@ export class WriteComponent implements OnInit {
     })
   }
 
-  updateReadingHistory(bookId: string, newChapterId: string){
+  updateReadingHistory(bookId: string, newChapterId: string) {
     this._readingHistoryService.getMyBookReadingHistory(bookId).subscribe(rh => {
       rh.chapterIds = rh.chapterIds.concat([newChapterId])
       this._readingHistoryService.saveReadingHistory(rh).subscribe()

@@ -40,7 +40,7 @@ export class ChildrenCarouselComponent implements OnInit, OnChanges {
 
   prevChildren() {
     this.hasPrev = this.startChildIndex >= 3
-    if(this.hasPrev){
+    if (this.hasPrev) {
       this.startChildIndex -= 3
       this.endChildIndex -= 3
       this.hasNext = this.children.slice(this.endChildIndex).length ? true : false
@@ -53,8 +53,8 @@ export class ChildrenCarouselComponent implements OnInit, OnChanges {
   goToChapter(chapter: Chapter) {
     this.router.navigate(['/read', chapter._id])
     this.updateReadingHistory(chapter)
-    if (typeof window != 'undefined'){
-      window.scrollTo(0,0)
+    if (typeof window != 'undefined') {
+      window.scrollTo(0, 0)
     }
   }
 
@@ -76,7 +76,7 @@ export class ChildrenCarouselComponent implements OnInit, OnChanges {
   ngOnInit() {
     this._edgeService.getEdgesFromNode(this.parentChapter.book, this.parentChapter._id).subscribe(edges => {
       const childrenIds = edges.map(edge => edge.target)
-      const childrenLength = childrenIds.length
+      let childrenLength = childrenIds.length
       const tmpChildren: Chapter[] = []
       this.children = []
       this.childrenPresented = []
@@ -88,17 +88,27 @@ export class ChildrenCarouselComponent implements OnInit, OnChanges {
           this._chapterService.getChapter(childId).subscribe(childChapter => {
             tmpChildren.push(childChapter)
             if (++counter >= childrenLength) {
-              this.startChildIndex = -3
-              this.endChildIndex = 0
-              this.children = tmpChildren
-              this.nextChildren()
-
-              this.loaded = true
+              this.showChildren(tmpChildren)
+            }
+          }, err => {
+            childrenLength--;
+            if (++counter >= childrenLength) {
+              this.showChildren(tmpChildren)
             }
           })
         })
       }
     })
   }
+
+  showChildren(children: Chapter[]) {
+    this.startChildIndex = -3
+    this.endChildIndex = 0
+    this.children = children
+    this.nextChildren()
+
+    this.loaded = true
+  }
+
 
 }
