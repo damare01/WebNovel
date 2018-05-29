@@ -14,7 +14,8 @@ import 'tinymce/plugins/link'
 import {NotificationService} from '../notification.service'
 import {ReadingHistoryService} from '../reading-history.service'
 import {Edge} from '../../models/edge'
-import {MatSnackBar} from '@angular/material'
+import {MatDialog, MatSnackBar} from '@angular/material'
+import {NewDraftDialogComponent} from "../new-draft-dialog/new-draft-dialog.component";
 
 @Component({
   selector: 'wn-read',
@@ -51,7 +52,8 @@ export class ReadComponent implements OnInit, AfterViewInit {
               private _authService: AuthenticationService,
               private _notificationService: NotificationService,
               private _readingHistoryService: ReadingHistoryService,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -246,5 +248,17 @@ export class ReadComponent implements OnInit, AfterViewInit {
     this.newEdgesFromGraph = []
     this.newNodesFromGraph = []
     this.selectedNodeFromGraph = null
+  }
+
+  openDraftDialog(){
+    let dialogRef = this.dialog.open(NewDraftDialogComponent, {
+      height: '800px',
+      width: '800px'
+    })
+
+    dialogRef.componentInstance.close.subscribe(() => {
+      dialogRef.close()
+    })
+
   }
 }

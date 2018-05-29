@@ -94,7 +94,8 @@
         <mat-button-toggle value="draw">
           DRAW
         </mat-button-toggle>
-        <mat-button-toggle value="insert" [disabled]="!newNodesFromGraph || !newNodesFromGraph.length" [ngStyle]="{'color': value==='draw' ? 'grey' : 'white'}">
+        <mat-button-toggle value="insert" [disabled]="!newNodesFromGraph || !newNodesFromGraph.length"
+                           [ngStyle]="{'color': value==='draw' ? 'grey' : 'white'}">
           INSERT
         </mat-button-toggle>
       </mat-button-toggle-group>
@@ -115,12 +116,18 @@
     <div class="flex-center">
       <ul style="margin: auto" class="text tutorial">
         <li><b>To be able to insert chapters you first need to create drafts for each chapter you want to add.
-          This can be done from the <span style="text-decoration: underline" class="clickable" routerLink="/mychapters">My Chapters</span> page</b></li>
+          This can be done by clicking the button on the bottom or from the <span style="text-decoration: underline"
+                                                                                  class="clickable"
+                                                                                  routerLink="/mychapters">My Chapters</span>
+          page.</b></li>
         <li>Draw new paths by dragging from an existing node and releasing anywhere.</li>
         <li>Extend the path by dragging from a new node and releasing anywhere.</li>
         <li>Connect a new node to an old by dragging from a new node to an old node.</li>
         <li>When you're done, click insert in the upper right corner to insert you chapter drafts</li>
       </ul>
+    </div>
+    <div style="display: flex">
+      <button style="margin:auto" mat-button (click)="openDraftDialog()" color="accent">Open draft editor</button>
     </div>
   </div>
   <div class="select-chapter-container" *ngIf="showGraph" [class.hidden]="graphMode !== 'insert'">
@@ -128,7 +135,7 @@
                                [newEdges]="newEdgesFromGraph"
                                [newNodes]="newNodesFromGraph"
                                (currentNodeMap)="newNodeMap = $event"
-                              (published)="resetGraph()"></wn-attach-node-to-chapter>
+                               (published)="resetGraph()"></wn-attach-node-to-chapter>
   </div>
 </div>
 

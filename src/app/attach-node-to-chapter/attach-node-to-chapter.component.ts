@@ -4,7 +4,9 @@ import {ChapterService} from '../chapter.service'
 import {Chapter} from '../../models/chapter'
 import {NodeMap} from '../../models/nodemap'
 import {EdgeService} from '../edge.service'
-import {MatSnackBar} from '@angular/material'
+import {MatDialog, MatDialogRef, MatSnackBar} from '@angular/material'
+import {WriteComponent} from "../write/write.component";
+import {NewDraftDialogComponent} from "../new-draft-dialog/new-draft-dialog.component";
 
 @Component({
   selector: 'wn-attach-node-to-chapter',
@@ -30,10 +32,15 @@ export class AttachNodeToChapterComponent implements OnInit, OnChanges {
 
   constructor(private _chapterService: ChapterService,
               private _edgeService: EdgeService,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
+    this.loadUnusedChapters()
+  }
+
+  loadUnusedChapters(){
     this._chapterService.getMyUnusedChapters().subscribe(chapters => {
       this.chapters = chapters
     })
@@ -46,6 +53,7 @@ export class AttachNodeToChapterComponent implements OnInit, OnChanges {
     } else {
       this.selectedChapter = null
     }
+
   }
 
   selectChapter(chapter: Chapter) {
@@ -123,8 +131,21 @@ export class AttachNodeToChapterComponent implements OnInit, OnChanges {
         this.snackBar.open('Something went wrong when saving', "OK", {duration: 2000})
       })
     })
+  }
 
+  openDraftDialog(){
+    let dialogRef = this.dialog.open(NewDraftDialogComponent, {
+      height: '800px',
+      width: '800px'
+    })
 
+    dialogRef.componentInstance.close.subscribe(() => {
+      dialogRef.close()
+    })
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadUnusedChapters()
+    })
   }
 }
 

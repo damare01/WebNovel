@@ -5,10 +5,20 @@ import {HttpModule} from '@angular/http'
 import {AppComponent} from './app.component'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import {
-  MatButtonModule, MatButtonToggleModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule,
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatCardModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
   MatProgressSpinnerModule,
-  MatSelectModule, MatSlideToggleModule,
-  MatSnackBarModule, MatTabsModule,
+  MatSelectModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
+  MatTabsModule,
   MatToolbarModule
 } from '@angular/material'
 import {BookGridComponent} from './book-grid/book-grid.component'
@@ -77,7 +87,8 @@ import { TitleFilterPipe } from './title-filter.pipe';
 import { ChildrenCarouselComponent } from './children-carousel/children-carousel.component';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component'
 import {WelcomeGuard} from './welcome.guard';
-import { CreateComponent } from './create/create.component'
+import { CreateComponent } from './create/create.component';
+import { NewDraftDialogComponent } from './new-draft-dialog/new-draft-dialog.component'
 
 
 const appRoutes: Routes = [
@@ -154,7 +165,11 @@ const appRoutes: Routes = [
     TitleFilterPipe,
     ChildrenCarouselComponent,
     WelcomePageComponent,
-    CreateComponent
+    CreateComponent,
+    NewDraftDialogComponent
+  ],
+  entryComponents:[
+    NewDraftDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -181,7 +196,8 @@ const appRoutes: Routes = [
     MatToolbarModule,
     MatButtonToggleModule,
     MatListModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatDialogModule
   ],
   providers: [
     AuthenticationService,

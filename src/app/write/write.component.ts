@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, EventEmitter, OnInit, Output} from '@angular/core'
 import {ChapterService} from '../chapter.service'
 import {ActivatedRoute, Router} from '@angular/router'
 import {Chapter} from '../../models/chapter'
@@ -19,6 +19,8 @@ export class WriteComponent implements OnInit {
 
   parentChapter: Chapter
   newChapter: Chapter = new Chapter()
+
+  @Output() draftSaved = new EventEmitter();
 
   tags: any = []
   loaded = false
@@ -82,8 +84,8 @@ export class WriteComponent implements OnInit {
         this._edgeService.createEdge(newEdge).subscribe(() => {
           this.loaded = true
           if (draft) {
-            this.router.navigate(['mychapters'])
-          } else {
+            this.verifyDraftSave()
+          }else{
             this._notificationService.postChapterNotification(this.parentChapter._id, chapterId)
             this.updateReadingHistory(this.parentChapter.book, chapterId)
             this.router.navigate(['read', chapterId])
@@ -92,9 +94,16 @@ export class WriteComponent implements OnInit {
         })
       } else {
         this.loaded = true;
-        this.router.navigate(['mychapters'])
+        this.verifyDraftSave()
       }
 
+    })
+  }
+
+  verifyDraftSave(){
+    this.draftSaved.emit()
+    this.snackbar.open('Draft successfully saved', 'Dismiss', {
+      duration: 4000
     })
   }
 

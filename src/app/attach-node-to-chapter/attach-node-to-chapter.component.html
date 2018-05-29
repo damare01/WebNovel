@@ -33,7 +33,10 @@
         <span class="text" style="margin: auto">You don't have enough available chapters for all the new nodes</span>
       </div>
       <div class="flex-center">
-        <button mat-raised-button color="accent" style="margin: 20px auto" [routerLink]="['/write']">CREATE NEW
+        <!--button mat-raised-button color="accent" style="margin: 20px auto" [routerLink]="['/write']">CREATE NEW
+          CHAPTER(S)
+        </button-->
+        <button mat-raised-button color="accent" style="margin: 20px auto" (click)="openDraftDialog()">CREATE NEW
           CHAPTER(S)
         </button>
       </div>
