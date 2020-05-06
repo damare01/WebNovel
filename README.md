@@ -43,7 +43,7 @@ NODE_ENV: `development | production`
 
 PROCESS_TYPE: `web | badge-worker` (Defaults to web) 
 
-##Other info
+## Other info
 This project was written as part of a master thesis which can be found here: http://bora.uib.no/handle/1956/19624
 
 # License
